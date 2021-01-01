@@ -27,14 +27,15 @@ namespace Default
         public float fovSprinting = 80f;
         [Space(10)]
         bool canMove = true;
-        float distanceSinceLastFootstepSqr = 0f;
-        public float distanceBetweenFootstepsSqr = 1.5f;
         public bool isSneaking = false;
         public bool isSprinting = false;
         [Space(10)]
         public Animator crossAnimator;
-        public AudioSource footstepAudioSource;
-        public AudioClip[] footstepAudioClips;
+
+        private int mouseSemaphore = 1;
+
+        [HideInInspector] public List<ItemHoldable> items = new List<ItemHoldable>();
+        private ItemHoldable currentItem = null;
 
         [HideInInspector] public CharacterController charController;
         [HideInInspector] public Transform camTransform;
@@ -51,6 +52,8 @@ namespace Default
             charController = GetComponent<CharacterController>();
 
             speedCurrent = speedNormal;
+
+            LockMouse();
         }
 
         void Update()
@@ -71,8 +74,13 @@ namespace Default
                 axisVertical = GlobalSettings.usingMouse ? Input.GetAxisRaw("Vertical") : Input.GetAxis("Vertical"),
                 axisSneak = Input.GetAxisRaw("Sneak"),
                 axisSprint = Input.GetAxisRaw("Sprint"),
-                axisJump = Input.GetAxis("Jump")
+                axisJump = Input.GetAxisRaw("Jump"),
+                axisPrimary = Input.GetAxisRaw("Primary"),
+                axisSecondary = Input.GetAxisRaw("Secondary")
             };
+            if (currentItem != null)
+                currentItem.UseItem(inputs);
+
             Rotate(inputs.xRot, inputs.yRot);
             Move(inputs);
         }
@@ -147,31 +155,39 @@ namespace Default
             charController.Move(moveDirection * Time.deltaTime);
             Vector3 newPos = transform.position;
 
-            FootstepSound(oldPos, newPos);
-
             moveDirection.y -= gravity * (Time.deltaTime / 2);
+        }
+
+        public void LockMouse()
+        {
+            if (--mouseSemaphore == 0)
+                SetMouseActive(false);
+        }
+
+        public void UnlockMouse()
+        {
+            if (++mouseSemaphore == 1)
+                SetMouseActive(true);
+        }
+
+        private void SetMouseActive(bool active)
+        {
+            if (active)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
 
         void CameraEffects()
         {
             if (camOffsetX != 0f || camOffsetY != 0f)
                 camTransform.localPosition = new Vector3(camOffsetX, camOffsetY, 0f);
-        }
-
-        void FootstepSound(Vector3 oldPos, Vector3 newPos)
-        {
-            oldPos.y = 0;
-            newPos.y = 0;
-
-            distanceSinceLastFootstepSqr += isSprinting ? (oldPos - newPos).sqrMagnitude / 2 : (oldPos - newPos).sqrMagnitude;
-
-            if (distanceSinceLastFootstepSqr > distanceBetweenFootstepsSqr && charController.isGrounded)
-            {
-                distanceSinceLastFootstepSqr = 0;
-                footstepAudioSource.clip = footstepAudioClips[Random.Range(0, footstepAudioClips.Length)];
-                footstepAudioSource.pitch = 1f - Random.Range(-.1f, .1f);
-                footstepAudioSource.Play();
-            }
         }
 
         IEnumerator Sneak(bool willSneak)

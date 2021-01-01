@@ -14,5 +14,7 @@ namespace Default
         public float axisSneak = 0f;        //Sneak
         public float axisSprint = 0f;       //Sprint
         public float axisJump = 0f;         //Jump
+        public float axisPrimary = 0f;      //Primary Fire Key
+        public float axisSecondary = 0f;    //Secondary Fire Key
     }
 }
