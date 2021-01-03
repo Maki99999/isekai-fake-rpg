@@ -31,6 +31,7 @@ namespace Default
                 isCharging = true;
                 chargeStartTime = Time.time;
                 attackProjectile = Instantiate(projectilePrefab, projectilePos.position, projectilePos.rotation, transform).GetComponent<Projectile>();
+                attackProjectile.gameObject.GetComponent<Animator>().SetFloat("speed", 10f / chargeTime, 0f, 1f);
             }
             else if (inputData.axisPrimary <= 0f && isCharging)
             {
@@ -38,17 +39,15 @@ namespace Default
                 Shoot();
             }
 
-            if (isCharging)
-            {
-                //anim und so
-            }
-
             return inputData;
         }
 
         private void Shoot()
         {
-            int damage = minDamage + Mathf.RoundToInt(Mathf.Clamp((Time.time - chargeStartTime) / chargeTime, 0f, 1f) * (maxDamage - minDamage));
+            float chargedPercent = Mathf.Clamp((Time.time - chargeStartTime) / chargeTime, 0f, 1f);
+            int damage = minDamage + Mathf.RoundToInt(chargedPercent * (maxDamage - minDamage));
+            attackProjectile.gameObject.GetComponent<Animator>().SetTrigger("Shoot");
+            attackProjectile.gameObject.GetComponent<Animator>().SetFloat("speed", chargedPercent);
 
             attackProjectile.damage = damage;
             attackProjectile.speed = 8f;

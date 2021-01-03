@@ -33,9 +33,9 @@ namespace Default
             if (other.gameObject.CompareTag("Enemy"))
             {
                 other.gameObject.GetComponent<Entity>().ChangeHealth(-damage);
-
-                Destroy(gameObject);
             }
+
+            Destroy(gameObject);
         }
     }
 }
