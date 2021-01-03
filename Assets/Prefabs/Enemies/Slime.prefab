@@ -184,9 +184,10 @@ GameObject:
   - component: {fileID: 3385590242156018319}
   - component: {fileID: 3385590242156018312}
   - component: {fileID: 3385590242156018313}
+  - component: {fileID: 1002397639}
   m_Layer: 0
   m_Name: Slime
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -218,10 +219,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0984b19d7deface499c40353ace1767d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayName: Slime
+  hp: 10
+  maxHp: 10
+  mp: 11
+  level: 3
+  isInvincible: 0
+  height: 1.35
+  statsUiPrefab: {fileID: 4203123843085276130, guid: c749b98027704c74e8b92f7cca7573af, type: 3}
+  EntityStats: {fileID: 0}
   attackRange: 5
   detectionRange: 10
-  displayName: Slime
-  level: 3
   damagePerAttack: 10
   attackOffset: 0.25
   attackCooldown: 2
@@ -247,6 +255,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!135 &1002397639
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3385590242156018318}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.17
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &3398503052709463047
 GameObject:
   m_ObjectHideFlags: 0

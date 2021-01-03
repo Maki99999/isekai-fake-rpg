@@ -5,13 +5,11 @@ using UnityEngine.AI;
 
 namespace Default
 {
-    public class GenericEnemy : MonoBehaviour
+    public class GenericEnemy : Entity
     {
         public float attackRange;
         public float detectionRange;
 
-        public string displayName;
-        public int level;
         public int damagePerAttack;
         public float attackOffset;
         public float attackCooldown;
@@ -24,6 +22,7 @@ namespace Default
 
         private void Start()
         {
+            OnStart();
             target = GameObject.FindGameObjectWithTag("Player").transform;
             agent = GetComponent<NavMeshAgent>();
             animator = GetComponentInChildren<Animator>();
@@ -31,6 +30,7 @@ namespace Default
 
         private void Update()
         {
+            OnUpdate();
             float distance = Vector3.Distance(target.position, transform.position);
             if (distance <= detectionRange)
             {
@@ -76,7 +76,7 @@ namespace Default
             yield return new WaitForSeconds(attackOffset);
             float distance = Vector3.Distance(target.position, transform.position);
             if (distance <= attackRange)
-                Debug.Log("Hit! -" + damagePerAttack + " HP!");
+                target.GetComponent<PlayerController>().ChangeHp(-damagePerAttack);
             yield return new WaitForSeconds(attackCooldown);
             inCooldown = false;
         }
