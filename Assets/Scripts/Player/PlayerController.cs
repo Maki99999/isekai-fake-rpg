@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class PlayerController : Entity
+    public class PlayerController : MonoBehaviour
     {
         [Space(20)]
         public float mouseSensitivityX = 2f;
@@ -35,6 +35,8 @@ namespace Default
 
         private int mouseSemaphore = 1;
 
+        [HideInInspector] public Entity entityStats;
+
         [HideInInspector] public List<ItemHoldable> items = new List<ItemHoldable>();
         [HideInInspector] public ItemHoldable currentItem = null;
 
@@ -45,7 +47,9 @@ namespace Default
 
         void Start()
         {
-            OnStart();
+            entityStats = GetComponent<Entity>();
+            entityStats.OnStart();
+            
             heightOffsetTransform = transform.GetChild(0);
             camTransform = heightOffsetTransform.GetChild(0);
             heightOffsetTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
@@ -60,7 +64,7 @@ namespace Default
 
         void Update()
         {
-            OnUpdate();
+            entityStats.OnUpdate();
 
             //Apply Camera Effects
             CameraEffects();
@@ -89,8 +93,14 @@ namespace Default
             Move(inputs);
         }
 
-        public void ChangeHp(int changeValue) {
-            hp += changeValue;
+        public void ChangeHp(int changeValue)
+        {
+            entityStats.ChangeHp(changeValue);
+        }
+
+        public void ChangeMp(int changeValue)
+        {
+            entityStats.ChangeMp(changeValue);
         }
 
         void Rotate(float xRot, float yRot)

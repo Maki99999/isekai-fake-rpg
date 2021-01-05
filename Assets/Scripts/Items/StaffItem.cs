@@ -8,6 +8,8 @@ namespace Default
     {
         public int minDamage;
         public int maxDamage;
+        public int minCost;
+        public int maxCost;
         public float chargeTime;
         public Transform projectilePos;
         public GameObject projectilePrefab;
@@ -16,27 +18,51 @@ namespace Default
         bool isCharging = false;
         float chargeStartTime;
         PlayerController player;
+        Animator anim;
+
+        float[] times;
+        short timesProcessed;
 
         private void Start()
         {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            player = GameController.Instance.player;
             player.items.Add(this);
             player.currentItem = this;
+            anim = GetComponent<Animator>();
         }
 
         public override MoveData UseItem(MoveData inputData)
         {
-            if (inputData.axisPrimary > 0f && !isCharging)
+            if (inputData.axisPrimary > 0f && !isCharging && player.entityStats.mp > minCost)
             {
                 isCharging = true;
-                chargeStartTime = Time.time;
+                anim.SetBool("isCharging", true);
+
                 attackProjectile = Instantiate(projectilePrefab, projectilePos.position, projectilePos.rotation, transform).GetComponent<Projectile>();
                 attackProjectile.gameObject.GetComponent<Animator>().SetFloat("speed", 10f / chargeTime, 0f, 1f);
+                attackProjectile.gameObject.GetComponent<Collider>().enabled = false;
+
+                chargeStartTime = Time.time;
+                player.ChangeMp(-minCost);
+                float costTime = chargeTime / (maxCost - minCost);
+
+                times = new float[(maxCost - minCost)];
+                timesProcessed = 0;
+                for (int i = 0; i < (maxCost - minCost); i++)
+                {
+                    times[i] = chargeStartTime + costTime * (i + 1);
+                }
             }
             else if (inputData.axisPrimary <= 0f && isCharging)
             {
-                isCharging = false;
                 Shoot();
+            }
+            else if (isCharging && timesProcessed < times.Length && Time.time > times[timesProcessed])
+            {
+                timesProcessed++;
+                player.ChangeMp(-1);
+                if (player.entityStats.mp <= 0)
+                    Shoot();
             }
 
             return inputData;
@@ -44,10 +70,14 @@ namespace Default
 
         private void Shoot()
         {
+            isCharging = false;
+            anim.SetBool("isCharging", false);
+
             float chargedPercent = Mathf.Clamp((Time.time - chargeStartTime) / chargeTime, 0f, 1f);
             int damage = minDamage + Mathf.RoundToInt(chargedPercent * (maxDamage - minDamage));
             attackProjectile.gameObject.GetComponent<Animator>().SetTrigger("Shoot");
             attackProjectile.gameObject.GetComponent<Animator>().SetFloat("speed", chargedPercent);
+            attackProjectile.gameObject.GetComponent<Collider>().enabled = true;
 
             attackProjectile.damage = damage;
             attackProjectile.speed = 8f;
