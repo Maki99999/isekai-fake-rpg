@@ -35,7 +35,7 @@ namespace Default
 
         private int mouseSemaphore = 1;
 
-        [HideInInspector] public Entity entityStats;
+        [HideInInspector] public EntityStats entityStats;
 
         [HideInInspector] public List<ItemHoldable> items = new List<ItemHoldable>();
         [HideInInspector] public ItemHoldable currentItem = null;
@@ -47,8 +47,7 @@ namespace Default
 
         void Start()
         {
-            entityStats = GetComponent<Entity>();
-            entityStats.OnStart();
+            entityStats = GetComponent<EntityStats>();
             
             heightOffsetTransform = transform.GetChild(0);
             camTransform = heightOffsetTransform.GetChild(0);
@@ -64,8 +63,6 @@ namespace Default
 
         void Update()
         {
-            entityStats.OnUpdate();
-
             //Apply Camera Effects
             CameraEffects();
 

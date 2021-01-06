@@ -32,7 +32,7 @@ namespace Default
         {
             if (other.gameObject.CompareTag("Enemy"))
             {
-                other.gameObject.GetComponent<Entity>().ChangeHp(-damage);
+                other.gameObject.GetComponent<EntityStats>().ChangeHp(-damage);
             }
 
             Destroy(gameObject);

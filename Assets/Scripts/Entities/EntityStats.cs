@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Default
 {
-    public class Entity : MonoBehaviour
+    public class EntityStats : MonoBehaviour
     {
         public string displayName;
         public int hp;
@@ -25,7 +25,9 @@ namespace Default
 
         public GameObject statsUiPrefab;
 
-        public void OnStart()
+        [HideInInspector] public List<EntityStatsObserver> entityStatsObservers = new List<EntityStatsObserver>();
+
+        private void Start()
         {
             entityStats = GameController.Instance.entityStats;
             canvas = entityStats.GetComponentInParent<Canvas>();
@@ -58,7 +60,7 @@ namespace Default
             }
         }
 
-        public void OnUpdate()
+        private void Update()
         {
             if (!CompareTag("Player"))
             {
@@ -76,11 +78,15 @@ namespace Default
 
         public void ChangeHp(int changeValue)
         {
-            hp = Mathf.Clamp(hp + changeValue, 0, maxHp);
+            int newHp = Mathf.Clamp(hp + changeValue, 0, maxHp);
+            if (hp == newHp)
+                return;
+
+            hp = newHp;
             enemyStatsUi.SetHp(hp);
 
-            if (hp <= 0)
-                Die();
+            foreach (EntityStatsObserver obs in entityStatsObservers)
+                obs.ChangedHp(changeValue);
         }
 
         public void ChangeMp(int changeValue)
@@ -89,10 +95,8 @@ namespace Default
             enemyStatsUi.SetMp(mp);
         }
 
-        public virtual void Die()
-        {
+        private void OnDestroy() {
             Destroy(statsUi);
-            Destroy(gameObject);
         }
     }
 }

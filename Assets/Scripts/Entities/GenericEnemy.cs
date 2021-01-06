@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace Default
 {
-    public class GenericEnemy : MonoBehaviour
+    public class GenericEnemy : MonoBehaviour, EntityStatsObserver
     {
         public float attackRange;
         public float detectionRange;
@@ -14,29 +14,43 @@ namespace Default
         public float attackOffset;
         public float attackCooldown;
 
+        public float wanderCooldown;
+        public float wanderRange;
+        private Vector3 currentWanderTarget;
+
         private Transform target;
         private NavMeshAgent agent;
         private Animator animator;
 
         private bool inCooldown = false;
-        
-        private Entity entityStats;
+        private bool gotAttacked = false;
+        private Vector3 originalPosition;
+
+        private EntityStats entityStats;
 
         private void Start()
         {
-            entityStats = GetComponent<Entity>();
-            entityStats.OnStart();
+            entityStats = GetComponent<EntityStats>();
+            entityStats.entityStatsObservers.Add(this);
+
+            originalPosition = transform.position;
 
             target = GameController.Instance.player.transform;
             agent = GetComponent<NavMeshAgent>();
             animator = GetComponentInChildren<Animator>();
+
+            if (wanderCooldown > 0f)
+                StartCoroutine(CalculateWanderPositions());
         }
 
         private void Update()
         {
-            entityStats.OnUpdate();
             float distance = Vector3.Distance(target.position, transform.position);
-            if (distance <= detectionRange)
+            if (gotAttacked && distance >= detectionRange * 2)
+            {
+                gotAttacked = false;
+            }
+            else if (gotAttacked || distance <= detectionRange)
             {
                 WalkToTarget();
 
@@ -65,7 +79,23 @@ namespace Default
 
         private void RoamAimlessly()
         {
+            agent.SetDestination(currentWanderTarget);   //TODO
+        }
 
+        private IEnumerator CalculateWanderPositions()
+        {
+            while (enabled)
+            {
+                Vector3 randDirection = Random.insideUnitSphere * wanderRange;
+                randDirection += originalPosition;
+
+                NavMeshHit navHit;
+                NavMesh.SamplePosition(randDirection, out navHit, wanderRange, -1);
+
+                currentWanderTarget = navHit.position;
+
+                yield return new WaitForSeconds(wanderCooldown);
+            }
         }
 
         private void WalkToTarget()
@@ -83,6 +113,23 @@ namespace Default
                 target.GetComponent<PlayerController>().ChangeHp(-damagePerAttack);
             yield return new WaitForSeconds(attackCooldown);
             inCooldown = false;
+        }
+
+        public void ChangedHp(int value)
+        {
+            if (value < 0)
+            {
+                gotAttacked = true;
+                animator.SetTrigger("Hit");
+            }
+
+            if (entityStats.hp <= 0)
+                Die();
+        }
+
+        private void Die()
+        {
+            Destroy(gameObject);
         }
     }
 }
