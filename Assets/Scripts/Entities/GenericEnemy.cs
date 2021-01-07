@@ -24,6 +24,7 @@ namespace Default
 
         private bool inCooldown = false;
         private bool gotAttacked = false;
+        private bool isDead = false;
         private Vector3 originalPosition;
 
         private EntityStats entityStats;
@@ -45,6 +46,9 @@ namespace Default
 
         private void Update()
         {
+            if (isDead)
+                return;
+
             float distance = Vector3.Distance(target.position, transform.position);
             if (gotAttacked && distance >= detectionRange * 2)
             {
@@ -107,10 +111,12 @@ namespace Default
         {
             inCooldown = true;
             animator.SetTrigger("Attack");
+
             yield return new WaitForSeconds(attackOffset);
             float distance = Vector3.Distance(target.position, transform.position);
             if (distance <= attackRange)
                 target.GetComponent<PlayerController>().ChangeHp(-damagePerAttack);
+
             yield return new WaitForSeconds(attackCooldown);
             inCooldown = false;
         }
@@ -129,6 +135,15 @@ namespace Default
 
         private void Die()
         {
+            animator.SetTrigger("Die");
+            agent.isStopped = true;
+            StartCoroutine(Die2());
+        }
+
+        private IEnumerator Die2()
+        {
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
+                yield return null;
             Destroy(gameObject);
         }
     }
