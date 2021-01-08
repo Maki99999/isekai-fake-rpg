@@ -58,6 +58,10 @@ namespace Default
 
                 enemyStatsUi.SetText("");
             }
+            else
+            {
+                SetHideUi(true);
+            }
         }
 
         private void Update()
@@ -89,13 +93,19 @@ namespace Default
                 obs.ChangedHp(changeValue);
         }
 
+        public void SetHideUi(bool hide)
+        {
+            enemyStatsUi.SetHidden(hide);
+        }
+
         public void ChangeMp(int changeValue)
         {
             mp = Mathf.Clamp(mp + changeValue, 0, maxMp);
             enemyStatsUi.SetMp(mp);
         }
 
-        private void OnDestroy() {
+        private void OnDestroy()
+        {
             Destroy(statsUi);
         }
     }

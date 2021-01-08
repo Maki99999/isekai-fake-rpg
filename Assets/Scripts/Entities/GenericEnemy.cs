@@ -53,6 +53,7 @@ namespace Default
             if (gotAttacked && distance >= detectionRange * 2)
             {
                 gotAttacked = false;
+                entityStats.SetHideUi(true);
             }
             else if (gotAttacked || distance <= detectionRange)
             {
@@ -126,6 +127,7 @@ namespace Default
             if (value < 0)
             {
                 gotAttacked = true;
+                entityStats.SetHideUi(false);
                 animator.SetTrigger("Hit");
             }
 

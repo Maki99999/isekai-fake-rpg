@@ -73,5 +73,13 @@ namespace Default
         {
             mpSlider.gameObject.SetActive(value);
         }
+
+        public void SetHidden(bool hidden)
+        {
+            if (hidden)
+                transform.localScale = Vector3.zero;
+            else
+                transform.localScale = Vector3.one;
+        }
     }
 }

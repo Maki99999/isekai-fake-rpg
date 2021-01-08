@@ -51,7 +51,8 @@ namespace Default
 
                     } while (distance < playerSafeRange && --tryFindingPosition > 0);
 
-                    entities.Add(Instantiate(enemyPrefab, spawnPosition, Random.rotation, transform));
+                    if (tryFindingPosition > 0)
+                        entities.Add(Instantiate(enemyPrefab, spawnPosition, Random.rotation, transform));
                 }
 
                 yield return new WaitForSeconds(Random.Range(minSpawnTime, maxSpawnTime));
