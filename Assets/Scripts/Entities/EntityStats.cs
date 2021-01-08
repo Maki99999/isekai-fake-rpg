@@ -20,7 +20,7 @@ namespace Default
         private Camera uiCam;
         private GameObject statsUi;
         private RectTransform rectTransform;
-        private EnemyStatsUi enemyStatsUi;
+        private EntityStatsUi entityStatsUi;
         private Transform entityStats;
 
         public GameObject statsUiPrefab;
@@ -34,20 +34,20 @@ namespace Default
             uiCam = canvas.worldCamera;
 
             statsUi = Instantiate(statsUiPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero), entityStats);
-            enemyStatsUi = statsUi.GetComponentInChildren<EnemyStatsUi>();
-            enemyStatsUi.SetMaxHp(maxHp);
-            enemyStatsUi.SetMaxMp(maxMp);
+            entityStatsUi = statsUi.GetComponentInChildren<EntityStatsUi>();
+            entityStatsUi.SetMaxHp(maxHp);
+            entityStatsUi.SetMaxMp(maxMp);
             if (isInvincible || maxHp <= 0)
-                enemyStatsUi.SetHpActive(false);
+                entityStatsUi.SetHpActive(false);
             if (maxMp <= 0)
-                enemyStatsUi.SetMpActive(false);
+                entityStatsUi.SetMpActive(false);
 
 
             rectTransform = statsUi.GetComponent<RectTransform>();
             rectTransform.localRotation = Quaternion.Euler(Vector3.zero);
             rectTransform.localPosition = Vector3.zero;
             rectTransform.pivot = new Vector2(0.5f, 0f);
-            enemyStatsUi.SetText(name + " Lvl. " + level);
+            entityStatsUi.SetText(displayName + " Lvl. " + level);
 
             if (CompareTag("Player"))
             {
@@ -56,7 +56,8 @@ namespace Default
                 rectTransform.pivot = new Vector2(0, 1);
                 rectTransform.anchoredPosition = new Vector2(10f, -10f);
 
-                enemyStatsUi.SetText("");
+                entityStatsUi.SetText("");
+                entityStatsUi.zValue = Mathf.NegativeInfinity;
             }
             else
             {
@@ -87,7 +88,7 @@ namespace Default
                 return;
 
             hp = newHp;
-            enemyStatsUi.SetHp(hp);
+            entityStatsUi.SetHp(hp);
 
             foreach (EntityStatsObserver obs in entityStatsObservers)
                 obs.ChangedHp(changeValue);
@@ -95,18 +96,23 @@ namespace Default
 
         public void SetHideUi(bool hide)
         {
-            enemyStatsUi.SetHidden(hide);
+            entityStatsUi.SetHidden(hide);
         }
 
         public void ChangeMp(int changeValue)
         {
             mp = Mathf.Clamp(mp + changeValue, 0, maxMp);
-            enemyStatsUi.SetMp(mp);
+            entityStatsUi.SetMp(mp);
         }
 
         private void OnDestroy()
         {
             Destroy(statsUi);
+        }
+
+        public void SetZValue(float zValue)
+        {
+            entityStatsUi.zValue = zValue;
         }
     }
 }

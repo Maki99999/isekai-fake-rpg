@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 namespace Default
 {
-    public class EnemyStatsUi : MonoBehaviour
+    public class EntityStatsUi : MonoBehaviour
     {
+        public CanvasGroup cGroup;
+        public RectTransform rectTransform;
         public Text text;
 
         [Space(10)]
@@ -18,6 +21,23 @@ namespace Default
         [Space(10)]
         public Slider mpSlider;
         public Text mpSliderText;
+
+        [HideInInspector] public float zValue;
+        [HideInInspector] public bool isHidden = true;
+
+        private EntityStatsUiGroup group;
+
+        void Start()
+        {
+            group = GetComponentInParent<EntityStatsUiGroup>();
+            group.stats.Add(this);
+        }
+
+        public void SetTransparency(float transparency)
+        {
+            if (!isHidden)
+                cGroup.alpha = transparency;
+        }
 
         public void SetText(string value)
         {
@@ -76,10 +96,16 @@ namespace Default
 
         public void SetHidden(bool hidden)
         {
+            isHidden = hidden;
             if (hidden)
-                transform.localScale = Vector3.zero;
+                cGroup.alpha = 0f;
             else
-                transform.localScale = Vector3.one;
+                cGroup.alpha = 1f;
+        }
+
+        private void OnDestroy()
+        {
+            group.stats.Remove(this);
         }
     }
 }

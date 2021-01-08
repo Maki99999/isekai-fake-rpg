@@ -50,6 +50,7 @@ namespace Default
                 return;
 
             float distance = Vector3.Distance(target.position, transform.position);
+            entityStats.SetZValue(distance);
             if (gotAttacked && distance >= detectionRange * 2)
             {
                 gotAttacked = false;
