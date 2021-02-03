@@ -7,7 +7,7 @@ public class GlobalSettings : MonoBehaviour
     public static bool usingMouse = true;
 
     public static KeyCode keyUse = KeyCode.E;
-    public static KeyCode keyUse2 = KeyCode.E;
+    public static KeyCode keyUse2 = KeyCode.F;
     public static KeyCode keyEscape = KeyCode.Escape;
     public static KeyCode keyEscape2 = KeyCode.Q;
 

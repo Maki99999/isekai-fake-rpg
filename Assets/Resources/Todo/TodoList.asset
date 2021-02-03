@@ -31,19 +31,19 @@ MonoBehaviour:
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
     task: add stalls and props to block the player from leaving the main road
-    isComplete: 0
+    isComplete: 1
   - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
     task: create inner wall
-    isComplete: 0
+    isComplete: 1
   - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
     task: add details like trees to the center area
-    isComplete: 0
+    isComplete: 1
   - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
@@ -56,7 +56,7 @@ MonoBehaviour:
       index: 0
     task: add real street obj with given textu., walkin paths (separation), incl.
       inner
-    isComplete: 0
+    isComplete: 1
   - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}

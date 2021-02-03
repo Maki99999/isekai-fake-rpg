@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Useable
   layers:
   - Default
   - TransparentFX
@@ -39,6 +40,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Default-1
+    uniqueID: 3088040177
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
