@@ -442,6 +442,7 @@ GameObject:
   - component: {fileID: 8923787130890731020}
   - component: {fileID: 8806955176435919832}
   - component: {fileID: 8918294373111416294}
+  - component: {fileID: 2193116202381650742}
   - component: {fileID: 9024902816146999372}
   - component: {fileID: 793205726}
   - component: {fileID: 65268371020948241}
@@ -522,6 +523,23 @@ MonoBehaviour:
   currentItem: {fileID: 0}
   charController: {fileID: 0}
   camTransform: {fileID: 0}
+--- !u!114 &2193116202381650742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8918294373111416288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532e6931c710a1b4ebc4d3b6443010ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 8918294373111416294}
+  range: 2.5
+  mask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!82 &9024902816146999372
 AudioSource:
   m_ObjectHideFlags: 0
@@ -666,7 +684,6 @@ MonoBehaviour:
   isInvincible: 0
   height: 2
   statsUiPrefab: {fileID: 4203123843085276130, guid: c749b98027704c74e8b92f7cca7573af, type: 3}
-  EntityStats: {fileID: 0}
 --- !u!1001 &1318553715
 PrefabInstance:
   m_ObjectHideFlags: 0

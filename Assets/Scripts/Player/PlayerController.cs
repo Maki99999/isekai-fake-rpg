@@ -50,9 +50,9 @@ namespace Default
             entityStats = GetComponent<EntityStats>();
             
             heightOffsetTransform = transform.GetChild(0);
-            camTransform = heightOffsetTransform.GetChild(0);
+            camTransform = heightOffsetTransform;
             heightOffsetTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
-            cam = camTransform.GetComponent<Camera>();
+            cam = camTransform.GetComponentInChildren<Camera>(); //TODO inChildren weg
 
             charController = GetComponent<CharacterController>();
 
@@ -250,7 +250,7 @@ namespace Default
             if (this.canMove != canMove)
             {
                 this.canMove = canMove;
-                crossAnimator.SetBool("On", canMove);
+                //crossAnimator.SetBool("On", canMove);
             }
         }
 

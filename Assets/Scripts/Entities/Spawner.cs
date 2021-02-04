@@ -51,7 +51,7 @@ namespace Default
 
                     } while (distance < playerSafeRange && --tryFindingPosition > 0);
 
-                    if (tryFindingPosition > 0)
+                    if (tryFindingPosition > 0 && !float.IsInfinity(spawnPosition.x))
                         entities.Add(Instantiate(enemyPrefab, spawnPosition, Random.rotation, transform));
                 }
 
