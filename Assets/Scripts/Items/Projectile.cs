@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Default
 {
-
     public class Projectile : MonoBehaviour
     {
         public float speed;
@@ -13,9 +12,18 @@ namespace Default
         public float lifetime;
         public float startTime = -1f;
 
+        public GameObject spawnPrefab;
+        public GameObject killPrefab;
+
         private void Start()
         {
             Physics.IgnoreCollision(GetComponent<Collider>(), GameObject.FindWithTag("Player").GetComponent<CharacterController>());
+        }
+
+        public void SpawnPrefab()
+        {
+            if (spawnPrefab != null)
+                Instantiate(spawnPrefab, transform.position, Quaternion.Euler(0, 0, 0));
         }
 
         void Update()
@@ -23,18 +31,22 @@ namespace Default
             transform.position += direction * speed * Time.deltaTime;
 
             if (startTime > 0f && Time.time > startTime + lifetime)
-            {
-                Destroy(gameObject);
-            }
+                DestroyProjectile();
+
         }
 
         private void OnCollisionStay(Collision other)
         {
             if (other.gameObject.CompareTag("Enemy"))
-            {
                 other.gameObject.GetComponent<EntityStats>().ChangeHp(-damage);
-            }
 
+            DestroyProjectile();
+        }
+
+        private void DestroyProjectile()
+        {
+            if (killPrefab != null)
+                Instantiate(killPrefab, transform.position, Quaternion.Euler(0, 0, 0));
             Destroy(gameObject);
         }
     }

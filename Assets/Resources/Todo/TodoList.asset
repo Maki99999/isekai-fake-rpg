@@ -30,33 +30,8 @@ MonoBehaviour:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: add stalls and props to block the player from leaving the main road
-    isComplete: 1
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: create inner wall
-    isComplete: 1
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: add details like trees to the center area
-    isComplete: 1
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: add sth to block the player from going around the center
+    task: add sth to block the player from going around the center (Persons+Wagon)
     isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: add real street obj with given textu., walkin paths (separation), incl.
-      inner
-    isComplete: 1
   - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
@@ -128,4 +103,22 @@ MonoBehaviour:
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
     task: add real room
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: slime death sound
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: no mana animation+sound
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: hit animation(bloody screen)+sound
     isComplete: 0

@@ -11,11 +11,14 @@ namespace Default
         public int minCost;
         public int maxCost;
         public float chargeTime;
+        public float minTimeBetweenShots;
         public Transform projectilePos;
         public GameObject projectilePrefab;
+        public AudioSource chargeFx;
 
         Projectile attackProjectile;
         bool isCharging = false;
+        bool inShoot = false;
         float chargeStartTime;
         PlayerController player;
         Animator anim;
@@ -33,10 +36,22 @@ namespace Default
 
         public override MoveData UseItem(MoveData inputData)
         {
+            if (inShoot) return inputData;
+
+            if (isCharging){
+                float currentValue = Mathf.Clamp((Time.time - chargeStartTime) / chargeTime, 0f, 1f);
+                chargeFx.pitch = currentValue * 0.5f + 0.7f;
+                chargeFx.volume = currentValue;
+                }
+
             if (inputData.axisPrimary > 0f && !isCharging && player.entityStats.mp > minCost)
             {
                 isCharging = true;
                 anim.SetBool("isCharging", true);
+                
+                chargeFx.pitch = 0.2f;
+                chargeFx.volume = 0f;
+                chargeFx.Play();
 
                 attackProjectile = Instantiate(projectilePrefab, projectilePos.position, projectilePos.rotation, transform).GetComponent<Projectile>();
                 attackProjectile.gameObject.GetComponent<Animator>().SetFloat("speed", 10f / chargeTime, 0f, 1f);
@@ -68,8 +83,16 @@ namespace Default
             return inputData;
         }
 
+        IEnumerator ShootCooldown()
+        {
+            inShoot = true;
+            yield return new WaitForSeconds(minTimeBetweenShots);
+            inShoot = false;
+        }
+
         private void Shoot()
         {
+            chargeFx.Stop();
             isCharging = false;
             anim.SetBool("isCharging", false);
 
@@ -84,6 +107,7 @@ namespace Default
             attackProjectile.lifetime = 10f;
             attackProjectile.startTime = Time.time;
             attackProjectile.transform.parent = null;
+            attackProjectile.SpawnPrefab();
 
             Vector3 direction;
 
@@ -98,6 +122,8 @@ namespace Default
             }
 
             attackProjectile.direction = direction;
+
+            StartCoroutine(ShootCooldown());
         }
     }
 }
