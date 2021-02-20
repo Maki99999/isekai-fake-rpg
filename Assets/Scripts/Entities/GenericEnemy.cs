@@ -29,6 +29,13 @@ namespace Default
 
         private EntityStats entityStats;
 
+        [Space(10)]
+        public AudioSource fxAudioSource;
+        public AudioClip idleFx;
+        public AudioClip hitFx;
+        public AudioClip attackFx;
+        public AudioClip deathFx;
+
         private void Start()
         {
             entityStats = GetComponent<EntityStats>();
@@ -85,7 +92,7 @@ namespace Default
 
         private void RoamAimlessly()
         {
-            agent.SetDestination(currentWanderTarget);   //TODO
+            agent.SetDestination(currentWanderTarget);
         }
 
         private IEnumerator CalculateWanderPositions()
@@ -100,8 +107,15 @@ namespace Default
 
                 currentWanderTarget = navHit.position;
 
+                StartCoroutine(IdleSoundAfter(Random.value * wanderCooldown));
                 yield return new WaitForSeconds(wanderCooldown);
             }
+        }
+
+        private IEnumerator IdleSoundAfter(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
+            fxAudioSource.PlayOneShot(idleFx);
         }
 
         private void WalkToTarget()
@@ -113,6 +127,7 @@ namespace Default
         {
             inCooldown = true;
             animator.SetTrigger("Attack");
+            fxAudioSource.PlayOneShot(attackFx);
 
             yield return new WaitForSeconds(attackOffset);
             float distance = Vector3.Distance(target.position, transform.position);
@@ -130,6 +145,7 @@ namespace Default
                 gotAttacked = true;
                 entityStats.SetHideUi(false);
                 animator.SetTrigger("Hit");
+                fxAudioSource.PlayOneShot(hitFx);
             }
 
             if (entityStats.hp <= 0)
@@ -140,10 +156,11 @@ namespace Default
         {
             animator.SetTrigger("Die");
             agent.isStopped = true;
-            StartCoroutine(Die2());
+            fxAudioSource.PlayOneShot(deathFx);
+            StartCoroutine(DieEnumerator());
         }
 
-        private IEnumerator Die2()
+        private IEnumerator DieEnumerator()
         {
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
                 yield return null;
