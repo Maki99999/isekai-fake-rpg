@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, EntityStatsObserver
     {
         [Space(20)]
         public float mouseSensitivityX = 2f;
@@ -32,6 +32,9 @@ namespace Default
         public bool isSprinting = false;
         [Space(10)]
         public Animator crossAnimator;
+        public Animator bloodyScreen;
+        [Space(10)]
+        public AudioSource hitAudio;
 
         private int mouseSemaphore = 1;
 
@@ -48,7 +51,8 @@ namespace Default
         void Start()
         {
             entityStats = GetComponent<EntityStats>();
-            
+            entityStats.entityStatsObservers.Add(this);
+
             heightOffsetTransform = transform.GetChild(0);
             camTransform = heightOffsetTransform;
             heightOffsetTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
@@ -88,6 +92,22 @@ namespace Default
 
             Rotate(inputs.xRot, inputs.yRot);
             Move(inputs);
+        }
+
+        void EntityStatsObserver.ChangedHp(int value)
+        {
+            if (entityStats.hp <= 0)
+            {
+                //TODO: Dead
+                hitAudio.pitch = 0.2f;
+                hitAudio.Play();
+                bloodyScreen.SetTrigger("Dead");
+            }
+            else if (value < 0)
+            {
+                hitAudio.Play();
+                bloodyScreen.SetTrigger("Hit");
+            }
         }
 
         public void ChangeHp(int changeValue)
