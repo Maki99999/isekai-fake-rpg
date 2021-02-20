@@ -26,6 +26,8 @@ namespace Default
         float[] times;
         short timesProcessed;
 
+        bool pressedLastTime = false;
+
         private void Start()
         {
             player = GameController.Instance.player;
@@ -38,17 +40,26 @@ namespace Default
         {
             if (inShoot) return inputData;
 
-            if (isCharging){
+            if (isCharging)
+            {
                 float currentValue = Mathf.Clamp((Time.time - chargeStartTime) / chargeTime, 0f, 1f);
                 chargeFx.pitch = currentValue * 0.5f + 0.7f;
                 chargeFx.volume = currentValue;
+            }
+
+            if (inputData.axisPrimary > 0f && !isCharging)
+            {
+                if (player.entityStats.mp <= minCost)
+                {
+                    if (!pressedLastTime)
+                        player.ShakeMp();
+                    pressedLastTime = true;
+                    return inputData;
                 }
 
-            if (inputData.axisPrimary > 0f && !isCharging && player.entityStats.mp > minCost)
-            {
                 isCharging = true;
                 anim.SetBool("isCharging", true);
-                
+
                 chargeFx.pitch = 0.2f;
                 chargeFx.volume = 0f;
                 chargeFx.Play();
@@ -77,9 +88,13 @@ namespace Default
                 timesProcessed++;
                 player.ChangeMp(-1);
                 if (player.entityStats.mp <= 0)
+                {
                     Shoot();
+                    player.ShakeMp();
+                }
             }
 
+            pressedLastTime = inputData.axisPrimary > 0f;
             return inputData;
         }
 

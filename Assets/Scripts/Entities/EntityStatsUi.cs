@@ -27,9 +27,12 @@ namespace Default
 
         private EntityStatsUiGroup group;
 
+        private RectTransform rect;
+
         void Start()
         {
             group = GetComponentInParent<EntityStatsUiGroup>();
+            rect = mpSlider.GetComponent<RectTransform>();
             group.stats.Add(this);
         }
 
@@ -71,6 +74,23 @@ namespace Default
             {
                 mpSlider.value = value;
                 mpSliderText.text = "" + value;
+            }
+        }
+
+        public void ShakeMp()
+        {
+            StopAllCoroutines();
+            StartCoroutine(ShakeMpAnim());
+        }
+
+        private IEnumerator ShakeMpAnim()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                rect.sizeDelta = new Vector2(180, 20);
+                yield return new WaitForSeconds(.2f);
+                rect.sizeDelta = new Vector2(200, 20);
+                yield return new WaitForSeconds(.2f);
             }
         }
 

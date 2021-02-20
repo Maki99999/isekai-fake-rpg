@@ -226,7 +226,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1059834227}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -938,7 +938,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cGroup: {fileID: 1062049852754201178}
   rectTransform: {fileID: 4203123843085276129}
-  sortingGroup: {fileID: 0}
   text: {fileID: 4203123842895614732}
   hpSlider: {fileID: 937437785}
   hpSliderText: {fileID: 7983998307165565485}

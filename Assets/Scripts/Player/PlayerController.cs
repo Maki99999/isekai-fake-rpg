@@ -34,7 +34,9 @@ namespace Default
         public Animator crossAnimator;
         public Animator bloodyScreen;
         [Space(10)]
-        public AudioSource hitAudio;
+        public AudioSource fxSource;
+        public AudioClip hitFx;
+        public AudioClip noFx;
 
         private int mouseSemaphore = 1;
 
@@ -99,13 +101,14 @@ namespace Default
             if (entityStats.hp <= 0)
             {
                 //TODO: Dead
-                hitAudio.pitch = 0.2f;
-                hitAudio.Play();
+                fxSource.pitch = 0.2f;
+                fxSource.PlayOneShot(hitFx);
                 bloodyScreen.SetTrigger("Dead");
             }
             else if (value < 0)
             {
-                hitAudio.Play();
+                fxSource.pitch = 1f;
+                fxSource.PlayOneShot(hitFx);
                 bloodyScreen.SetTrigger("Hit");
             }
         }
@@ -118,6 +121,13 @@ namespace Default
         public void ChangeMp(int changeValue)
         {
             entityStats.ChangeMp(changeValue);
+        }
+
+        public void ShakeMp()
+        {
+            entityStats.ShakeMp();
+            fxSource.pitch = 1f;
+            fxSource.PlayOneShot(noFx);
         }
 
         void Rotate(float xRot, float yRot)
@@ -270,7 +280,7 @@ namespace Default
             if (this.canMove != canMove)
             {
                 this.canMove = canMove;
-                //crossAnimator.SetBool("On", canMove);
+                crossAnimator.SetBool("Activated", canMove);
             }
         }
 

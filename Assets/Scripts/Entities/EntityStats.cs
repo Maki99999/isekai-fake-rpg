@@ -105,6 +105,11 @@ namespace Default
             entityStatsUi.SetMp(mp);
         }
 
+        public void ShakeMp()
+        {
+            entityStatsUi.ShakeMp();
+        }
+
         private void OnDestroy()
         {
             Destroy(statsUi);
