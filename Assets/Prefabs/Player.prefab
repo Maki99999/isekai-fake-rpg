@@ -811,8 +811,8 @@ MonoBehaviour:
   displayName: Player
   hp: 200
   maxHp: 200
-  mp: 10
-  maxMp: 10
+  mp: 100
+  maxMp: 100
   level: 2
   isInvincible: 0
   height: 2
