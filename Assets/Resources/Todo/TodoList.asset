@@ -30,12 +30,6 @@ MonoBehaviour:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: add sth to block the player from going around the center (Persons+Wagon)
-    isComplete: 1
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
     task: replace or improve castle
     isComplete: 0
   - owner:
