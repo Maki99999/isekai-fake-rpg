@@ -26,7 +26,7 @@ namespace Default
         public float camOffsetY = 0f;
         public float fovNormal = 60f;
         public float fovSprinting = 80f;
-        [Space(10)]
+        [Space(10), SerializeField]
         bool canMove = true;
         public bool isSneaking = false;
         public bool isSprinting = false;
