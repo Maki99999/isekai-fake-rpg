@@ -48,7 +48,7 @@ namespace Default
         [HideInInspector] public CharacterController charController;
         [HideInInspector] public Transform camTransform;
         Transform heightOffsetTransform;
-        Camera cam;
+        [HideInInspector] public Camera cam;
 
         void Start()
         {

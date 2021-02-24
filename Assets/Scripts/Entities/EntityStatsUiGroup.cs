@@ -36,7 +36,6 @@ namespace Default
 
                         if (a1.x < b2.x && a2.x > b1.x && a2.y > b1.y && a1.y < b2.y)
                         {
-                            Debug.Log("yes");
                             if (stat1.zValue >= stat2.zValue)
                                 stat1.SetTransparency(0.2f);
                             else

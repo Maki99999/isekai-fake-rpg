@@ -16,7 +16,6 @@ namespace Default
         public bool isInvincible = false;
         public float height;
 
-        private Canvas canvas;
         private Camera uiCam;
         private GameObject statsUi;
         private RectTransform rectTransform;
@@ -30,8 +29,7 @@ namespace Default
         private void Start()
         {
             entityStats = GameController.Instance.entityStats;
-            canvas = entityStats.GetComponentInParent<Canvas>();
-            uiCam = canvas.worldCamera;
+            uiCam = GameController.Instance.player.cam;
 
             statsUi = Instantiate(statsUiPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero), entityStats);
             entityStatsUi = statsUi.GetComponentInChildren<EntityStatsUi>();
