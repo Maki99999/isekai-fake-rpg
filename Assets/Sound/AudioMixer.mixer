@@ -133,6 +133,8 @@ AudioMixerController:
   m_EnableSuspend: 1
   m_UpdateMode: 0
   m_ExposedParameters:
+  - guid: b346bd00f765a234c95beecc35c4ff36
+    name: gameVolume
   - guid: 00e5414b5b1085f4b903926a13ceb437
     name: HighpassCutoff
   - guid: c9285abe3039754488b5560e434273a4
@@ -196,6 +198,7 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: b96d1c1c28db6494295a9241f5c829c0
   m_FloatValues:
+    b346bd00f765a234c95beecc35c4ff36: -20.8
     fdc04430f5bc5f047bf1e950f0a96b28: 3
     b4698970984e45548bc393270d2f9eda: 35
     76366af091ab12e49b1e03fb209bc117: 0.025578512

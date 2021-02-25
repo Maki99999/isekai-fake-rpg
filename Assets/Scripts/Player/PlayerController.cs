@@ -182,14 +182,14 @@ namespace Default
             //Jump and Gravity
             if (charController.isGrounded)
             {
+                charController.stepOffset = 0f;
                 moveDirection = transform.forward * input.y + transform.right * input.x;
                 if (inputs.axisJump > 0)
-                {
                     moveDirection.y = jumpForce;
-                }
             }
             else
             {
+                charController.stepOffset = 0.3f;
                 input *= airControl;
                 moveDirection = transform.forward * input.y + transform.right * input.x + transform.up * moveDirection.y;
             }
@@ -242,7 +242,7 @@ namespace Default
             Vector3 oldCamPos = heightOffsetTransform.localPosition;
             float newHeight = willSneak ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight;
 
-            for (float i = 0; i < 1; i = i + 0.2f)
+            for (float i = 0; i < 1; i += 0.2f)
             {
                 heightOffsetTransform.localPosition = Vector3.Lerp(oldCamPos, new Vector3(0f, newHeight, 0f), i);
                 if (isSneaking == willSneak)

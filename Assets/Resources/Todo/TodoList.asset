@@ -98,3 +98,21 @@ MonoBehaviour:
       index: 0
     task: TODOs in PcController (smoother audioEffects, transport audioSources)
     isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: PC Textures
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: Clock
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: Phone
+    isComplete: 0
