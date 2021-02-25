@@ -280,22 +280,37 @@ namespace Default
             if (this.canMove != canMove)
             {
                 this.canMove = canMove;
+                charController.detectCollisions = canMove;
                 crossAnimator.SetBool("Activated", canMove);
             }
         }
 
-        public IEnumerator MovePlayer(Transform newPosition, int frameCount = 100)
+        public IEnumerator MovePlayer(Transform newPosition, int frameCount = 100, bool cameraPerspective = false)
         {
             if (isSprinting)
                 StartCoroutine(Sprint(false));
+            float heightOffset = 0f;
+            if (isSneaking)
+            {
+                if (cameraPerspective)
+                {
+                    isSneaking = false;
+                    heightOffset = (heightNormal / 2) - camOffsetHeight - heightOffsetTransform.localPosition.y;
+                    heightOffsetTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
+                }
+                else
+                    StartCoroutine(Sneak(false));
+            }
 
-            Vector3 positionOld = transform.position;
+            Vector3 positionOld = transform.position - heightOffset * Vector3.up;
             Quaternion rotationPlayerOld = transform.rotation;
-            Quaternion rotationCameraOld = camTransform.localRotation;
+            Quaternion rotationCameraOld = heightOffsetTransform.localRotation;
 
             Vector3 positionNew = newPosition.position;
+            if (cameraPerspective)
+                positionNew -= (isSneaking ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight) * Vector3.up;
             Quaternion rotationPlayerNew = Quaternion.Euler(0f, newPosition.eulerAngles.y, 0f);
-            Quaternion rotationCameraNew = Quaternion.Euler(newPosition.localEulerAngles.x, 0f, 0f);
+            Quaternion rotationCameraNew = Quaternion.Euler(newPosition.eulerAngles.x, 0f, 0f);
 
             float fSmooth;
             for (float f = 0; f <= 1; f += 1f / frameCount)
@@ -303,14 +318,14 @@ namespace Default
                 fSmooth = Mathf.SmoothStep(0f, 1f, f);
                 transform.position = Vector3.Lerp(positionOld, positionNew, fSmooth);
                 transform.rotation = Quaternion.Lerp(rotationPlayerOld, rotationPlayerNew, fSmooth);
-                camTransform.localRotation = Quaternion.Lerp(rotationCameraOld, rotationCameraNew, fSmooth);
+                heightOffsetTransform.localRotation = Quaternion.Lerp(rotationCameraOld, rotationCameraNew, fSmooth);
 
                 yield return new WaitForSeconds(1f / 60f);
             }
 
             transform.position = positionNew;
             transform.rotation = rotationPlayerNew;
-            camTransform.localRotation = rotationCameraNew;
+            heightOffsetTransform.localRotation = rotationCameraNew;
         }
 
         public IEnumerator RotatePlayer(Quaternion newRotation, int frameCount = 100)

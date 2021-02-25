@@ -7,6 +7,7 @@ namespace Default
     public class GameController : MonoBehaviour
     {
         public PlayerController player;
+        public PlayerController metaPlayer;
         public Transform entityStats;
 
         private static GameController _instance;

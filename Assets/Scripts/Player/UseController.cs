@@ -21,7 +21,7 @@ namespace Default
             bool useKey = Input.GetKeyDown(GlobalSettings.keyUse) || Input.GetKeyDown(GlobalSettings.keyUse2);
 
             //!(IsRiding & pressing)
-            if (useKey)  //if (!(useKey && playerController.currentRide != null))
+            if (useKey && playerController.CanMove())  //if (!(useKey && playerController.currentRide != null))
             {
                 //Get useable GameObject and maybe use it
                 RaycastHit hit;
@@ -33,15 +33,14 @@ namespace Default
                         Useable useable = hitObject.GetComponent<Useable>();
 
                         if (useable == null)
-                            return;
-
-                        if (playerController.CanMove())
                         {
-                            //useable.LookingAt();
-
-                            if (useKey)
-                                useable.Use();
+                            Debug.LogError("Can't find 'Useable' script.");
+                            return;
                         }
+                        //useable.LookingAt();
+
+                        //if (useKey)
+                        useable.Use();
                     }
                 }
             }
