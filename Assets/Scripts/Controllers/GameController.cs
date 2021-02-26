@@ -9,6 +9,8 @@ namespace Default
         public PlayerController player;
         public PlayerController metaPlayer;
         public Transform entityStats;
+        [Range(-1f, 1f)] public float gameAudioPan;
+        public bool inPcMode;
 
         private static GameController _instance;
 
@@ -24,6 +26,10 @@ namespace Default
             {
                 _instance = this;
             }
+        }
+
+        public void PlayMeta3dSound(AudioSource audio) {
+            //TODO: Make empty; copy audioSource component to it; set parent to; destroy(audioClipLength)
         }
     }
 }
