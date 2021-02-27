@@ -22,21 +22,21 @@ namespace Default
         //Stereo to mono
         void OnAudioFilterRead(float[] data, int channels)
         {
-            if (channels != 2 || GameController.Instance.inPcMode) return;
+            if (channels != 2) return;
 
             for (int i = 0; i < data.Length; i += 2)
             {
                 float dataMono = data[i] * 0.5f + data[i + 1] * 0.5f;
-                data[i] = dataMono;
-                data[i + 1] = dataMono;
+                data[i] = data[i] * (1 - GameController.Instance.gameAudioFxStrength) + dataMono * GameController.Instance.gameAudioFxStrength;
+                data[i + 1] = data[i + 1] * (1 - GameController.Instance.gameAudioFxStrength) + dataMono * GameController.Instance.gameAudioFxStrength;
 
                 if (GameController.Instance.gameAudioPan < 0f && data[i + 1] != 0)
                 {
-                    data[i + 1] -= data[i + 1] * -GameController.Instance.gameAudioPan;
+                    data[i + 1] -= data[i + 1] * -GameController.Instance.gameAudioPan * GameController.Instance.gameAudioFxStrength;
                 }
                 else if (GameController.Instance.gameAudioPan > 0f && data[i] != 0)
                 {
-                    data[i] -= data[i] * GameController.Instance.gameAudioPan;
+                    data[i] -= data[i] * GameController.Instance.gameAudioPan * GameController.Instance.gameAudioFxStrength;
                 }
             }
         }

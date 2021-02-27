@@ -182,14 +182,12 @@ namespace Default
             //Jump and Gravity
             if (charController.isGrounded)
             {
-                charController.stepOffset = 0f;
                 moveDirection = transform.forward * input.y + transform.right * input.x;
                 if (inputs.axisJump > 0)
                     moveDirection.y = jumpForce;
             }
             else
             {
-                charController.stepOffset = 0.3f;
                 input *= airControl;
                 moveDirection = transform.forward * input.y + transform.right * input.x + transform.up * moveDirection.y;
             }
@@ -285,7 +283,7 @@ namespace Default
             }
         }
 
-        public IEnumerator MovePlayer(Transform newPosition, int frameCount = 100, bool cameraPerspective = false)
+        public IEnumerator MovePlayer(Transform newPosition, int frameCount = 100, bool cameraPerspective = false, Vector3 offset = new Vector3())
         {
             if (isSprinting)
                 StartCoroutine(Sprint(false));
@@ -306,7 +304,7 @@ namespace Default
             Quaternion rotationPlayerOld = transform.rotation;
             Quaternion rotationCameraOld = heightOffsetTransform.localRotation;
 
-            Vector3 positionNew = newPosition.position;
+            Vector3 positionNew = newPosition.position+ offset;
             if (cameraPerspective)
                 positionNew -= (isSneaking ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight) * Vector3.up;
             Quaternion rotationPlayerNew = Quaternion.Euler(0f, newPosition.eulerAngles.y, 0f);

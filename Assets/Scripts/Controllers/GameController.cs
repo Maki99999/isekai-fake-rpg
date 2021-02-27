@@ -10,6 +10,7 @@ namespace Default
         public PlayerController metaPlayer;
         public Transform entityStats;
         [Range(-1f, 1f)] public float gameAudioPan;
+        [Range(0f, 1f)] public float gameAudioFxStrength;
         public bool inPcMode;
 
         private static GameController _instance;
