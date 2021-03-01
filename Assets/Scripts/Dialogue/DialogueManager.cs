@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Default
 {
-    public class DialogueManager : MonoBehaviour, Pausing
+    public class DialogueManager : MonoBehaviour//, Pausing
     {
         public Animator anim;
         public Text text;
@@ -216,16 +216,16 @@ namespace Default
             if (Input.GetKeyDown(GlobalSettings.keyUse) || Input.GetKeyDown(GlobalSettings.keyUse2))
                 return true;
 
-            if (GlobalSettings.Confirm() && !isPressing)
+            if (GlobalSettings.PressingConfirm() && !isPressing)
             {
                 isPressing = true;
                 return true;
             }
-            if (!GlobalSettings.Confirm() && isPressing)
+            if (!GlobalSettings.PressingConfirm() && isPressing)
                 isPressing = false;
             return false;
         }
-
+/*
         void Pausing.Pause()
         {
 
@@ -235,6 +235,6 @@ namespace Default
         void Pausing.UnPause()
         {
             eventSystem.SetSelectedGameObject(choices[0]);
-        }
+        }*/
     }
 }

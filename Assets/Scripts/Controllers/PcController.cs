@@ -134,7 +134,6 @@ namespace Default
             gameAudio.GetFloat("gameVolume", out currVolume);
 
             float rate = 1f / maxImmersionTime;
-            Debug.Log(rate);
             for (float f = 0; f <= 1f; f += Time.deltaTime * rate)
             {
                 if (inTransition && !transitionsToPcMode)

@@ -133,6 +133,8 @@ AudioMixerController:
   m_EnableSuspend: 1
   m_UpdateMode: 0
   m_ExposedParameters:
+  - guid: 76366af091ab12e49b1e03fb209bc117
+    name: gameMusicVol
   - guid: b346bd00f765a234c95beecc35c4ff36
     name: gameVolume
   - guid: 00e5414b5b1085f4b903926a13ceb437
@@ -141,6 +143,14 @@ AudioMixerController:
     name: LowpassCutoff
   - guid: 3bb5c05d11df8e3408c586dcea27b62a
     name: eqOctaveRange
+  - guid: f945d212440ba944e92355a2288bc935
+    name: mainVol
+  - guid: e349aadf407919748ae72d9a4d12ff97
+    name: metaMusicVol
+  - guid: 12d0e969047ae73448a3d5df0beafefc
+    name: metaFxVol
+  - guid: 7c416fb50f43c9444bef2e5d552dc3bd
+    name: gameFxVol
   m_AudioMixerGroupViews:
   - guids:
     - 67b6a5db7a06c9f4a8d01cdfcb104ea7

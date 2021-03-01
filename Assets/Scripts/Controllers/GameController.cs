@@ -6,6 +6,7 @@ namespace Default
 {
     public class GameController : MonoBehaviour
     {
+        public PauseManager pauseManager;
         public PlayerController player;
         public PlayerController metaPlayer;
         public Transform entityStats;
