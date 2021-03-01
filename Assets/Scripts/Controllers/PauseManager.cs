@@ -16,30 +16,16 @@ namespace Default
             //pausingObjects = new List<Pausing>();
         }
 
-        public void Pause()
+        public static void Pause()
         {
             paused.Value = true;
             Time.timeScale = 0;
-            //foreach (Pausing pausingObject in pausingObjects)
-            //{
-            //    pausingObject.Pause();
-            //}
         }
 
-        public void UnPause()
+        public static void Unpause()
         {
             Time.timeScale = 1;
-            //foreach (Pausing pausingObject in pausingObjects)
-            //{
-            //    pausingObject.UnPause();
-            //}
             paused.Value = false;
         }
     }
-
-    //public interface Pausing
-    //{
-    //    void Pause();
-    //    void UnPause();
-    //}
 }

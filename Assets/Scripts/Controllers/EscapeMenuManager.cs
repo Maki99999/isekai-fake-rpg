@@ -64,7 +64,7 @@ namespace Default
 
         public void CloseMenu()
         {
-            GameController.Instance.pauseManager.UnPause();
+            PauseManager.Unpause();
             animator.SetBool("EscIn", false);
             animator.SetBool("SettingsIn", false);
             Cursor.visible = false;
@@ -74,7 +74,7 @@ namespace Default
 
         public void OpenMenu()
         {
-            GameController.Instance.pauseManager.Pause();
+            PauseManager.Pause();
             animator.SetBool("SettingsIn", false);
             animator.SetBool("EscIn", true);
             Cursor.visible = true;
@@ -220,30 +220,36 @@ namespace Default
         {
             int w;
             int h;
+            float scale;
 
             switch (step)
             {
                 case 0:
                     w = 854;
                     h = 480;
+                    scale = 1.5f;
                     break;
                 case 1:
                     goto default;
                 case 2:
                     w = 1920;
                     h = 1080;
+                    scale = 0.667f;
                     break;
                 case 3:
                     w = 2560;
                     h = 1440;
+                    scale = 0.5f;
                     break;
                 case 4:
                     w = 3840;
                     h = 2160;
+                    scale = 0.333f;
                     break;
                 default:
                     w = 1280;
                     h = 720;
+                    scale = 1f;
                     break;
             }
 
@@ -256,6 +262,7 @@ namespace Default
 
             gameCamera.targetTexture = newText;
             screenMesh.material.SetTexture("_MainTex", newText);
+            EntityStats.uiScaleFactor = scale;
 
             if (withSave)
                 PlayerPrefs.SetInt("pcRes", step);

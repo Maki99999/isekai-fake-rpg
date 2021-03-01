@@ -16,6 +16,8 @@ namespace Default
         public Transform standUpTransform;
         public AudioMixer gameAudio;
 
+        public GameObject FakePause;
+
         bool inTransition = false;
         bool transitionsToPcMode;   //to use in combination with inTransition
 
@@ -30,16 +32,24 @@ namespace Default
         private void Start()
         {
             ImmersedValue = 0f;
+            FakePause.SetActive(false);
         }
 
         private void Update()
         {
-            if (GameController.Instance.inPcMode && !inTransition && (Input.GetAxis("Cancel") > 0 || Input.GetKey(GlobalSettings.keyEscapeDebug)))
+            if (PauseManager.isPaused().Value || !GameController.Instance.inPcMode)
+            {
+                if (!FakePause.activeSelf)
+                    FakePause.SetActive(true);
+            }
+            else if (FakePause.activeSelf)
+                FakePause.SetActive(false);
+
+            if (GameController.Instance.inPcMode && !inTransition && GlobalSettings.PressingUse())
             {
                 StartCoroutine(ToNonPcMode());
             }
 
-            //TODO: with Schieberegler: 0 is right in front of screen, 1 is half a meter or so in front of it
             if (!GameController.Instance.inPcMode)
             {
                 float minDist = 2f;
@@ -87,7 +97,7 @@ namespace Default
 
             yield return GameController.Instance.metaPlayer.MovePlayer(pcLookTransform, 100, true, maxPcLookDistance * Vector3.forward);
 
-            GameController.Instance.player.SetCanMove(true);
+            GameController.Instance.gamePlayer.SetCanMove(true);
             inTransition = false;
             GameController.Instance.inPcMode = true;
 
@@ -98,7 +108,7 @@ namespace Default
         {
             inTransition = true;
             transitionsToPcMode = false;
-            GameController.Instance.player.SetCanMove(false);
+            GameController.Instance.gamePlayer.SetCanMove(false);
 
             StartCoroutine(AudioFiltersSmoothIn());
 

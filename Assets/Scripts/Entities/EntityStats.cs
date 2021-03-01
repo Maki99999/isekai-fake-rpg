@@ -7,6 +7,8 @@ namespace Default
 {
     public class EntityStats : MonoBehaviour
     {
+        public static float uiScaleFactor = 1f;
+
         public string displayName;
         public int hp;
         public int maxHp;
@@ -26,10 +28,12 @@ namespace Default
 
         [HideInInspector] public List<EntityStatsObserver> entityStatsObservers = new List<EntityStatsObserver>();
 
+        bool isHidden = true;
+
         private void Start()
         {
             entityStats = GameController.Instance.entityStats;
-            uiCam = GameController.Instance.player.cam;
+            uiCam = GameController.Instance.gamePlayer.cam;
 
             statsUi = Instantiate(statsUiPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero), entityStats);
             entityStatsUi = statsUi.GetComponentInChildren<EntityStatsUi>();
@@ -65,17 +69,16 @@ namespace Default
 
         private void Update()
         {
-            if (!CompareTag("Player"))
+            if (!CompareTag("Player") && !isHidden)
             {
                 Vector3 camNormal = uiCam.transform.forward;
                 Vector3 vectorFromCam = transform.position + Vector3.up * height - uiCam.transform.position;
                 float camNormDot = Vector3.Dot(camNormal, vectorFromCam.normalized);
 
                 if (camNormDot > 0f)
-                    rectTransform.anchoredPosition = RectTransformUtility.WorldToScreenPoint(uiCam, transform.position + Vector3.up * height)
-                            + new Vector2((-uiCam.pixelWidth / 2f), 0f);
+                    rectTransform.anchoredPosition = uiCam.WorldToScreenPoint(transform.position + Vector3.up * height) * uiScaleFactor;
                 else
-                    rectTransform.anchoredPosition = new Vector2(uiCam.pixelWidth * 2, uiCam.pixelHeight * 2);
+                    rectTransform.anchoredPosition = new Vector2(uiCam.pixelWidth * -1, uiCam.pixelHeight * -1);
             }
         }
 
@@ -94,6 +97,7 @@ namespace Default
 
         public void SetHideUi(bool hide)
         {
+            isHidden = hide;
             entityStatsUi.SetHidden(hide);
         }
 

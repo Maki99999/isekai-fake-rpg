@@ -30,7 +30,7 @@ namespace Default
 
         private void Start()
         {
-            player = GameController.Instance.player;
+            player = GameController.Instance.gamePlayer;
             player.items.Add(this);
             player.currentItem = this;
             anim = GetComponent<Animator>();

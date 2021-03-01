@@ -6,8 +6,7 @@ namespace Default
 {
     public class GameController : MonoBehaviour
     {
-        public PauseManager pauseManager;
-        public PlayerController player;
+        public PlayerController gamePlayer;
         public PlayerController metaPlayer;
         public Transform entityStats;
         [Range(-1f, 1f)] public float gameAudioPan;

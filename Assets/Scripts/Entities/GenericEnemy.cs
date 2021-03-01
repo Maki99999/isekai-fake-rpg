@@ -43,7 +43,7 @@ namespace Default
 
             originalPosition = transform.position;
 
-            target = GameController.Instance.player.transform;
+            target = GameController.Instance.gamePlayer.transform;
             agent = GetComponent<NavMeshAgent>();
             animator = GetComponentInChildren<Animator>();
 

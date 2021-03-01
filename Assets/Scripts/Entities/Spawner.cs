@@ -22,7 +22,7 @@ namespace Default
 
         private void Start()
         {
-            player = GameController.Instance.player.transform;
+            player = GameController.Instance.gamePlayer.transform;
             StartCoroutine(Spawn());
         }
 

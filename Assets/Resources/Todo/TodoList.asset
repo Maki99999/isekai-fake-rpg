@@ -104,9 +104,3 @@ MonoBehaviour:
       index: 0
     task: Phone
     isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: "Pausing\xB2"
-    isComplete: 0
