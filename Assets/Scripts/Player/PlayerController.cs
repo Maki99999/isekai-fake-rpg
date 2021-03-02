@@ -283,50 +283,52 @@ namespace Default
             }
         }
 
-        public IEnumerator MovePlayer(Transform newPosition, int frameCount = 100, bool cameraPerspective = false, Vector3 offset = new Vector3())
+        public IEnumerator MoveRotatePlayer(Transform newPosition, float seconds = 2f, bool cameraPerspective = false, Vector3 offset = new Vector3())
         {
             if (isSprinting)
                 StartCoroutine(Sprint(false));
             float heightOffset = 0f;
-            if (isSneaking)
+            if (isSneaking && cameraPerspective)
             {
-                if (cameraPerspective)
-                {
-                    isSneaking = false;
-                    heightOffset = (heightNormal / 2) - camOffsetHeight - heightOffsetTransform.localPosition.y;
-                    heightOffsetTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
-                }
-                else
-                    StartCoroutine(Sneak(false));
+                isSneaking = false;
+                heightOffset = (heightNormal / 2) - camOffsetHeight - heightOffsetTransform.localPosition.y;
+                heightOffsetTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
             }
 
-            Vector3 positionOld = transform.position - heightOffset * Vector3.up;
-            Quaternion rotationPlayerOld = transform.rotation;
-            Quaternion rotationCameraOld = heightOffsetTransform.localRotation;
-
-            Vector3 positionNew = newPosition.position+ offset;
+            Vector3 positionNew = newPosition.position + offset;
             if (cameraPerspective)
                 positionNew -= (isSneaking ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight) * Vector3.up;
-            Quaternion rotationPlayerNew = Quaternion.Euler(0f, newPosition.eulerAngles.y, 0f);
-            Quaternion rotationCameraNew = Quaternion.Euler(newPosition.eulerAngles.x, 0f, 0f);
 
-            float fSmooth;
-            for (float f = 0; f <= 1; f += 1f / frameCount)
-            {
-                fSmooth = Mathf.SmoothStep(0f, 1f, f);
-                transform.position = Vector3.Lerp(positionOld, positionNew, fSmooth);
-                transform.rotation = Quaternion.Lerp(rotationPlayerOld, rotationPlayerNew, fSmooth);
-                heightOffsetTransform.localRotation = Quaternion.Lerp(rotationCameraOld, rotationCameraNew, fSmooth);
+            var mov = StartCoroutine(MovePlayer(positionNew, seconds, cameraPerspective));
+            var rot = StartCoroutine(RotatePlayer(newPosition.rotation, seconds));
 
-                yield return new WaitForSeconds(1f / 60f);
-            }
-
-            transform.position = positionNew;
-            transform.rotation = rotationPlayerNew;
-            heightOffsetTransform.localRotation = rotationCameraNew;
+            yield return mov;
+            yield return rot;
         }
 
-        public IEnumerator RotatePlayer(Quaternion newRotation, int frameCount = 100)
+        public IEnumerator MovePlayer(Vector3 newPosition, float seconds = 2f, bool ignoreSneak = false)
+        {
+            if (isSprinting)
+                StartCoroutine(Sprint(false));
+            if (isSneaking && !ignoreSneak)
+                StartCoroutine(Sneak(false));
+
+            Vector3 positionOld = transform.position;
+
+            float rate = 1f / seconds;
+            float fSmooth;
+            for (float f = 0f; f <= 1f; f += rate * Time.deltaTime)
+            {
+                fSmooth = Mathf.SmoothStep(0f, 1f, f);
+                transform.position = Vector3.Lerp(positionOld, newPosition, fSmooth);
+
+                yield return null;
+            }
+
+            transform.position = newPosition;
+        }
+
+        public IEnumerator RotatePlayer(Quaternion newRotation, float seconds = 2f)
         {
             if (isSprinting)
                 StartCoroutine(Sprint(false));
@@ -337,23 +339,24 @@ namespace Default
             Quaternion rotationPlayerNew = Quaternion.Euler(0f, newRotation.eulerAngles.y, 0f);
             Quaternion rotationCameraNew = Quaternion.Euler(newRotation.eulerAngles.x, 0f, 0f);
 
+            float rate = 1f / seconds;
             float fSmooth;
-            for (float f = 0; f <= 1; f += 1f / frameCount)
+            for (float f = 0f; f <= 1f; f += rate * Time.deltaTime)
             {
                 fSmooth = Mathf.SmoothStep(0f, 1f, f);
                 camTransform.localRotation = Quaternion.Lerp(rotationCameraOld, rotationCameraNew, fSmooth);
                 transform.rotation = Quaternion.Lerp(rotationPlayerOld, rotationPlayerNew, fSmooth);
 
-                yield return new WaitForSeconds(1f / 60f);
+                yield return null;
             }
 
             camTransform.localRotation = rotationCameraNew;
             transform.rotation = rotationPlayerNew;
         }
 
-        public IEnumerator ForceLookPlayer(Transform lookAt, int frameCount = 100)
+        public IEnumerator ForceLookPlayer(Transform lookAt, float seconds = 2f)
         {
-            yield return RotatePlayer(Quaternion.LookRotation(lookAt.position - camTransform.position), frameCount);
+            yield return RotatePlayer(Quaternion.LookRotation(lookAt.position - camTransform.position), seconds);
         }
 
         Quaternion ClampRotationAroundXAxis(Quaternion q)

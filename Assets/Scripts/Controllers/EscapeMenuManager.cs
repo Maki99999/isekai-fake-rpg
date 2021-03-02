@@ -119,6 +119,7 @@ namespace Default
             float fxVol = PlayerPrefs.GetFloat("fxVol", 0f);
             audioMixer.SetFloat("metaFxVol", fxVol);
             audioMixer.SetFloat("gameFxVol", fxVol);
+            audioMixer.SetFloat("uiVol", fxVol);
             fxVolSlider.value = fxVol;
 
             float musicVol = PlayerPrefs.GetFloat("musicVol", 0f);
@@ -175,6 +176,7 @@ namespace Default
         {
             audioMixer.SetFloat("metaFxVol", vol);
             audioMixer.SetFloat("gameFxVol", vol);
+            audioMixer.SetFloat("uiVol", vol);
             PlayerPrefs.SetFloat("fxVol", vol);
         }
 

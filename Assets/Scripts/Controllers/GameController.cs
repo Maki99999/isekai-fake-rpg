@@ -8,7 +8,10 @@ namespace Default
     {
         public PlayerController gamePlayer;
         public PlayerController metaPlayer;
+        public DialogueManager dialogue;
+        public EventManager eventManager;
         public Transform entityStats;
+        public Transform meta3dAudio;
         [Range(-1f, 1f)] public float gameAudioPan;
         [Range(0f, 1f)] public float gameAudioFxStrength;
         public bool inPcMode;
