@@ -145,15 +145,15 @@ namespace Default
 
         bool IsPressingConfirm()
         {
-            if (Input.GetKeyDown(GlobalSettings.keyUse) || Input.GetKeyDown(GlobalSettings.keyUse2))
+            if (InputSettings.PressingUse())
                 return true;
 
-            if (GlobalSettings.PressingConfirm() && !isPressing)
+            if (InputSettings.PressingConfirm() && !isPressing)
             {
                 isPressing = true;
                 return true;
             }
-            if (!GlobalSettings.PressingConfirm() && isPressing)
+            if (!InputSettings.PressingConfirm() && isPressing)
                 isPressing = false;
             return false;
         }

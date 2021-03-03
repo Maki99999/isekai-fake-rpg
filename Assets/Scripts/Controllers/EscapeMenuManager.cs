@@ -43,7 +43,7 @@ namespace Default
 
         void Update()
         {
-            if (GlobalSettings.PressingEscape() && !pressedLastFrame)
+            if (InputSettings.PressingEscape() && !pressedLastFrame)
             {
                 if (inMenu)
                 {
@@ -59,7 +59,7 @@ namespace Default
                     OpenMenu();
                 }
             }
-            pressedLastFrame = GlobalSettings.PressingEscape();
+            pressedLastFrame = InputSettings.PressingEscape();
         }
 
         public void CloseMenu()

@@ -81,8 +81,8 @@ namespace Default
             {
                 xRot = Input.GetAxis("Mouse Y") * mouseSensitivityY,
                 yRot = Input.GetAxis("Mouse X") * mouseSensitivityX,
-                axisHorizontal = GlobalSettings.usingMouse ? Input.GetAxisRaw("Horizontal") : Input.GetAxis("Horizontal"),
-                axisVertical = GlobalSettings.usingMouse ? Input.GetAxisRaw("Vertical") : Input.GetAxis("Vertical"),
+                axisHorizontal = InputSettings.usingMouse ? Input.GetAxisRaw("Horizontal") : Input.GetAxis("Horizontal"),
+                axisVertical = InputSettings.usingMouse ? Input.GetAxisRaw("Vertical") : Input.GetAxis("Vertical"),
                 axisSneak = Input.GetAxisRaw("Sneak"),
                 axisSprint = Input.GetAxisRaw("Sprint"),
                 axisJump = Input.GetAxisRaw("Jump"),

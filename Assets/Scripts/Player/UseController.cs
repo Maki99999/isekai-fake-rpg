@@ -18,7 +18,7 @@ namespace Default
 
 
             //Get Input
-            bool useKey = Input.GetKeyDown(GlobalSettings.keyUse) || Input.GetKeyDown(GlobalSettings.keyUse2);
+            bool useKey = InputSettings.PressingUse();
 
             //!(IsRiding & pressing)
             if (useKey && playerController.CanMove())  //if (!(useKey && playerController.currentRide != null))

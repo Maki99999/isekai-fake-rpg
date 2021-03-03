@@ -45,7 +45,7 @@ namespace Default
             else if (FakePause.activeSelf)
                 FakePause.SetActive(false);
 
-            if (GameController.Instance.inPcMode && !inTransition && GlobalSettings.PressingUse())
+            if (GameController.Instance.inPcMode && !inTransition && InputSettings.PressingStand())
             {
                 StartCoroutine(ToNonPcMode());
             }
