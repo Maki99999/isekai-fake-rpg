@@ -671,12 +671,12 @@ MonoBehaviour:
   fxSource: {fileID: 8746404873846926062}
   hitFx: {fileID: 8300000, guid: bed320e5c3de9a84eaecc9f937cb0d75, type: 3}
   noFx: {fileID: 8300000, guid: e00a5f3ee3e9cbf44989fa8f3164af93, type: 3}
+  charController: {fileID: 8806955176435919832}
   entityStats: {fileID: 0}
+  eyeHeightTransform: {fileID: 3216213124626616726}
+  cam: {fileID: 8903585563143957188}
   items: []
   currentItem: {fileID: 0}
-  charController: {fileID: 0}
-  camTransform: {fileID: 0}
-  cam: {fileID: 0}
 --- !u!114 &2193116202381650742
 MonoBehaviour:
   m_ObjectHideFlags: 0

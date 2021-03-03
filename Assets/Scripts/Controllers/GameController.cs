@@ -16,8 +16,9 @@ namespace Default
         [Range(0f, 1f)] public float gameAudioFxStrength;
         public bool inPcMode;
 
-        private static GameController _instance;
+        private int mouseSemaphore = 1;
 
+        private static GameController _instance;
         public static GameController Instance { get { return _instance; } }
 
         private void Awake()
@@ -32,8 +33,32 @@ namespace Default
             }
         }
 
-        public void PlayMeta3dSound(AudioSource audio) {
+        private void Start()
+        {
+            LockMouse();
+        }
+
+        public void PlayMeta3dSound(AudioSource audio)
+        {
             //TODO: Make empty; copy audioSource component to it; set parent to; destroy(audioClipLength)
+        }
+
+        public void LockMouse()
+        {
+            if (--mouseSemaphore == 0)
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+
+        public void UnlockMouse()
+        {
+            if (++mouseSemaphore == 1)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
         }
     }
 }

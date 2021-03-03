@@ -38,33 +38,23 @@ namespace Default
         public AudioClip hitFx;
         public AudioClip noFx;
 
-        private int mouseSemaphore = 1;
-
-        [HideInInspector] public EntityStats entityStats;
+        public CharacterController charController;
+        public EntityStats entityStats;
+        public Transform eyeHeightTransform;
+        public Camera cam;
 
         [HideInInspector] public List<ItemHoldable> items = new List<ItemHoldable>();
         [HideInInspector] public ItemHoldable currentItem = null;
 
-        [HideInInspector] public CharacterController charController;
-        [HideInInspector] public Transform camTransform;
-        Transform heightOffsetTransform;
-        [HideInInspector] public Camera cam;
 
         void Start()
         {
-            entityStats = GetComponent<EntityStats>();
-            entityStats.entityStatsObservers.Add(this);
+            if (entityStats != null)
+                entityStats.entityStatsObservers.Add(this);
 
-            heightOffsetTransform = transform.GetChild(0);
-            camTransform = heightOffsetTransform;
-            heightOffsetTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
-            cam = camTransform.GetComponentInChildren<Camera>(); //TODO inChildren weg
-
-            charController = GetComponent<CharacterController>();
+            eyeHeightTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
 
             speedCurrent = speedNormal;
-
-            LockMouse();
         }
 
         void Update()
@@ -133,7 +123,7 @@ namespace Default
         void Rotate(float xRot, float yRot)
         {
             Quaternion characterTargetRot = transform.localRotation;
-            Quaternion cameraTargetRot = camTransform.localRotation;
+            Quaternion cameraTargetRot = eyeHeightTransform.localRotation;
 
             characterTargetRot *= Quaternion.Euler(0f, yRot, 0f);
             cameraTargetRot *= Quaternion.Euler(-xRot, 0f, 0f);
@@ -141,7 +131,7 @@ namespace Default
             cameraTargetRot = ClampRotationAroundXAxis(cameraTargetRot);
 
             transform.localRotation = characterTargetRot;
-            camTransform.localRotation = cameraTargetRot;
+            eyeHeightTransform.localRotation = cameraTargetRot;
         }
 
         void Move(MoveData inputs)
@@ -201,55 +191,29 @@ namespace Default
             moveDirection.y -= gravity * (Time.deltaTime / 2);
         }
 
-        public void LockMouse()
-        {
-            if (--mouseSemaphore == 0)
-                SetMouseActive(false);
-        }
-
-        public void UnlockMouse()
-        {
-            if (++mouseSemaphore == 1)
-                SetMouseActive(true);
-        }
-
-        private void SetMouseActive(bool active)
-        {
-            if (active)
-            {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-        }
-
         void CameraEffects()
         {
             if (camOffsetX != 0f || camOffsetY != 0f)
-                camTransform.localPosition = new Vector3(camOffsetX, camOffsetY, 0f);
+                eyeHeightTransform.localPosition = new Vector3(camOffsetX, camOffsetY, 0f);
         }
 
         IEnumerator Sneak(bool willSneak)
         {
             isSneaking = willSneak;
 
-            Vector3 oldCamPos = heightOffsetTransform.localPosition;
+            Vector3 oldCamPos = eyeHeightTransform.localPosition;
             float newHeight = willSneak ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight;
 
             for (float i = 0; i < 1; i += 0.2f)
             {
-                heightOffsetTransform.localPosition = Vector3.Lerp(oldCamPos, new Vector3(0f, newHeight, 0f), i);
+                eyeHeightTransform.localPosition = Vector3.Lerp(oldCamPos, new Vector3(0f, newHeight, 0f), i);
                 if (isSneaking == willSneak)
                     yield return new WaitForSeconds(1f / 60f);
                 else
                     break;
             }
             if (isSneaking == willSneak)
-                heightOffsetTransform.localPosition = new Vector3(0f, newHeight, 0f);
+                eyeHeightTransform.localPosition = new Vector3(0f, newHeight, 0f);
         }
 
         IEnumerator Sprint(bool willSprint)
@@ -283,6 +247,27 @@ namespace Default
             }
         }
 
+        public void TeleportPlayer(Transform newPosition, bool cameraPerspective = false, Vector3 offset = new Vector3())
+        {
+            if (isSprinting)
+                StartCoroutine(Sprint(false));
+            float heightOffset = 0f;
+            if (isSneaking && cameraPerspective)
+            {
+                isSneaking = false;
+                heightOffset = (heightNormal / 2) - camOffsetHeight - eyeHeightTransform.localPosition.y;
+                eyeHeightTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
+            }
+
+            Vector3 positionNew = newPosition.position + offset;
+            if (cameraPerspective)
+                positionNew -= (isSneaking ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight) * Vector3.up;
+
+            transform.position = positionNew;
+            transform.rotation = Quaternion.Euler(0f, newPosition.rotation.eulerAngles.y, 0f);
+            eyeHeightTransform.localRotation = Quaternion.Euler(newPosition.rotation.eulerAngles.x, 0f, 0f);
+        }
+
         public IEnumerator MoveRotatePlayer(Transform newPosition, float seconds = 2f, bool cameraPerspective = false, Vector3 offset = new Vector3())
         {
             if (isSprinting)
@@ -291,8 +276,8 @@ namespace Default
             if (isSneaking && cameraPerspective)
             {
                 isSneaking = false;
-                heightOffset = (heightNormal / 2) - camOffsetHeight - heightOffsetTransform.localPosition.y;
-                heightOffsetTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
+                heightOffset = (heightNormal / 2) - camOffsetHeight - eyeHeightTransform.localPosition.y;
+                eyeHeightTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
             }
 
             Vector3 positionNew = newPosition.position + offset;
@@ -334,7 +319,7 @@ namespace Default
                 StartCoroutine(Sprint(false));
 
             Quaternion rotationPlayerOld = transform.rotation;
-            Quaternion rotationCameraOld = camTransform.localRotation;
+            Quaternion rotationCameraOld = eyeHeightTransform.localRotation;
 
             Quaternion rotationPlayerNew = Quaternion.Euler(0f, newRotation.eulerAngles.y, 0f);
             Quaternion rotationCameraNew = Quaternion.Euler(newRotation.eulerAngles.x, 0f, 0f);
@@ -344,19 +329,35 @@ namespace Default
             for (float f = 0f; f <= 1f; f += rate * Time.deltaTime)
             {
                 fSmooth = Mathf.SmoothStep(0f, 1f, f);
-                camTransform.localRotation = Quaternion.Lerp(rotationCameraOld, rotationCameraNew, fSmooth);
+                eyeHeightTransform.localRotation = Quaternion.Lerp(rotationCameraOld, rotationCameraNew, fSmooth);
                 transform.rotation = Quaternion.Lerp(rotationPlayerOld, rotationPlayerNew, fSmooth);
 
                 yield return null;
             }
 
-            camTransform.localRotation = rotationCameraNew;
+            eyeHeightTransform.localRotation = rotationCameraNew;
             transform.rotation = rotationPlayerNew;
         }
 
         public IEnumerator ForceLookPlayer(Transform lookAt, float seconds = 2f)
         {
-            yield return RotatePlayer(Quaternion.LookRotation(lookAt.position - camTransform.position), seconds);
+            yield return RotatePlayer(Quaternion.LookRotation(lookAt.position - eyeHeightTransform.position), seconds);
+        }
+
+        public void SetRotationLerp(Vector3 a, Vector3 b, float t)
+        {
+            Quaternion a1 = Quaternion.Euler(0f, a.y, 0f);
+            Quaternion a2 = Quaternion.Euler(a.x, 0f, 0f);
+            Quaternion b1 = Quaternion.Euler(0f, b.y, 0f);
+            Quaternion b2 = Quaternion.Euler(b.x, 0f, 0f);
+
+            transform.rotation = Quaternion.Lerp(a1, b1, t);
+            eyeHeightTransform.localRotation = Quaternion.Lerp(a2, b2, t);
+        }
+
+        public Vector3 GetRotation()
+        {
+            return new Vector3(eyeHeightTransform.localEulerAngles.x, transform.eulerAngles.y, 0f);
         }
 
         Quaternion ClampRotationAroundXAxis(Quaternion q)

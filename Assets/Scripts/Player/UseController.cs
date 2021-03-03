@@ -14,7 +14,7 @@ namespace Default
         void LateUpdate()
         {
             if (cam == null)
-                cam = playerController.camTransform;
+                cam = playerController.eyeHeightTransform;
 
 
             //Get Input

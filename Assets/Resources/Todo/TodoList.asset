@@ -104,3 +104,15 @@ MonoBehaviour:
       index: 0
     task: look to clock
     isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: toilet
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: head bobble
+    isComplete: 0

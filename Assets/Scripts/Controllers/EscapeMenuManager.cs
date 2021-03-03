@@ -67,8 +67,7 @@ namespace Default
             PauseManager.Unpause();
             animator.SetBool("EscIn", false);
             animator.SetBool("SettingsIn", false);
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            GameController.Instance.LockMouse();
             inMenu = false;
         }
 
@@ -77,8 +76,7 @@ namespace Default
             PauseManager.Pause();
             animator.SetBool("SettingsIn", false);
             animator.SetBool("EscIn", true);
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            GameController.Instance.UnlockMouse();
             inMenu = true;
         }
 

@@ -127,13 +127,13 @@ namespace Default
             Vector3 direction;
 
             RaycastHit hit;
-            if (Physics.Raycast(player.camTransform.position, player.camTransform.forward, out hit, 100f))
+            if (Physics.Raycast(player.eyeHeightTransform.position, player.eyeHeightTransform.forward, out hit, 100f))
             {
                 direction = (hit.point - attackProjectile.transform.position).normalized;
             }
             else
             {
-                direction = ((player.camTransform.position + (100f * player.camTransform.forward)) - attackProjectile.transform.position).normalized;
+                direction = ((player.eyeHeightTransform.position + (100f * player.eyeHeightTransform.forward)) - attackProjectile.transform.position).normalized;
             }
 
             attackProjectile.direction = direction;

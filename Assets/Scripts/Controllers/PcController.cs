@@ -18,6 +18,10 @@ namespace Default
 
         public GameObject FakePause;
 
+        [Space(10)]
+        public Transform lookAt;
+
+        bool isLooking = false;
         bool inTransition = false;
         bool transitionsToPcMode;   //to use in combination with inTransition
 
@@ -31,8 +35,7 @@ namespace Default
 
         private void Start()
         {
-            ImmersedValue = 0f;
-            FakePause.SetActive(false);
+            ToPcModeInstant();
         }
 
         private void Update()
@@ -44,11 +47,6 @@ namespace Default
             }
             else if (FakePause.activeSelf)
                 FakePause.SetActive(false);
-
-            if (GameController.Instance.inPcMode && !inTransition && InputSettings.PressingStand())
-            {
-                StartCoroutine(ToNonPcMode());
-            }
 
             if (!GameController.Instance.inPcMode)
             {
@@ -72,9 +70,53 @@ namespace Default
                         transform.position - GameController.Instance.metaPlayer.transform.position,
                         Vector3.up);
             }
+            else
+            {
+                if (!inTransition)
+                {
+                    if (InputSettings.PressingStand())
+                        StartCoroutine(ToNonPcMode());
+                    else
+                        LookingAt();
+                }
+            }
+        }
 
-            gameAudio.SetFloat("metaVolume", Mathf.Lerp(0f, -80f, ImmersedValue));
-            gameAudio.SetFloat("gameVolume", Mathf.Lerp(-20f, 0f, ImmersedValue));
+        void LookingAt()
+        {
+            if (InputSettings.PressingLook())
+            {
+                if (!isLooking)
+                {
+                    isLooking = true;
+                    StartCoroutine(LookAtTransition(false));
+                }
+            }
+            else
+            {
+                if (isLooking)
+                {
+                    isLooking = false;
+                    StartCoroutine(LookAtTransition(true));
+                }
+            }
+        }
+
+        IEnumerator LookAtTransition(bool reversed)
+        {
+            Vector3 oldRot = GameController.Instance.metaPlayer.GetRotation();
+            Vector3 newRot;
+            if (reversed)
+                newRot = Quaternion.LookRotation(transform.position - GameController.Instance.metaPlayer.eyeHeightTransform.position).eulerAngles;
+            else
+                newRot = Quaternion.LookRotation(lookAt.position - GameController.Instance.metaPlayer.eyeHeightTransform.position).eulerAngles;
+
+            float rate = 1f / 0.35f;
+            for (float f = 0; f <= 1f && !inTransition && ((reversed && !isLooking) || (!reversed && isLooking)); f += Time.deltaTime * rate)
+            {
+                GameController.Instance.metaPlayer.SetRotationLerp(oldRot, newRot, Mathf.SmoothStep(0f, 1f, f));
+                yield return null;
+            }
         }
 
         public float ImmersedValue
@@ -84,9 +126,15 @@ namespace Default
             {
                 _immersedValue = value;
 
-                gameAudio.SetFloat("eqOctaveRange", 5 - _immersedValue * 5);
-                gameAudio.SetFloat("HighpassCutoff", 150 - _immersedValue * 150);
-                gameAudio.SetFloat("LowpassCutoff", 450 + (_immersedValue * (22000 - 450)));
+                gameAudio.SetFloat("eqOctaveRange", Mathf.Lerp(5f, 0f, _immersedValue));
+                gameAudio.SetFloat("HighpassCutoff", Mathf.Lerp(150f, 0f, _immersedValue));
+                gameAudio.SetFloat("LowpassCutoff", Mathf.Lerp(450f, 22000f, _immersedValue));
+
+                gameAudio.SetFloat("metaVolume", Mathf.Lerp(0f, -80f, _immersedValue));
+                gameAudio.SetFloat("gameVolume", Mathf.Lerp(-20f, 0f, _immersedValue));
+
+                Vector3 pcLookTransformNoOffset = pcLookTransform.position - Vector3.up * (GameController.Instance.metaPlayer.heightNormal / 2 - GameController.Instance.metaPlayer.camOffsetHeight);
+                GameController.Instance.metaPlayer.transform.position = Vector3.Lerp(pcLookTransformNoOffset + Vector3.forward * maxPcLookDistance, pcLookTransformNoOffset, _immersedValue);
 
                 GameController.Instance.gameAudioFxStrength = 1f - _immersedValue;
             }
@@ -104,7 +152,17 @@ namespace Default
             inTransition = false;
             GameController.Instance.inPcMode = true;
 
-            StartCoroutine(Immerse());
+            StartCoroutine(Immerse(false, maxImmersionTime));
+        }
+
+        public void ToPcModeInstant()
+        {
+            GameController.Instance.metaPlayer.SetCanMove(false);
+            GameController.Instance.metaPlayer.TeleportPlayer(pcLookTransform, true, maxPcLookDistance * Vector3.forward);
+            GameController.Instance.gamePlayer.SetCanMove(true);
+
+            GameController.Instance.inPcMode = true;
+            ImmersedValue = 1f;
         }
 
         IEnumerator ToNonPcMode()
@@ -113,7 +171,7 @@ namespace Default
             transitionsToPcMode = false;
             GameController.Instance.gamePlayer.SetCanMove(false);
 
-            StartCoroutine(AudioFiltersSmoothIn());
+            StartCoroutine(Immerse(true, 2f));
 
             yield return GameController.Instance.metaPlayer.MoveRotatePlayer(standUpTransform, 2f);
 
@@ -122,28 +180,16 @@ namespace Default
             GameController.Instance.inPcMode = false;
         }
 
-        IEnumerator AudioFiltersSmoothIn()
+        IEnumerator Immerse(bool reverse, float seconds)
         {
-            float rate = 1f / 2f;
-            for (float f = 0; f <= 1f && !(inTransition && transitionsToPcMode); f += Time.deltaTime * rate)
+            float startValue = ImmersedValue;
+            float rate = 1f / seconds;
+            for (float f = 0; f <= 1f && (!inTransition || !reverse && transitionsToPcMode || reverse && !transitionsToPcMode); f += Time.deltaTime * rate) // (!reverse && !(inTransition && !transitionsToPcMode) || reverse && !(inTransition && transitionsToPcMode))
             {
-                ImmersedValue = Mathf.SmoothStep(1f, 0f, f);
-
-                yield return null;
-            }
-        }
-
-        IEnumerator Immerse()
-        {
-            Vector3 pcLookTransformNoOffset = pcLookTransform.position - Vector3.up * (GameController.Instance.metaPlayer.heightNormal / 2 - GameController.Instance.metaPlayer.camOffsetHeight);
-            Vector3 pcLookTransformOffset = pcLookTransformNoOffset + Vector3.forward * maxPcLookDistance;
-
-            float rate = 1f / maxImmersionTime;
-            for (float f = 0; f <= 1f && !(inTransition && !transitionsToPcMode); f += Time.deltaTime * rate)
-            {
-                ImmersedValue = Mathf.SmoothStep(0f, 1f, f);
-
-                GameController.Instance.metaPlayer.transform.position = Vector3.Lerp(pcLookTransformOffset, pcLookTransformNoOffset, ImmersedValue);
+                if (reverse)
+                    ImmersedValue = Mathf.SmoothStep(startValue, 0f, f);
+                else
+                    ImmersedValue = Mathf.SmoothStep(startValue, 1f, f);
 
                 yield return null;
             }
