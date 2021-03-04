@@ -132,7 +132,7 @@ namespace Default
             yield return new WaitForSeconds(attackOffset);
             float distance = Vector3.Distance(target.position, transform.position);
             if (distance <= attackRange)
-                target.GetComponent<PlayerController>().ChangeHp(-damagePerAttack);
+                target.GetComponent<PlayerController>().entityStats.ChangeHp(-damagePerAttack);
 
             yield return new WaitForSeconds(attackCooldown);
             inCooldown = false;

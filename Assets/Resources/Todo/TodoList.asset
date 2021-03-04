@@ -78,7 +78,7 @@ MonoBehaviour:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: add city npcs
+    task: add walking city npcs
     isComplete: 0
   - owner:
       name: Normal
@@ -108,11 +108,17 @@ MonoBehaviour:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: toilet
+    task: add bathroom
     isComplete: 0
   - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
     task: head bobble
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: goblin cave with rats and spiders
     isComplete: 0

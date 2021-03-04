@@ -18,6 +18,8 @@ namespace Default
         public bool isInvincible = false;
         public float height;
 
+        [HideInInspector] public bool mpGainLocked = false;
+
         private Camera uiCam;
         private GameObject statsUi;
         private RectTransform rectTransform;
@@ -103,8 +105,11 @@ namespace Default
 
         public void ChangeMp(int changeValue)
         {
-            mp = Mathf.Clamp(mp + changeValue, 0, maxMp);
-            entityStatsUi.SetMp(mp);
+            if (!(mpGainLocked && changeValue > 0f))
+            {
+                mp = Mathf.Clamp(mp + changeValue, 0, maxMp);
+                entityStatsUi.SetMp(mp);
+            }
         }
 
         public void ShakeMp()

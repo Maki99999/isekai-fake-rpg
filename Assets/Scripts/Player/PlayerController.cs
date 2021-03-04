@@ -103,16 +103,6 @@ namespace Default
             }
         }
 
-        public void ChangeHp(int changeValue)
-        {
-            entityStats.ChangeHp(changeValue);
-        }
-
-        public void ChangeMp(int changeValue)
-        {
-            entityStats.ChangeMp(changeValue);
-        }
-
         public void ShakeMp()
         {
             entityStats.ShakeMp();
