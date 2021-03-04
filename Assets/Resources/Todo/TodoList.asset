@@ -36,24 +36,6 @@ MonoBehaviour:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: add player level system
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: add player xp reward
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: add mana regeneration
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
     task: add player levelup rewards (hp, mp, mp regen)
     isComplete: 0
   - owner:
@@ -90,12 +72,6 @@ MonoBehaviour:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: enemy money drops
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
     task: speech bubbles
     isComplete: 0
   - owner:
@@ -121,4 +97,22 @@ MonoBehaviour:
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
     task: goblin cave with rats and spiders
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: add more slime prefabs with different levels
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: show coins, add coin fx when coin value changes
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: level up anim
     isComplete: 0

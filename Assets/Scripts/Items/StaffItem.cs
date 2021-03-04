@@ -49,7 +49,7 @@ namespace Default
 
             if (inputData.axisPrimary > 0f && !isCharging)
             {
-                if (player.entityStats.mp <= minCost)
+                if (player.stats.mp <= minCost)
                 {
                     if (!pressedLastTime)
                         player.ShakeMp();
@@ -69,8 +69,8 @@ namespace Default
                 attackProjectile.gameObject.GetComponent<Collider>().enabled = false;
 
                 chargeStartTime = Time.time;
-                player.entityStats.ChangeMp(-minCost);
-                player.entityStats.mpGainLocked = true;
+                player.stats.ChangeMp(-minCost);
+                player.stats.mpGainLocked = true;
                 float costTime = chargeTime / (maxCost - minCost);
 
                 times = new float[(maxCost - minCost)];
@@ -87,8 +87,8 @@ namespace Default
             else if (isCharging && timesProcessed < times.Length && Time.time > times[timesProcessed])
             {
                 timesProcessed++;
-                player.entityStats.ChangeMp(-1);
-                if (player.entityStats.mp <= 0)
+                player.stats.ChangeMp(-1);
+                if (player.stats.mp <= 0)
                 {
                     Shoot();
                     player.ShakeMp();
@@ -110,7 +110,7 @@ namespace Default
         {
             chargeFx.Stop();
             isCharging = false;
-            player.entityStats.mpGainLocked = false;
+            player.stats.mpGainLocked = false;
             anim.SetBool("isCharging", false);
 
             float chargedPercent = Mathf.Clamp((Time.time - chargeStartTime) / chargeTime, 0f, 1f);

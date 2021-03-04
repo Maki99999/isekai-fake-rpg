@@ -14,25 +14,25 @@ namespace Default
         public int maxHp;
         public int mp;
         public int maxMp;
-        public int level;
+        public float level;
         public bool isInvincible = false;
         public float height;
 
         [HideInInspector] public bool mpGainLocked = false;
 
-        private Camera uiCam;
-        private GameObject statsUi;
-        private RectTransform rectTransform;
-        private EntityStatsUi entityStatsUi;
-        private Transform entityStats;
+        protected Camera uiCam;
+        protected GameObject statsUi;
+        protected RectTransform rectTransform;
+        protected EntityStatsUi entityStatsUi;
+        protected Transform entityStats;
 
         public GameObject statsUiPrefab;
 
         [HideInInspector] public List<EntityStatsObserver> entityStatsObservers = new List<EntityStatsObserver>();
 
-        bool isHidden = true;
+        protected bool isHidden = true;
 
-        private void Start()
+        void Start()
         {
             entityStats = GameController.Instance.entityStats;
             uiCam = GameController.Instance.gamePlayer.cam;
@@ -46,32 +46,18 @@ namespace Default
             if (maxMp <= 0)
                 entityStatsUi.SetMpActive(false);
 
-
             rectTransform = statsUi.GetComponent<RectTransform>();
             rectTransform.localRotation = Quaternion.Euler(Vector3.zero);
             rectTransform.localPosition = Vector3.zero;
             rectTransform.pivot = new Vector2(0.5f, 0f);
-            entityStatsUi.SetText(displayName + " Lvl. " + level);
+            entityStatsUi.SetText(displayName + " Lvl. " + Mathf.FloorToInt(level));
 
-            if (CompareTag("Player"))
-            {
-                rectTransform.anchorMin = new Vector2(0, 1);
-                rectTransform.anchorMax = new Vector2(0, 1);
-                rectTransform.pivot = new Vector2(0, 1);
-                rectTransform.anchoredPosition = new Vector2(10f, -10f);
-
-                entityStatsUi.SetText("");
-                entityStatsUi.zValue = Mathf.NegativeInfinity;
-            }
-            else
-            {
-                SetHideUi(true);
-            }
+            SetHideUi(true);
         }
 
         private void Update()
         {
-            if (!CompareTag("Player") && !isHidden)
+            if (!isHidden)
             {
                 Vector3 camNormal = uiCam.transform.forward;
                 Vector3 vectorFromCam = transform.position + Vector3.up * height - uiCam.transform.position;
@@ -112,12 +98,7 @@ namespace Default
             }
         }
 
-        public void ShakeMp()
-        {
-            entityStatsUi.ShakeMp();
-        }
-
-        private void OnDestroy()
+        void OnDestroy()
         {
             Destroy(statsUi);
         }

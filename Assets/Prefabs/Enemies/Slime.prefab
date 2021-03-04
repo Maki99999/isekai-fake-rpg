@@ -227,6 +227,8 @@ MonoBehaviour:
   damagePerAttack: 10
   attackOffset: 0.25
   attackCooldown: 2
+  xpReward: 5
+  coinReward: 10
   wanderCooldown: 10
   wanderRange: 10
   fxAudioSource: {fileID: 1583605718}
@@ -282,13 +284,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Slimy Slime
-  hp: 20
-  maxHp: 20
+  hp: 10
+  maxHp: 10
   mp: -1
   maxMp: -1
   level: 3
   isInvincible: 0
   height: 1.3
+  mpGainLocked: 0
   statsUiPrefab: {fileID: 4203123843085276130, guid: c749b98027704c74e8b92f7cca7573af, type: 3}
 --- !u!82 &1583605718
 AudioSource:
@@ -398,7 +401,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d70d8a02bed104aac7bcb4b94a1264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  no: 1
 --- !u!1 &3398503052709463047
 GameObject:
   m_ObjectHideFlags: 0

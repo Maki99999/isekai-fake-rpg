@@ -14,11 +14,16 @@ namespace Default
         public float attackOffset;
         public float attackCooldown;
 
+        [Space(10)]
+        public int xpReward;
+        public int coinReward;
+
+        [Space(10)]
         public float wanderCooldown;
         public float wanderRange;
         private Vector3 currentWanderTarget;
 
-        private Transform target;
+        private PlayerController player;
         private NavMeshAgent agent;
         private Animator animator;
 
@@ -43,7 +48,7 @@ namespace Default
 
             originalPosition = transform.position;
 
-            target = GameController.Instance.gamePlayer.transform;
+            player = GameController.Instance.gamePlayer;
             agent = GetComponent<NavMeshAgent>();
             animator = GetComponentInChildren<Animator>();
 
@@ -56,7 +61,7 @@ namespace Default
             if (isDead)
                 return;
 
-            float distance = Vector3.Distance(target.position, transform.position);
+            float distance = Vector3.Distance(player.transform.position, transform.position);
             entityStats.SetZValue(distance);
             if (gotAttacked && distance >= detectionRange * 2)
             {
@@ -85,7 +90,7 @@ namespace Default
 
         private void FaceTarget()
         {
-            Vector3 direction = (target.position - transform.position).normalized;
+            Vector3 direction = (player.transform.position - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
         }
@@ -120,7 +125,7 @@ namespace Default
 
         private void WalkToTarget()
         {
-            agent.SetDestination(target.position);
+            agent.SetDestination(player.transform.position);
         }
 
         private IEnumerator AttackTarget()
@@ -130,9 +135,9 @@ namespace Default
             fxAudioSource.PlayOneShot(attackFx);
 
             yield return new WaitForSeconds(attackOffset);
-            float distance = Vector3.Distance(target.position, transform.position);
+            float distance = Vector3.Distance(player.transform.position, transform.position);
             if (distance <= attackRange)
-                target.GetComponent<PlayerController>().entityStats.ChangeHp(-damagePerAttack);
+                player.GetComponent<PlayerController>().stats.ChangeHp(-damagePerAttack);
 
             yield return new WaitForSeconds(attackCooldown);
             inCooldown = false;
@@ -154,6 +159,9 @@ namespace Default
 
         private void Die()
         {
+            player.stats.ChangeCoins(coinReward);
+            player.stats.AddXp(xpReward);
+
             animator.SetTrigger("Die");
             agent.isStopped = true;
             fxAudioSource.PlayOneShot(deathFx);

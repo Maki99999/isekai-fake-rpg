@@ -25,9 +25,8 @@ namespace Default
         [HideInInspector] public float zValue;
         [HideInInspector] public bool isHidden = true;
 
-        private EntityStatsUiGroup group;
-
-        private RectTransform rect;
+        protected EntityStatsUiGroup group;
+        protected RectTransform rect;
 
         void Start()
         {
@@ -77,23 +76,6 @@ namespace Default
             }
         }
 
-        public void ShakeMp()
-        {
-            StopAllCoroutines();
-            StartCoroutine(ShakeMpAnim());
-        }
-
-        private IEnumerator ShakeMpAnim()
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                rect.sizeDelta = new Vector2(180, 20);
-                yield return new WaitForSeconds(.2f);
-                rect.sizeDelta = new Vector2(200, 20);
-                yield return new WaitForSeconds(.2f);
-            }
-        }
-
         public void SetMaxMp(int value)
         {
             if (mpSlider.gameObject.activeSelf)
@@ -123,7 +105,7 @@ namespace Default
                 cGroup.alpha = 1f;
         }
 
-        private void OnDestroy()
+        void OnDestroy()
         {
             group.stats.Remove(this);
         }

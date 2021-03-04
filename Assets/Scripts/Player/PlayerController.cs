@@ -39,18 +39,17 @@ namespace Default
         public AudioClip noFx;
 
         public CharacterController charController;
-        public EntityStats entityStats;
+        public PlayerStats stats;
         public Transform eyeHeightTransform;
         public Camera cam;
 
         [HideInInspector] public List<ItemHoldable> items = new List<ItemHoldable>();
         [HideInInspector] public ItemHoldable currentItem = null;
 
-
         void Start()
         {
-            if (entityStats != null)
-                entityStats.entityStatsObservers.Add(this);
+            if (stats != null)
+                stats.entityStatsObservers.Add(this);
 
             eyeHeightTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
 
@@ -84,30 +83,6 @@ namespace Default
 
             Rotate(inputs.xRot, inputs.yRot);
             Move(inputs);
-        }
-
-        void EntityStatsObserver.ChangedHp(int value)
-        {
-            if (entityStats.hp <= 0)
-            {
-                //TODO: Dead
-                fxSource.pitch = 0.2f;
-                fxSource.PlayOneShot(hitFx);
-                bloodyScreen.SetTrigger("Dead");
-            }
-            else if (value < 0)
-            {
-                fxSource.pitch = 1f;
-                fxSource.PlayOneShot(hitFx);
-                bloodyScreen.SetTrigger("Hit");
-            }
-        }
-
-        public void ShakeMp()
-        {
-            entityStats.ShakeMp();
-            fxSource.pitch = 1f;
-            fxSource.PlayOneShot(noFx);
         }
 
         void Rotate(float xRot, float yRot)
@@ -362,6 +337,30 @@ namespace Default
             q.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
 
             return q;
+        }
+
+        void EntityStatsObserver.ChangedHp(int value)
+        {
+            if (stats.hp <= 0)
+            {
+                //TODO: Dead
+                fxSource.pitch = 0.2f;
+                fxSource.PlayOneShot(hitFx);
+                bloodyScreen.SetTrigger("Dead");
+            }
+            else if (value < 0)
+            {
+                fxSource.pitch = 1f;
+                fxSource.PlayOneShot(hitFx);
+                bloodyScreen.SetTrigger("Hit");
+            }
+        }
+
+        public void ShakeMp()
+        {
+            stats.ShakeMp();
+            fxSource.pitch = 1f;
+            fxSource.PlayOneShot(noFx);
         }
     }
 }
