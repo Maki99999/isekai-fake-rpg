@@ -27,7 +27,8 @@ namespace Default
         public float fovNormal = 60f;
         public float fovSprinting = 80f;
         [Space(10), SerializeField]
-        bool canMove = true;
+        private bool isFrozen = false;
+        [HideInInspector] public bool canControl = true;
         public bool isSneaking = false;
         public bool isSprinting = false;
         [Space(10)]
@@ -62,22 +63,31 @@ namespace Default
             CameraEffects();
 
             //Do nothing when Player isn't allowed to move
-            if (!canMove || PauseManager.isPaused().Value)
+            if (isFrozen || PauseManager.isPaused().Value)
                 return;
 
-            //Get Inputs
-            MoveData inputs = new MoveData()
+            MoveData inputs;
+            if (canControl)
             {
-                xRot = Input.GetAxis("Mouse Y") * mouseSensitivityY,
-                yRot = Input.GetAxis("Mouse X") * mouseSensitivityX,
-                axisHorizontal = InputSettings.usingMouse ? Input.GetAxisRaw("Horizontal") : Input.GetAxis("Horizontal"),
-                axisVertical = InputSettings.usingMouse ? Input.GetAxisRaw("Vertical") : Input.GetAxis("Vertical"),
-                axisSneak = Input.GetAxisRaw("Sneak"),
-                axisSprint = Input.GetAxisRaw("Sprint"),
-                axisJump = Input.GetAxisRaw("Jump"),
-                axisPrimary = Input.GetAxisRaw("Primary"),
-                axisSecondary = Input.GetAxisRaw("Secondary")
-            };
+                //Get Inputs
+                inputs = new MoveData()
+                {
+                    xRot = Input.GetAxis("Mouse Y") * mouseSensitivityY,
+                    yRot = Input.GetAxis("Mouse X") * mouseSensitivityX,
+                    axisHorizontal = InputSettings.usingMouse ? Input.GetAxisRaw("Horizontal") : Input.GetAxis("Horizontal"),
+                    axisVertical = InputSettings.usingMouse ? Input.GetAxisRaw("Vertical") : Input.GetAxis("Vertical"),
+                    axisSneak = Input.GetAxisRaw("Sneak"),
+                    axisSprint = Input.GetAxisRaw("Sprint"),
+                    axisJump = Input.GetAxisRaw("Jump"),
+                    axisPrimary = Input.GetAxisRaw("Primary"),
+                    axisSecondary = Input.GetAxisRaw("Secondary")
+                };
+            }
+            else
+            {
+                inputs = new MoveData();
+            }
+
             if (currentItem != null)
                 currentItem.UseItem(inputs);
 
@@ -200,16 +210,13 @@ namespace Default
                 cam.fieldOfView = newFov;
         }
 
-        public bool CanMove() { return canMove; }
+        public bool CanMove() { return !isFrozen; }
 
         public void SetCanMove(bool canMove)
         {
-            if (this.canMove != canMove)
-            {
-                this.canMove = canMove;
-                charController.detectCollisions = canMove;
-                crossAnimator.SetBool("Activated", canMove);
-            }
+            isFrozen = !canMove;
+            charController.detectCollisions = canMove;
+            crossAnimator.SetBool("Activated", canMove);
         }
 
         public void TeleportPlayer(Transform newPosition, bool cameraPerspective = false, Vector3 offset = new Vector3())

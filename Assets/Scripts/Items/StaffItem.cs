@@ -66,7 +66,9 @@ namespace Default
 
                 attackProjectile = Instantiate(projectilePrefab, projectilePos.position, projectilePos.rotation, transform).GetComponent<Projectile>();
                 attackProjectile.gameObject.GetComponent<Animator>().SetFloat("speed", 10f / chargeTime, 0f, 1f);
-                attackProjectile.gameObject.GetComponent<Collider>().enabled = false;
+                Collider projectileCollider = attackProjectile.gameObject.GetComponent<Collider>();
+                Physics.IgnoreCollision(player.charController, projectileCollider, true);
+                projectileCollider.enabled = false;
 
                 chargeStartTime = Time.time;
                 player.stats.ChangeMp(-minCost);

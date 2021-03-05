@@ -50,20 +50,23 @@ namespace Default
         {
             if (hpSlider.gameObject.activeSelf && "" + value != hpSliderText.text)
             {
-                hpSliderTextChangeAnim.SetTrigger("Play");
                 hpSliderTextChangeText.text = "" + (value - int.Parse(hpSliderText.text));
+                hpSliderTextChangeAnim.SetTrigger("Play");
                 hpSlider.value = value;
                 hpSliderText.text = "" + value;
             }
         }
 
-        public void SetMaxHp(int value)
+        public void SetMaxHp(int value, int initValue)
         {
             if (hpSlider.gameObject.activeSelf)
             {
                 hpSlider.maxValue = value;
-                hpSlider.value = value;
-                hpSliderText.text = "" + value;
+                if (initValue > -1)
+                {
+                    hpSlider.value = initValue;
+                    hpSliderText.text = "" + value;
+                }
             }
         }
 
@@ -76,13 +79,16 @@ namespace Default
             }
         }
 
-        public void SetMaxMp(int value)
+        public void SetMaxMp(int value, int initValue)
         {
             if (mpSlider.gameObject.activeSelf)
             {
                 mpSlider.maxValue = value;
-                mpSlider.value = value;
-                mpSliderText.text = "" + value;
+                if (initValue > -1)
+                {
+                    mpSlider.value = initValue;
+                    mpSliderText.text = "" + value;
+                }
             }
         }
 

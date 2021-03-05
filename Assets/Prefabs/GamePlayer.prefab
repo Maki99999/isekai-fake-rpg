@@ -767,6 +767,13 @@ MonoBehaviour:
   mpGainLocked: 0
   statsUiPrefab: {fileID: 4203123843085276130, guid: 5f8ec8011e4c0d24aa69bca6de55d28f, type: 3}
   player: {fileID: 8918294373111416294}
+  levelUpUi: {fileID: 0}
+  statPoints:
+    hp: 5
+    hpRegen: 5
+    mp: 5
+    mpRegen: 5
+    freePoints: 0
 --- !u!114 &4378900652301747476
 MonoBehaviour:
   m_ObjectHideFlags: 0

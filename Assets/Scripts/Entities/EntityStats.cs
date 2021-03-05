@@ -39,8 +39,8 @@ namespace Default
 
             statsUi = Instantiate(statsUiPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero), entityStats);
             entityStatsUi = statsUi.GetComponentInChildren<EntityStatsUi>();
-            entityStatsUi.SetMaxHp(maxHp);
-            entityStatsUi.SetMaxMp(maxMp);
+            entityStatsUi.SetMaxHp(maxHp, maxHp);
+            entityStatsUi.SetMaxMp(maxMp, maxMp);
             if (isInvincible || maxHp <= 0)
                 entityStatsUi.SetHpActive(false);
             if (maxMp <= 0)
