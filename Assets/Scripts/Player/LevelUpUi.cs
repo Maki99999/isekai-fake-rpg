@@ -36,6 +36,11 @@ namespace Default
             animator.SetBool("LeveledUp", statPoints.freePoints > 0);
         }
 
+        public void PlayAnim()
+        {
+            animator.SetTrigger("LeveledUpJustNow");
+        }
+
         private void SetButtonVisibility(bool visible)
         {
             bHp.SetActive(visible);
@@ -43,7 +48,7 @@ namespace Default
             bMp.SetActive(visible);
             bMpRegen.SetActive(visible);
         }
-        
+
         public void OkButton()
         {
             playerStats.toggleLevelMenu();

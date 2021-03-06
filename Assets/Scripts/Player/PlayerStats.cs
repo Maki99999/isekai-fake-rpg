@@ -12,7 +12,11 @@ namespace Default
         public EntityStatsRegen statsRegen;
         public PlayerStatPoints statPoints;
 
-        private int coins;
+        [Space(10)]
+        public AudioSource levelUpFx;
+        public AudioSource killedSthFx;
+
+        private int coins = 0;
 
         private int levelInt = 1;
         private int currentXp = 0;
@@ -35,11 +39,11 @@ namespace Default
                 entityStatsUi.SetHpActive(false);
             if (maxMp <= 0)
                 entityStatsUi.SetMpActive(false);
+            ((PlayerStatsUi)entityStatsUi).SetCoins(coins);
 
             entityStatsUi.SetText("Level " + Mathf.FloorToInt(level));
             entityStatsUi.zValue = Mathf.NegativeInfinity;
 
-            statPoints.freePoints = 101; //TODO: DEBUG
             levelUpUi.SetValues(statPoints);
         }
 
@@ -76,6 +80,7 @@ namespace Default
 
         public void AddXp(int xp)
         {
+            killedSthFx.Play();
             currentXp += xp;
             if (currentXp >= nextNeededXp)
                 LevelUp();
@@ -92,12 +97,18 @@ namespace Default
 
         public void LevelUp()
         {
-            levelInt++;
-            lastNeededXp = nextNeededXp;
-            nextNeededXp = NextLevelRequirement(levelInt);
+            while (currentXp >= nextNeededXp)
+            {
+                levelInt++;
+                lastNeededXp = nextNeededXp;
+                nextNeededXp = NextLevelRequirement(levelInt);
 
-            statPoints.freePoints++;
+                statPoints.freePoints++;
+            }
+
+            levelUpUi.PlayAnim();
             levelUpUi.SetValues(statPoints);
+            levelUpFx.Play();
         }
 
         public PlayerStatPoints UseFreeStatPoint(StatPointName statName)
@@ -142,6 +153,7 @@ namespace Default
                 return false;
 
             coins += changeValue;
+            ((PlayerStatsUi)entityStatsUi).SetCoins(coins);
             return true;
         }
     }

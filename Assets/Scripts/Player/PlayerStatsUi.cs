@@ -10,10 +10,13 @@ namespace Default
     {
         [Space(10)]
         public Slider xpSlider;
+        public Text coinText;
+
+        public EntityStatsUiGroup entityStatsUiGroup;
 
         void Start()
         {
-            group = GetComponentInParent<EntityStatsUiGroup>();
+            group = entityStatsUiGroup;
             rect = mpSlider.GetComponent<RectTransform>();
             group.stats.Add(this);
         }
@@ -28,9 +31,9 @@ namespace Default
         {
             for (int i = 0; i < 3; i++)
             {
-                rect.sizeDelta = new Vector2(180, 20);
+                rect.sizeDelta = new Vector2(230, 20);
                 yield return new WaitForSeconds(.2f);
-                rect.sizeDelta = new Vector2(200, 20);
+                rect.sizeDelta = new Vector2(250, 20);
                 yield return new WaitForSeconds(.2f);
             }
         }
@@ -38,6 +41,10 @@ namespace Default
         public void SetSublevel(float sublevel)
         {
             xpSlider.value = sublevel;
+        }
+
+        public void SetCoins(int coins) {
+            coinText.text = coins.ToString();
         }
 
         void OnDestroy()
