@@ -78,7 +78,7 @@ MonoBehaviour:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: head bobble
+    task: head wobble
     isComplete: 0
   - owner:
       name: Normal
@@ -97,4 +97,10 @@ MonoBehaviour:
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
     task: Save system
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: people fx
     isComplete: 0
