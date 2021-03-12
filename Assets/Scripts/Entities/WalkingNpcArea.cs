@@ -9,27 +9,36 @@ public class WalkingNpcArea : MonoBehaviour
     public float walkPathWidth;
     public float standWidth;
 
+    [Space(10)]
+    public int prefabCount = 10;
+    public GameObject[] npcPrefabs;
+
+    void Start()
+    {
+        for (int i = 0; i < prefabCount; i++)
+        {
+            Instantiate(npcPrefabs[Random.Range(0, npcPrefabs.Length)], transform.TransformPoint(
+                    centerOffset + Random.Range(-1f, 1f) * walkPathWidth * Vector3.right +
+                    Random.Range(-1f, 1f) * walkPathLength * Vector3.forward), Quaternion.Euler(0, 0, 0), transform);
+        }
+    }
+
     public Vector3[] GetNextWalkPath(Vector3 currentPos)
     {
         Vector3 currPosLocal = transform.InverseTransformPoint(currentPos);
         Vector3 newStandPos = centerOffset + new Vector3((walkPathWidth + (standWidth * Random.value)) * (Random.value > 0.5f ? 1f : -1f), 0f, Random.Range(-1f, 1f) * walkPathLength);
 
-        float walkX = Random.value * -standWidth;
-        Vector3 walkPos1 = new Vector3(Mathf.Sign(currPosLocal.x) * (walkPathWidth + walkX), 0f, currPosLocal.z);
+        float walkX = Random.value * -standWidth * 2f;
+        Vector3 walkPos1 = new Vector3(Mathf.Sign(newStandPos.x) * (walkPathWidth + walkX), 0f, currPosLocal.z);
         Vector3 walkPos2 = new Vector3(Mathf.Sign(newStandPos.x) * (walkPathWidth + walkX), 0f, newStandPos.z);
 
         newStandPos = transform.TransformPoint(newStandPos);
         walkPos1 = transform.TransformPoint(walkPos1);
         walkPos2 = transform.TransformPoint(walkPos2);
 
-        Vector3[] points = new Vector3[] { currentPos, walkPos1, walkPos2, newStandPos };   //TODO: Better/Other Interpolation method, maybe sth different than navmesh
+        Vector3[] points = new Vector3[] { currentPos, walkPos1, walkPos2, newStandPos };
         //return points;
-        return MakeSmoothCurve(points, 16);
-    }
-
-    Vector3 NearestPointOnLine(Vector3 lineStart, Vector3 lineDirection, Vector3 point)
-    {
-        return lineStart + Vector3.Project(point - lineStart, lineDirection - lineStart);
+        return MakeSmoothCurve(points, 4);
     }
 
     public static Vector3[] MakeSmoothCurve(Vector3[] arrayToCurve, int smoothness)
@@ -65,15 +74,5 @@ public class WalkingNpcArea : MonoBehaviour
         }
 
         return (curvedPoints.ToArray());
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.matrix = transform.localToWorldMatrix;
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(centerOffset, new Vector3(walkPathWidth, 2, walkPathLength) * 2);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(centerOffset, new Vector3(walkPathWidth + standWidth, 2, walkPathLength) * 2);
-        Gizmos.matrix = Matrix4x4.identity;
     }
 }

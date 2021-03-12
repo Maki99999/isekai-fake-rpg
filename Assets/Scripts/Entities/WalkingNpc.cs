@@ -5,9 +5,11 @@ using UnityEngine.AI;
 
 public class WalkingNpc : MonoBehaviour
 {
-    public NavMeshAgent agent;
+    public Animator animator;
+
     public float stopTimeMin;
     public float stopTimeMax;
+    public float speed;
 
     WalkingNpcArea area;
 
@@ -22,25 +24,22 @@ public class WalkingNpc : MonoBehaviour
         while (enabled)
         {
             Vector3[] points = area.GetNextWalkPath(transform.position);
-            DrawDebugLines(points);
-
+            
+            animator.SetBool("Walking", true);
             foreach (Vector3 point in points)
             {
-                agent.SetDestination(point);
-                yield return null;
-                yield return new WaitUntil(() => (agent.remainingDistance != Mathf.Infinity
-                        && agent.pathStatus == NavMeshPathStatus.PathComplete
-                        && agent.remainingDistance == 0));
-            }
-            yield return new WaitForSeconds(Random.Range(stopTimeMin, stopTimeMax));
-        }
-    }
+                if ((transform.position - point).sqrMagnitude <= 0.01f)
+                    continue;
 
-    void DrawDebugLines(Vector3[] points)
-    {
-        for (int i = 0; i < points.Length - 1; i++)
-        {
-            Debug.DrawLine(Vector3.up + points[i], Vector3.up + points[i + 1], Color.cyan, 10);
+                transform.rotation = Quaternion.LookRotation(point - transform.position);
+                while ((transform.position - point).sqrMagnitude > 0.01f)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, point, speed * Time.deltaTime);
+                    yield return null;
+                }
+            }
+            animator.SetBool("Walking", false);
+            yield return new WaitForSeconds(Random.Range(stopTimeMin, stopTimeMax));
         }
     }
 }
