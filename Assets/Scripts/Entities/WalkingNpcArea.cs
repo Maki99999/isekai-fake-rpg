@@ -37,8 +37,12 @@ public class WalkingNpcArea : MonoBehaviour
         walkPos2 = transform.TransformPoint(walkPos2);
 
         Vector3[] points = new Vector3[] { currentPos, walkPos1, walkPos2, newStandPos };
-        //return points;
-        return MakeSmoothCurve(points, 4);
+        points = MakeSmoothCurve(points, 4);
+
+        Vector3[] pointsPlus = new Vector3[points.Length + 1];
+        points.CopyTo(pointsPlus, 0);
+        pointsPlus[points.Length] = newStandPos + transform.right * Mathf.Sign(newStandPos.x) * 0.1f;
+        return pointsPlus;
     }
 
     public static Vector3[] MakeSmoothCurve(Vector3[] arrayToCurve, int smoothness)

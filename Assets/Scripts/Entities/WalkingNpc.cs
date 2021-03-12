@@ -24,7 +24,7 @@ public class WalkingNpc : MonoBehaviour
         while (enabled)
         {
             Vector3[] points = area.GetNextWalkPath(transform.position);
-            
+
             animator.SetBool("Walking", true);
             foreach (Vector3 point in points)
             {
