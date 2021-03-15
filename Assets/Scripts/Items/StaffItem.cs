@@ -15,13 +15,13 @@ namespace Default
         public Transform projectilePos;
         public GameObject projectilePrefab;
         public AudioSource chargeFx;
+        public Animator anim;
 
         Projectile attackProjectile;
         bool isCharging = false;
         bool inShoot = false;
         float chargeStartTime;
         PlayerController player;
-        Animator anim;
 
         float[] times;
         short timesProcessed;
@@ -31,9 +31,10 @@ namespace Default
         private void Start()
         {
             player = GameController.Instance.gamePlayer;
-            player.items.Add(this);
-            player.currentItem = this;
-            anim = GetComponent<Animator>();
+            if (transform.parent.name == "ItemPos")
+            {
+                player.AddHoldableItem(this, true);
+            }
         }
 
         public override MoveData UseItem(MoveData inputData)
@@ -143,6 +144,17 @@ namespace Default
             attackProjectile.direction = direction;
 
             StartCoroutine(ShootCooldown());
+        }
+
+        public override void OnEquip()
+        {
+            anim.enabled = true;
+            anim.SetBool("Hidden", false);
+        }
+
+        public override void OnUnequip()
+        {
+            anim.SetBool("Hidden", true);
         }
     }
 }

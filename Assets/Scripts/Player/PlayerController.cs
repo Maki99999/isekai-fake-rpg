@@ -44,8 +44,9 @@ namespace Default
         public Transform eyeHeightTransform;
         public Camera cam;
 
-        [HideInInspector] public List<ItemHoldable> items = new List<ItemHoldable>();
-        [HideInInspector] public ItemHoldable currentItem = null;
+        public Transform itemTransform;
+        private List<ItemHoldable> items = new List<ItemHoldable>();
+        private ItemHoldable currentItem = null;
 
         void Start()
         {
@@ -368,6 +369,24 @@ namespace Default
             stats.ShakeMp();
             fxSource.pitch = 1f;
             fxSource.PlayOneShot(noFx);
+        }
+
+        public void AddHoldableItem(ItemHoldable item, bool directlyEquip)
+        {
+            item.transform.parent = itemTransform;
+            item.transform.localPosition = item.positionWhenHeld.position;
+            item.transform.localRotation = item.positionWhenHeld.rotation;
+            item.transform.localScale = item.positionWhenHeld.scale;
+
+            items.Add(item);
+
+            if (directlyEquip)
+            {
+                if (currentItem != null)
+                    currentItem.OnUnequip();
+                currentItem = item;
+                currentItem.OnEquip();
+            }
         }
     }
 }

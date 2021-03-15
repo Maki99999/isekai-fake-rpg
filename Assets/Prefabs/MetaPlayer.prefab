@@ -353,7 +353,6 @@ GameObject:
   - component: {fileID: 6203803627187933185}
   - component: {fileID: 6338649934968948181}
   - component: {fileID: 6200289972756114411}
-  - component: {fileID: 3720109679418541371}
   - component: {fileID: 5832472479619999297}
   - component: {fileID: 3301138089621583315}
   - component: {fileID: 3253884432459042076}
@@ -427,7 +426,8 @@ MonoBehaviour:
   camOffsetY: 0
   fovNormal: 60
   fovSprinting: 66
-  canMove: 1
+  isFrozen: 0
+  canControl: 1
   isSneaking: 0
   isSprinting: 0
   crossAnimator: {fileID: 0}
@@ -436,29 +436,11 @@ MonoBehaviour:
   hitFx: {fileID: 8300000, guid: bed320e5c3de9a84eaecc9f937cb0d75, type: 3}
   noFx: {fileID: 8300000, guid: e00a5f3ee3e9cbf44989fa8f3164af93, type: 3}
   charController: {fileID: 6338649934968948181}
-  entityStats: {fileID: 0}
+  stats: {fileID: 0}
   eyeHeightTransform: {fileID: 102939929087131547}
   cam: {fileID: 6214998819224765641}
-  xpStats: {fileID: 0}
   items: []
   currentItem: {fileID: 0}
---- !u!114 &3720109679418541371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6200289972756114413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 532e6931c710a1b4ebc4d3b6443010ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerController: {fileID: 6200289972756114411}
-  range: 2.5
-  mask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!82 &5832472479619999297
 AudioSource:
   m_ObjectHideFlags: 0

@@ -11,17 +11,18 @@ namespace Default
         public LayerMask mask;
         Transform cam;
 
+        bool lastPress = false;
+
         void LateUpdate()
         {
             if (cam == null)
                 cam = playerController.eyeHeightTransform;
 
-
             //Get Input
             bool useKey = InputSettings.PressingUse();
 
             //!(IsRiding & pressing)
-            if (useKey && playerController.CanMove())  //if (!(useKey && playerController.currentRide != null))
+            if (playerController.CanMove())  //if (!(useKey && playerController.currentRide != null))
             {
                 //Get useable GameObject and maybe use it
                 RaycastHit hit;
@@ -35,20 +36,24 @@ namespace Default
                         if (useable == null)
                         {
                             Debug.LogError("Can't find 'Useable' script.");
-                            return;
                         }
-                        //useable.LookingAt();
+                        else
+                        {
+                            useable.LookingAt();
 
-                        //if (useKey)
-                        useable.Use();
+                            if (useKey && !lastPress)
+                                useable.Use();
+                        }
                     }
                 }
             }
+            lastPress = useKey;
         }
     }
 
     public interface Useable
     {
+        public abstract void LookingAt();
         public abstract void Use();
     }
 }

@@ -6,10 +6,22 @@ namespace Default
 {
     public class ItemHoldable : MonoBehaviour
     {
+        public PosRotScale positionWhenHeld;
         // Override if needed
         public virtual MoveData UseItem(MoveData inputData)
         {
             return inputData;
         }
+
+        public virtual void OnUnequip() { }
+        public virtual void OnEquip() { }
+    }
+
+    [System.Serializable]
+    public class PosRotScale
+    {
+        public Vector3 position = Vector3.zero;
+        public Quaternion rotation = Quaternion.Euler(0, 0, 0);
+        public Vector3 scale = Vector3.one;
     }
 }

@@ -33,6 +33,8 @@ namespace Default
                 StartCoroutine(ToPcMode());
         }
 
+        void Useable.LookingAt() { }
+
         private void Start()
         {
             ToPcModeInstant();

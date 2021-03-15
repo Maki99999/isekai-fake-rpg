@@ -16,6 +16,11 @@ namespace Default
         public AudioSource levelUpFx;
         public AudioSource killedSthFx;
 
+        [Space(10)]
+        public Transform statItemsTransform;
+        public Armor statItems;
+
+        [SerializeField]
         private int coins = 0;
 
         private int levelInt = 1;
@@ -120,6 +125,19 @@ namespace Default
                 PointsChanged();
             }
             return statPoints;
+        }
+
+        public void AddOrReplaceStatItem(Armor item)   //Maybe with slots later on, for now there is only one slot
+        {
+            if (statItems != null)
+                statPoints.ChangePoints(StatPointName.Hp, -statItems.hpStatPoints);
+
+            statItems = item;
+            statPoints.ChangePoints(StatPointName.Hp, statItems.hpStatPoints);
+            item.transform.SetParent(statItemsTransform);
+            item.transform.localPosition = -Vector3.forward;
+
+            PointsChanged();
         }
 
         private void PointsChanged()
