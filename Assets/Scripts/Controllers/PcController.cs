@@ -20,10 +20,14 @@ namespace Default
 
         [Space(10)]
         public Transform lookAt;
+        public Animator headAnim;
 
         bool isLooking = false;
         bool inTransition = false;
         bool transitionsToPcMode;   //to use in combination with inTransition
+
+        bool immersedValueIsRegular = true;
+        float immersedValueRegular;
 
         void Useable.Use()
         {
@@ -38,6 +42,7 @@ namespace Default
         private void Start()
         {
             ToPcModeInstant();
+            immersedValueRegular = GameController.Instance.inPcMode ? 1 : 0;
         }
 
         private void Update()
@@ -106,6 +111,12 @@ namespace Default
 
         IEnumerator LookAtTransition(bool reversed)
         {
+            if (!reversed)
+                immersedValueIsRegular = false;
+
+            float oldImmVal = ImmersedValue;
+            float newImmValNormal = 0.5f;
+
             Vector3 oldRot = GameController.Instance.metaPlayer.GetRotation();
             Vector3 newRot;
             if (reversed)
@@ -117,8 +128,11 @@ namespace Default
             for (float f = 0; f <= 1f && !inTransition && ((reversed && !isLooking) || (!reversed && isLooking)); f += Time.deltaTime * rate)
             {
                 GameController.Instance.metaPlayer.SetRotationLerp(oldRot, newRot, Mathf.SmoothStep(0f, 1f, f));
+                ImmersedValue = Mathf.Lerp(oldImmVal, reversed ? immersedValueRegular : newImmValNormal, f);
                 yield return null;
             }
+            if (reversed)
+                immersedValueIsRegular = true;
         }
 
         public float ImmersedValue
@@ -153,6 +167,7 @@ namespace Default
             GameController.Instance.gamePlayer.SetCanMove(true);
             inTransition = false;
             GameController.Instance.inPcMode = true;
+            headAnim.SetBool("Wobble", true);
 
             StartCoroutine(Immerse(false, maxImmersionTime));
         }
@@ -164,6 +179,7 @@ namespace Default
             GameController.Instance.gamePlayer.SetCanMove(true);
 
             GameController.Instance.inPcMode = true;
+            headAnim.SetBool("Wobble", true);
             ImmersedValue = 1f;
         }
 
@@ -180,6 +196,7 @@ namespace Default
             GameController.Instance.metaPlayer.SetCanMove(true);
             inTransition = false;
             GameController.Instance.inPcMode = false;
+            headAnim.SetBool("Wobble", false);
         }
 
         IEnumerator Immerse(bool reverse, float seconds)
@@ -188,10 +205,16 @@ namespace Default
             float rate = 1f / seconds;
             for (float f = 0; f <= 1f && (!inTransition || !reverse && transitionsToPcMode || reverse && !transitionsToPcMode); f += Time.deltaTime * rate) // (!reverse && !(inTransition && !transitionsToPcMode) || reverse && !(inTransition && transitionsToPcMode))
             {
+                float valueNew;
                 if (reverse)
-                    ImmersedValue = Mathf.SmoothStep(startValue, 0f, f);
+                    valueNew = Mathf.SmoothStep(startValue, 0f, f);
                 else
-                    ImmersedValue = Mathf.SmoothStep(startValue, 1f, f);
+                    valueNew = Mathf.SmoothStep(startValue, 1f, f);
+
+                if (immersedValueIsRegular)
+                    ImmersedValue = valueNew;
+                else
+                    immersedValueRegular = valueNew;
 
                 yield return null;
             }

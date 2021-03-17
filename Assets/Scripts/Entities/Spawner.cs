@@ -7,7 +7,7 @@ namespace Default
 {
     public class Spawner : MonoBehaviour
     {
-        public GameObject enemyPrefab;
+        public GameObject[] enemyPrefabs;
 
         [Space(10)]
         public float range;
@@ -52,7 +52,7 @@ namespace Default
                     } while (distance < playerSafeRange && --tryFindingPosition > 0);
 
                     if (tryFindingPosition > 0 && !float.IsInfinity(spawnPosition.x))
-                        entities.Add(Instantiate(enemyPrefab, spawnPosition, Random.rotation, transform));
+                        entities.Add(Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPosition, Random.rotation, transform));
                 }
 
                 yield return new WaitForSeconds(Random.Range(minSpawnTime, maxSpawnTime));
