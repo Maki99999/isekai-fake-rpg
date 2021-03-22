@@ -176,17 +176,15 @@ namespace Default
         IEnumerator Sneak(bool willSneak)
         {
             isSneaking = willSneak;
+            charController.height = willSneak ? heightSneaking : heightNormal;
 
             Vector3 oldCamPos = eyeHeightTransform.localPosition;
             float newHeight = willSneak ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight;
 
-            for (float i = 0; i < 1; i += 0.2f)
+            for (float i = 0; i < 1 && (isSneaking == willSneak); i += 0.2f)
             {
                 eyeHeightTransform.localPosition = Vector3.Lerp(oldCamPos, new Vector3(0f, newHeight, 0f), i);
-                if (isSneaking == willSneak)
-                    yield return new WaitForSeconds(1f / 60f);
-                else
-                    break;
+                yield return new WaitForSeconds(1f / 60f);
             }
             if (isSneaking == willSneak)
                 eyeHeightTransform.localPosition = new Vector3(0f, newHeight, 0f);
@@ -199,13 +197,10 @@ namespace Default
             float oldFov = willSprint ? fovNormal : fovSprinting;
             float newFov = willSprint ? fovSprinting : fovNormal;
 
-            for (float i = 0; i < 1; i = i + 0.2f)
+            for (float i = 0; i < 1 && (isSprinting == willSprint); i = i + 0.2f)
             {
                 cam.fieldOfView = Mathf.Lerp(oldFov, newFov, i);
-                if (isSprinting == willSprint)
-                    yield return new WaitForSeconds(1f / 60f);
-                else
-                    break;
+                yield return new WaitForSeconds(1f / 60f);
             }
             if (isSprinting == willSprint)
                 cam.fieldOfView = newFov;
@@ -228,6 +223,7 @@ namespace Default
             if (isSneaking && cameraPerspective)
             {
                 isSneaking = false;
+                charController.height = heightNormal;
                 heightOffset = (heightNormal / 2) - camOffsetHeight - eyeHeightTransform.localPosition.y;
                 eyeHeightTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
             }
@@ -254,6 +250,7 @@ namespace Default
             if (isSneaking && cameraPerspective)
             {
                 isSneaking = false;
+                charController.height = heightNormal;
                 heightOffset = (heightNormal / 2) - camOffsetHeight - eyeHeightTransform.localPosition.y;
                 eyeHeightTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
             }
