@@ -236,9 +236,14 @@ namespace Default
             if (cameraPerspective)
                 positionNew -= (isSneaking ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight) * Vector3.up;
 
+            bool oldCCState = charController.enabled;
+            charController.enabled = false;
+
             transform.position = positionNew;
             transform.rotation = Quaternion.Euler(0f, newPosition.rotation.eulerAngles.y, 0f);
             eyeHeightTransform.localRotation = Quaternion.Euler(newPosition.rotation.eulerAngles.x, 0f, 0f);
+
+            charController.enabled = oldCCState;
         }
 
         public IEnumerator MoveRotatePlayer(Transform newPosition, float seconds = 2f, bool cameraPerspective = false, Vector3 offset = new Vector3())

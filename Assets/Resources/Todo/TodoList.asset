@@ -57,16 +57,16 @@ MonoBehaviour:
     task: speech bubbles
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
     task: add bathroom
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: goblin cave with rats and spiders
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
+    task: add rats and spiders in cave
     isComplete: 0
   - owner:
       name: Normal
@@ -97,4 +97,10 @@ MonoBehaviour:
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
     task: fx when buying sth
+    isComplete: 0
+  - owner:
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
+    task: add torches to cave
     isComplete: 0
