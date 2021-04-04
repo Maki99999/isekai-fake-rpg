@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.AI;
 
 namespace Default
 {
@@ -36,6 +36,10 @@ namespace Default
         {
             entityStats = GameController.Instance.entityStats;
             uiCam = GameController.Instance.gamePlayer.cam;
+
+            NavMeshAgent agent = GetComponent<NavMeshAgent>();
+            if (agent != null)
+                height = agent.height;
 
             statsUi = Instantiate(statsUiPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero), entityStats);
             entityStatsUi = statsUi.GetComponentInChildren<EntityStatsUi>();

@@ -22,7 +22,7 @@ namespace Default
         //Stereo to mono
         void OnAudioFilterRead(float[] data, int channels)
         {
-            if (channels != 2) return;
+            if (channels != 2 || GameController.Instance == null) return;
 
             for (int i = 0; i < data.Length; i += 2)
             {

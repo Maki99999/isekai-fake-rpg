@@ -38,7 +38,20 @@ namespace Default
         private void OnCollisionStay(Collision other)
         {
             if (other.gameObject.CompareTag("Enemy"))
-                other.gameObject.GetComponent<EntityStats>().ChangeHp(-damage);
+            {
+                EntityStats eStats = other.gameObject.GetComponent<EntityStats>();
+                if (eStats == null)
+                {
+                    eStats = other.gameObject.GetComponentInParent<EntityStats>();
+                    if (eStats == null)
+                    {
+                        eStats = other.gameObject.GetComponentInChildren<EntityStats>();
+                        if (eStats == null)
+                            Debug.LogError("Is tagged as enemy but cannot find enemy script! " + "(" + other.gameObject.name + ")");
+                    }
+                }
+                eStats.ChangeHp(-damage);
+            }
 
             DestroyProjectile();
         }

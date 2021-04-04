@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 569659023026994964}
   m_Layer: 0
   m_Name: Hitbox
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -359,19 +359,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e34ba3d803a0f5142b07d7b98a0884a7, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.06844814
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e34ba3d803a0f5142b07d7b98a0884a7, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e34ba3d803a0f5142b07d7b98a0884a7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.99765474
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e34ba3d803a0f5142b07d7b98a0884a7, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e34ba3d803a0f5142b07d7b98a0884a7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

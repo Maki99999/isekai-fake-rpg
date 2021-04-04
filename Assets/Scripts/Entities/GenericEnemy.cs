@@ -159,19 +159,40 @@ namespace Default
 
         private void Die()
         {
+            isDead = true;
             player.stats.ChangeCoins(coinReward);
             player.stats.AddXp(xpReward);
 
-            animator.SetTrigger("Die");
             agent.isStopped = true;
+            List<Collider> colliders = new List<Collider>(GetComponents<Collider>());
+            colliders.AddRange(GetComponentsInChildren<Collider>());
+            foreach (Collider collider in colliders)
+                collider.enabled = false;
+
+            animator.SetTrigger("Die");
             fxAudioSource.PlayOneShot(deathFx);
             StartCoroutine(DieEnumerator());
         }
 
         private IEnumerator DieEnumerator()
         {
-            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
+            yield return new WaitForSeconds(1f);
+            Destroy(entityStats);
+            yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsName("Dead"));
+
+            Vector3 currPos = transform.localPosition;
+            Vector3 currScale = transform.localScale;
+            for (float f = 0f; f <= 1f; f += .5f * Time.deltaTime)
+            {
+                transform.localPosition = Vector3.Lerp(currPos, currPos - Vector3.up, f);
                 yield return null;
+            }
+            for (float f = 0f; f <= 1f; f += Time.deltaTime)
+            {
+                transform.localScale = Vector3.Lerp(currScale, Vector3.one * 0.0001f, f);
+                transform.localPosition = currPos - Vector3.up;
+                yield return null;
+            }
             Destroy(gameObject);
         }
     }
