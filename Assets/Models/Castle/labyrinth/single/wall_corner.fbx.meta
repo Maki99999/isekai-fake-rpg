@@ -1,0 +1,390 @@
+fileFormatVersion: 2
+guid: f19ced5554ed49646a735242cb4829c1
+ModelImporter:
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      74: 1313966123998008538
+    second: wall_corner|arc_003|Take 001|BaseLayer
+  - first:
+      74: -7481241240012994586
+    second: wall_corner|arc_2|Take 001|BaseLayer
+  - first:
+      74: 5790863380896621008
+    second: wall_corner|arc_big|Take 001|BaseLayer
+  - first:
+      74: -5786720736931216617
+    second: wall_corner|arc_corner|Take 001|BaseLayer
+  - first:
+      74: 8898753689783350788
+    second: wall_corner|arc_cross|Take 001|BaseLayer
+  - first:
+      74: -960805830894749207
+    second: wall_corner|arc_triple|Take 001|BaseLayer
+  - first:
+      74: -3735681052182769808
+    second: wall_corner|arc_with door|Take 001|BaseLayer
+  - first:
+      74: 5640699804435649104
+    second: wall_corner|arc|Take 001|BaseLayer
+  - first:
+      74: 533954437134765667
+    second: wall_corner|balc|Take 001|BaseLayer
+  - first:
+      74: -2775848409004467440
+    second: wall_corner|Box001|Take 001|BaseLayer
+  - first:
+      74: 7069242522280696351
+    second: wall_corner|Box002|Take 001|BaseLayer
+  - first:
+      74: 6037372806757105861
+    second: wall_corner|cell|Take 001|BaseLayer
+  - first:
+      74: 8589076343256557146
+    second: wall_corner|coffin_cover|Take 001|BaseLayer
+  - first:
+      74: -1308220564246973237
+    second: wall_corner|coffin|Take 001|BaseLayer
+  - first:
+      74: 5598337923133540840
+    second: wall_corner|column_arc1|Take 001|BaseLayer
+  - first:
+      74: -2436920214674298981
+    second: wall_corner|column_arc2|Take 001|BaseLayer
+  - first:
+      74: 6612512214503311216
+    second: wall_corner|column_arc_full|Take 001|BaseLayer
+  - first:
+      74: -8632623557579435701
+    second: wall_corner|column_big|Take 001|BaseLayer
+  - first:
+      74: -1871850643819858934
+    second: wall_corner|column_broken|Take 001|BaseLayer
+  - first:
+      74: -2604189581054768078
+    second: wall_corner|column_small|Take 001|BaseLayer
+  - first:
+      74: -4207343164175600590
+    second: wall_corner|column|Take 001|BaseLayer
+  - first:
+      74: -8958804530148669981
+    second: wall_corner|construct|Take 001|BaseLayer
+  - first:
+      74: -5405893643084099963
+    second: wall_corner|Cylinder001|Take 001|BaseLayer
+  - first:
+      74: -721908773106099609
+    second: wall_corner|Door|Take 001|BaseLayer
+  - first:
+      74: 8808132659550194610
+    second: wall_corner|door|Take 001|BaseLayer
+  - first:
+      74: -6504454493526942630
+    second: wall_corner|floor002|Take 001|BaseLayer
+  - first:
+      74: -9081211878679379587
+    second: wall_corner|floor003|Take 001|BaseLayer
+  - first:
+      74: -6592119011288965425
+    second: wall_corner|floor_z_1|Take 001|BaseLayer
+  - first:
+      74: 1458721250162328434
+    second: wall_corner|floor_z_2|Take 001|BaseLayer
+  - first:
+      74: 2352618980086878442
+    second: wall_corner|floor|Take 001|BaseLayer
+  - first:
+      74: 1392160510755222705
+    second: wall_corner|perekr|Take 001|BaseLayer
+  - first:
+      74: 5070180419767195815
+    second: wall_corner|shield|Take 001|BaseLayer
+  - first:
+      74: 3651520914847078948
+    second: wall_corner|Stair|Take 001|BaseLayer
+  - first:
+      74: -7222353921820069988
+    second: wall_corner|stone002|Take 001|BaseLayer
+  - first:
+      74: 3547429382661655241
+    second: wall_corner|stone01|Take 001|BaseLayer
+  - first:
+      74: -8416979944626063529
+    second: wall_corner|sword|Take 001|BaseLayer
+  - first:
+      74: -4946426811736120080
+    second: wall_corner|top.001|Take 001|BaseLayer
+  - first:
+      74: -8126668707844625219
+    second: wall_corner|top_z|Take 001|BaseLayer
+  - first:
+      74: -3423348988915640598
+    second: wall_corner|top|Take 001|BaseLayer
+  - first:
+      74: 258473381709314219
+    second: wall_corner|Tube001|Take 001|BaseLayer
+  - first:
+      74: 2445650681140374563
+    second: wall_corner|wall_corner|Take 001|BaseLayer
+  - first:
+      74: -4679663396174695233
+    second: wall_corner|wall_doored|Take 001|BaseLayer
+  - first:
+      74: -1941749328262883452
+    second: wall_corner|wall_end|Take 001|BaseLayer
+  - first:
+      74: 7163887642569225475
+    second: wall_corner|wall_long_broken|Take 001|BaseLayer
+  - first:
+      74: 4336884594892979983
+    second: wall_corner|wall_long|Take 001|BaseLayer
+  - first:
+      74: -2781030174042567111
+    second: wall_corner|wall_short|Take 001|BaseLayer
+  - first:
+      74: 4730947175952057044
+    second: wall_corner|wall_windowed|Take 001|BaseLayer
+  - first:
+      74: 4955863903644343681
+    second: wall_corner|wall|Take 001|BaseLayer
+  - first:
+      74: -3903852016392191155
+    second: wall_corner|arc_003|Take 001|BaseLayer.001
+  - first:
+      74: -7560387374106506037
+    second: wall_corner|arc_2|Take 001|BaseLayer.001
+  - first:
+      74: 3282508848889439167
+    second: wall_corner|arc_big|Take 001|BaseLayer.001
+  - first:
+      74: -1558174202747993272
+    second: wall_corner|arc_corner|Take 001|BaseLayer.001
+  - first:
+      74: 1497436736872568876
+    second: wall_corner|arc_cross|Take 001|BaseLayer.001
+  - first:
+      74: -3786311720750600352
+    second: wall_corner|arc_triple|Take 001|BaseLayer.001
+  - first:
+      74: 2499343366157993359
+    second: wall_corner|arc_with door|Take 001|BaseLayer.001
+  - first:
+      74: -6794150477922088832
+    second: wall_corner|arc|Take 001|BaseLayer.001
+  - first:
+      74: -3376087973062969820
+    second: wall_corner|balc|Take 001|BaseLayer.001
+  - first:
+      74: 4304971624142060258
+    second: wall_corner|Box001|Take 001|BaseLayer.001
+  - first:
+      74: 1948472641644450212
+    second: wall_corner|Box002|Take 001|BaseLayer.001
+  - first:
+      74: -7555195656797384577
+    second: wall_corner|cell|Take 001|BaseLayer.001
+  - first:
+      74: -2197195131233182466
+    second: wall_corner|coffin_cover|Take 001|BaseLayer.001
+  - first:
+      74: -7225719988052695263
+    second: wall_corner|coffin|Take 001|BaseLayer.001
+  - first:
+      74: 2283699954692389919
+    second: wall_corner|column_arc1|Take 001|BaseLayer.001
+  - first:
+      74: -5104698185558002488
+    second: wall_corner|column_arc2|Take 001|BaseLayer.001
+  - first:
+      74: 4565425492976681899
+    second: wall_corner|column_arc_full|Take 001|BaseLayer.001
+  - first:
+      74: -1753919487807926840
+    second: wall_corner|column_big|Take 001|BaseLayer.001
+  - first:
+      74: 3378005326930817333
+    second: wall_corner|column_broken|Take 001|BaseLayer.001
+  - first:
+      74: -125741733505133245
+    second: wall_corner|column_small|Take 001|BaseLayer.001
+  - first:
+      74: 9130877026206070540
+    second: wall_corner|column|Take 001|BaseLayer.001
+  - first:
+      74: 2595766112426941998
+    second: wall_corner|construct|Take 001|BaseLayer.001
+  - first:
+      74: -5467492095467730921
+    second: wall_corner|Cylinder001|Take 001|BaseLayer.001
+  - first:
+      74: -8309608216351294665
+    second: wall_corner|Door|Take 001|BaseLayer.001
+  - first:
+      74: -2078553300506639558
+    second: wall_corner|door|Take 001|BaseLayer.001
+  - first:
+      74: -1858444259311633300
+    second: wall_corner|floor002|Take 001|BaseLayer.001
+  - first:
+      74: -2776920659244124810
+    second: wall_corner|floor003|Take 001|BaseLayer.001
+  - first:
+      74: 2215870025480673991
+    second: wall_corner|floor_z_1|Take 001|BaseLayer.001
+  - first:
+      74: 4776375442445877537
+    second: wall_corner|floor_z_2|Take 001|BaseLayer.001
+  - first:
+      74: 2000149636306288587
+    second: wall_corner|floor|Take 001|BaseLayer.001
+  - first:
+      74: -7905011123735938937
+    second: wall_corner|perekr|Take 001|BaseLayer.001
+  - first:
+      74: 1445897110221422326
+    second: wall_corner|shield|Take 001|BaseLayer.001
+  - first:
+      74: 7915879254775563411
+    second: wall_corner|Stair|Take 001|BaseLayer.001
+  - first:
+      74: -5982525316191696768
+    second: wall_corner|stone002|Take 001|BaseLayer.001
+  - first:
+      74: 8721606346270322234
+    second: wall_corner|stone01|Take 001|BaseLayer.001
+  - first:
+      74: 1472796597149390212
+    second: wall_corner|sword|Take 001|BaseLayer.001
+  - first:
+      74: 7829520230372435688
+    second: wall_corner|top.001|Take 001|BaseLayer.001
+  - first:
+      74: 3722266136585522450
+    second: wall_corner|top_z|Take 001|BaseLayer.001
+  - first:
+      74: -110474843659986225
+    second: wall_corner|top|Take 001|BaseLayer.001
+  - first:
+      74: 6876832612045351779
+    second: wall_corner|Tube001|Take 001|BaseLayer.001
+  - first:
+      74: -4811331499831307511
+    second: wall_corner|wall_corner|Take 001|BaseLayer.001
+  - first:
+      74: -4606064784350036410
+    second: wall_corner|wall_doored|Take 001|BaseLayer.001
+  - first:
+      74: -1622487375151322819
+    second: wall_corner|wall_end|Take 001|BaseLayer.001
+  - first:
+      74: 5735018016241591707
+    second: wall_corner|wall_long_broken|Take 001|BaseLayer.001
+  - first:
+      74: 3661799510296670901
+    second: wall_corner|wall_long|Take 001|BaseLayer.001
+  - first:
+      74: 4315821360317147604
+    second: wall_corner|wall_short|Take 001|BaseLayer.001
+  - first:
+      74: 1694154419773487463
+    second: wall_corner|wall_windowed|Take 001|BaseLayer.001
+  - first:
+      74: 2514038025416065774
+    second: wall_corner|wall|Take 001|BaseLayer.001
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

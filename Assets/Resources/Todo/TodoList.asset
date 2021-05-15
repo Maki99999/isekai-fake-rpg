@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9dfa825770c5486b9d95384bc7f7a1a, type: 3}
+  m_Name: TodoList
+  m_EditorClassIdentifier: 
+  owners:
+  - name: Normal
+    color: {r: 1, g: 1, b: 1, a: 1}
+    index: 0
+  - name: Urgent
+    color: {r: 1, g: 0, b: 0, a: 1}
+    index: 1
+  - name: In Progress
+    color: {r: 0, g: 1, b: 1, a: 1}
+    index: 2
+  - name: Note
+    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    index: 3
+  items:
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: replace or improve castle
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: add fake other players (manu and fish)
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: add beginning cutscene
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: add king cutscene
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: speech bubbles
+    isComplete: 0
+  - owner:
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
+    task: add bathroom
+    isComplete: 0
+  - owner:
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
+    task: add rats and spiders fx
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: Save system
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: people fx
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: main menu
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: more npc variants
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: fx when buying sth
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: fix rat rotation
+    isComplete: 0

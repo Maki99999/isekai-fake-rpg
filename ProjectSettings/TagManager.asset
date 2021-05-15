@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Useable
+  - MAST_Holder
   layers:
   - Default
   - TransparentFX
@@ -15,11 +18,11 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Always On Top
+  - GameUI
+  - MetaLayer
+  - Useable
+  - Cave
   - 
   - 
   - 
@@ -38,6 +41,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Default-1
+    uniqueID: 3088040177
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Stats
+    uniqueID: 4156245549
     locked: 0
