@@ -16,6 +16,6 @@ public class Virtual3dAudioMetaListenerRoom : MonoBehaviour
     {
         transform.localPosition = -metaPlayer.position;
         transform.localRotation = Quaternion.Euler(Vector3.zero);
-        transform.RotateAround(gamePlayer.position, Vector3.up, -gamePlayer.eulerAngles.y - metaPlayer.eulerAngles.y);
+        transform.RotateAround(gamePlayer.position, Vector3.up, -metaPlayer.eulerAngles.y);
     }
 }
