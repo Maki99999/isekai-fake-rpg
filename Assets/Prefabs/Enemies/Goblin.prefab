@@ -44,7 +44,7 @@ CapsuleCollider:
   m_Radius: 0.36
   m_Height: 1.375
   m_Direction: 1
-  m_Center: {x: 0, y: 0.6875, z: 0}
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!1 &6945382324175127419
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,15 +104,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8366995284864325099}
-  m_LocalRotation: {x: 0, y: 0.1943371, z: 0, w: 0.9809348}
-  m_LocalPosition: {x: -1.8006778, y: 63.051792, z: 5.8316555}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8049113247987805413}
   - {fileID: 4706739422551222471}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 22.412, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8366995284864325101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0984b19d7deface499c40353ace1767d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 5
+  attackRange: 1.8
   detectionRange: 10
   damagePerAttack: 33
   attackOffset: 0.25
