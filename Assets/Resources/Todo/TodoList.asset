@@ -102,5 +102,5 @@ MonoBehaviour:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: fix rat rotation
+    task: better mountains
     isComplete: 0

@@ -72,7 +72,7 @@ namespace Default
             {
                 WalkToTarget();
 
-                if (distance <= agent.stoppingDistance + 0.15f)
+                if (distance <= attackRange)
                 {
                     if (!inCooldown)
                         StartCoroutine(AttackTarget());

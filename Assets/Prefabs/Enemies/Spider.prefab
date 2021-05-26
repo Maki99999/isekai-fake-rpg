@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0984b19d7deface499c40353ace1767d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 5
+  attackRange: 3
   detectionRange: 10
   damagePerAttack: 20
   attackOffset: 1
