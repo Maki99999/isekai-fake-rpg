@@ -185,6 +185,7 @@ namespace Default
             {
                 eyeHeightTransform.localPosition = Vector3.Lerp(oldCamPos, new Vector3(0f, newHeight, 0f), i);
                 yield return new WaitForSeconds(1f / 60f);
+                Debug.Log(Vector3.Lerp(oldCamPos, new Vector3(0f, newHeight, 0f), i));
             }
             if (isSneaking == willSneak)
                 eyeHeightTransform.localPosition = new Vector3(0f, newHeight, 0f);
