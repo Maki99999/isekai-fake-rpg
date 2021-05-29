@@ -48,12 +48,19 @@ namespace Default
         private List<ItemHoldable> items = new List<ItemHoldable>();
         private ItemHoldable currentItem = null;
 
+        private LayerMask myLayerMask;
+
+        void Awake()
+        {
+            myLayerMask = 1 << gameObject.layer;
+        }
+
         void Start()
         {
             if (stats != null)
                 stats.entityStatsObservers.Add(this);
 
-            eyeHeightTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
+            eyeHeightTransform.localPosition = new Vector3(0f, heightNormal - camOffsetHeight, 0f);
 
             speedCurrent = speedNormal;
         }
@@ -175,17 +182,26 @@ namespace Default
 
         IEnumerator Sneak(bool willSneak)
         {
+            //First, check if he can unsneak
+            if (!willSneak)
+            {
+                if (Physics.OverlapCapsule(transform.position + charController.radius * Vector3.up, 
+                        transform.position + (heightNormal - charController.radius) * Vector3.up,
+                        charController.radius * 0.99f).Length > 1)
+                    yield break;
+            }
+
             isSneaking = willSneak;
             charController.height = willSneak ? heightSneaking : heightNormal;
+            charController.center = Vector3.up * (charController.height / 2f);
 
             Vector3 oldCamPos = eyeHeightTransform.localPosition;
-            float newHeight = willSneak ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight;
+            float newHeight = willSneak ? heightSneaking - camOffsetHeight : heightNormal - camOffsetHeight;
 
             for (float i = 0; i < 1 && (isSneaking == willSneak); i += 0.2f)
             {
                 eyeHeightTransform.localPosition = Vector3.Lerp(oldCamPos, new Vector3(0f, newHeight, 0f), i);
                 yield return new WaitForSeconds(1f / 60f);
-                Debug.Log(Vector3.Lerp(oldCamPos, new Vector3(0f, newHeight, 0f), i));
             }
             if (isSneaking == willSneak)
                 eyeHeightTransform.localPosition = new Vector3(0f, newHeight, 0f);
@@ -225,13 +241,13 @@ namespace Default
             {
                 isSneaking = false;
                 charController.height = heightNormal;
-                heightOffset = (heightNormal / 2) - camOffsetHeight - eyeHeightTransform.localPosition.y;
-                eyeHeightTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
+                heightOffset = heightNormal - camOffsetHeight - eyeHeightTransform.localPosition.y;
+                eyeHeightTransform.localPosition = new Vector3(0f, heightNormal - camOffsetHeight, 0f);
             }
 
             Vector3 positionNew = newPosition.position + offset;
             if (cameraPerspective)
-                positionNew -= (isSneaking ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight) * Vector3.up;
+                positionNew -= (isSneaking ? heightSneaking - camOffsetHeight : heightNormal - camOffsetHeight) * Vector3.up;
 
             bool oldCCState = charController.enabled;
             charController.enabled = false;
@@ -252,13 +268,13 @@ namespace Default
             {
                 isSneaking = false;
                 charController.height = heightNormal;
-                heightOffset = (heightNormal / 2) - camOffsetHeight - eyeHeightTransform.localPosition.y;
-                eyeHeightTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
+                heightOffset = heightNormal - camOffsetHeight - eyeHeightTransform.localPosition.y;
+                eyeHeightTransform.localPosition = new Vector3(0f, heightNormal - camOffsetHeight, 0f);
             }
 
             Vector3 positionNew = newPosition.position + offset;
             if (cameraPerspective)
-                positionNew -= (isSneaking ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight) * Vector3.up;
+                positionNew -= (isSneaking ? heightSneaking - camOffsetHeight : heightNormal - camOffsetHeight) * Vector3.up;
 
             var mov = StartCoroutine(MovePlayer(positionNew, seconds, cameraPerspective));
             var rot = StartCoroutine(RotatePlayer(newPosition.rotation, seconds));

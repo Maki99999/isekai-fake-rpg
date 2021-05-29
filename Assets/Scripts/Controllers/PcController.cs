@@ -149,7 +149,7 @@ namespace Default
                 gameAudio.SetFloat("metaVolume", Mathf.Lerp(0f, -80f, _immersedValue));
                 gameAudio.SetFloat("gameVolume", Mathf.Lerp(-20f, 0f, _immersedValue));
 
-                Vector3 pcLookTransformNoOffset = pcLookTransform.position - Vector3.up * (GameController.Instance.metaPlayer.heightNormal / 2 - GameController.Instance.metaPlayer.camOffsetHeight);
+                Vector3 pcLookTransformNoOffset = pcLookTransform.position - Vector3.up * (GameController.Instance.metaPlayer.heightNormal - GameController.Instance.metaPlayer.camOffsetHeight);
                 GameController.Instance.metaPlayer.transform.position = Vector3.Lerp(pcLookTransformNoOffset + Vector3.forward * maxPcLookDistance, pcLookTransformNoOffset, _immersedValue);
 
                 GameController.Instance.gameAudioFxStrength = 1f - _immersedValue;

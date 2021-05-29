@@ -398,7 +398,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!114 &6200289972756114411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +419,7 @@ MonoBehaviour:
   jumpForce: 2
   gravity: 9.81
   airControl: 0.5
-  heightNormal: 1.8
+  heightNormal: 1.6
   heightSneaking: 1.4
   camOffsetHeight: 0.2
   camOffsetX: 0
