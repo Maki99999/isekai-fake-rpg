@@ -154,10 +154,10 @@ MonoBehaviour:
   wanderCooldown: 10
   wanderRange: 10
   fxAudioSource: {fileID: 9119546918888503624}
-  idleFx: {fileID: 8300000, guid: 146494936cc59c743a5fdabd4cbbbbfc, type: 3}
-  hitFx: {fileID: 8300000, guid: ee5a3684d4a249249b2263174c3d5d4a, type: 3}
-  attackFx: {fileID: 8300000, guid: b53139e23fe559f429876664dc5a2c83, type: 3}
-  deathFx: {fileID: 8300000, guid: b6df5ae59577e13418b3708a1f239be8, type: 3}
+  idleFx: {fileID: 8300000, guid: 1196c2b057df1cf439d1d52ab0dc9759, type: 3}
+  hitFx: {fileID: 8300000, guid: dfebe72b5d9b54f43b2e1f1f6ee0aa5e, type: 3}
+  attackFx: {fileID: 8300000, guid: 898c7815e91af3946a8ae7386b1bc6f8, type: 3}
+  deathFx: {fileID: 8300000, guid: 98a9e797fd841f443b2c4eaa4d9e2516, type: 3}
 --- !u!195 &5797025496219018263
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -213,7 +213,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -7169956989384384263, guid: 0e3ff90d01029e042adfd6f38de4ab54, type: 2}
   m_audioClip: {fileID: 8300000, guid: 146494936cc59c743a5fdabd4cbbbbfc, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

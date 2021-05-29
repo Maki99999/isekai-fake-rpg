@@ -57,18 +57,6 @@ MonoBehaviour:
     task: speech bubbles
     isComplete: 0
   - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
-    task: add bathroom
-    isComplete: 0
-  - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
-    task: add rats and spiders fx
-    isComplete: 0
-  - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
@@ -78,13 +66,13 @@ MonoBehaviour:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: people fx
+    task: people fx (chatter, steps)
     isComplete: 0
   - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: main menu
+    task: main menu with credits
     isComplete: 0
   - owner:
       name: Normal
@@ -105,21 +93,15 @@ MonoBehaviour:
     task: better mountains
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: spider etc cancel attack when hit or when dieing
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
     task: prevent un-sneak when there is no space
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
     task: better boss - (camps at entrance, but doesn't attack -> spawn after entering?),
       maybe a throw attack
     isComplete: 0
@@ -128,10 +110,4 @@ MonoBehaviour:
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
     task: teleporter effects
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: light switches
     isComplete: 0

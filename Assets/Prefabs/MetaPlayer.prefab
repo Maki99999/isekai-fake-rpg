@@ -372,7 +372,7 @@ Transform:
   m_GameObject: {fileID: 6200289972756114413}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -20.179, y: 3.118, z: 0.856}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 102939929087131547}
   - {fileID: 1922156153827125683}
@@ -426,7 +426,7 @@ MonoBehaviour:
   camOffsetY: 0
   fovNormal: 60
   fovSprinting: 66
-  isFrozen: 0
+  isFrozen: 1
   canControl: 1
   isSneaking: 0
   isSprinting: 0
@@ -439,8 +439,7 @@ MonoBehaviour:
   stats: {fileID: 0}
   eyeHeightTransform: {fileID: 102939929087131547}
   cam: {fileID: 6214998819224765641}
-  items: []
-  currentItem: {fileID: 0}
+  itemTransform: {fileID: 0}
 --- !u!82 &5832472479619999297
 AudioSource:
   m_ObjectHideFlags: 0
@@ -600,6 +599,7 @@ GameObject:
   - component: {fileID: 6319518005602669443}
   - component: {fileID: 7670991203297218756}
   - component: {fileID: 3301138089049846693}
+  - component: {fileID: 1337144508}
   m_Layer: 0
   m_Name: CameraGame
   m_TagString: Untagged
@@ -731,6 +731,25 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 8192
+--- !u!95 &1337144508
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6200541199754486023}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c1d828c73fe4614428835cbdfb4ff0e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8492011489618600037
 GameObject:
   m_ObjectHideFlags: 0
