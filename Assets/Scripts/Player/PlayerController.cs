@@ -133,16 +133,19 @@ namespace Default
                 if (isSneaking)
                     StartCoroutine(Sneak(false));
 
-                //Changes camera FOV and speed while sprinting
-                if (inputs.axisSprint > 0 && inputs.axisVertical > 0)
+                if (!isSneaking)
                 {
-                    if (!isSprinting)
-                        StartCoroutine(Sprint(true));
-                }
-                else
-                {
-                    if (isSprinting)
-                        StartCoroutine(Sprint(false));
+                    //Changes camera FOV and speed while sprinting
+                    if (inputs.axisSprint > 0 && inputs.axisVertical > 0)
+                    {
+                        if (!isSprinting)
+                            StartCoroutine(Sprint(true));
+                    }
+                    else
+                    {
+                        if (isSprinting)
+                            StartCoroutine(Sprint(false));
+                    }
                 }
             }
             speedCurrent = isSneaking ? speedSneaking : isSprinting ? speedSprinting : speedNormal;
@@ -185,7 +188,7 @@ namespace Default
             //First, check if he can unsneak
             if (!willSneak)
             {
-                if (Physics.OverlapCapsule(transform.position + charController.radius * Vector3.up, 
+                if (Physics.OverlapCapsule(transform.position + charController.radius * Vector3.up,
                         transform.position + (heightNormal - charController.radius) * Vector3.up,
                         charController.radius * 0.99f).Length > 1)
                     yield break;
@@ -230,6 +233,14 @@ namespace Default
             isFrozen = !canMove;
             charController.detectCollisions = canMove;
             crossAnimator.SetBool("Activated", canMove);
+
+            if (currentItem != null)
+            {
+                if (canMove)
+                    currentItem.OnEquip();
+                else
+                    currentItem.OnUnequip();
+            }
         }
 
         public void TeleportPlayer(Transform newPosition, bool cameraPerspective = false, Vector3 offset = new Vector3())

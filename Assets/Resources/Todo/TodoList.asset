@@ -93,21 +93,8 @@ MonoBehaviour:
     task: better mountains
     isComplete: 0
   - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
-    task: prevent un-sneak when there is no space
-    isComplete: 0
-  - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
-    task: better boss - (camps at entrance, but doesn't attack -> spawn after entering?),
-      maybe a throw attack
-    isComplete: 0
-  - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: teleporter effects
+    task: nicer cave entrance/exit fx (fade in, cave-enter-sound, fade out)
     isComplete: 0

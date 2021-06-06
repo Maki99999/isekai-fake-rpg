@@ -15,6 +15,7 @@ namespace Default
         [Range(-1f, 1f)] public float gameAudioPan;
         [Range(0f, 1f)] public float gameAudioFxStrength;
         public bool inPcMode;
+        public Animator gameGuiFxAnimator;
 
         private int mouseSemaphore = 1;
 

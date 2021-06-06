@@ -49,6 +49,14 @@ namespace Default
                 yield return metaPlayer.RotatePlayer(newRotation, seconds);
         }
 
+        public void TeleportPlayer(bool inGame, Transform newPosition, bool cameraPerspective = false, Vector3 offset = default)
+        {
+            if (inGame)
+                gamePlayer.TeleportPlayer(newPosition, cameraPerspective, offset);
+            else
+                metaPlayer.TeleportPlayer(newPosition, cameraPerspective, offset);
+        }
+
         public IEnumerator PlayDialogue(List<string> texts, bool creepy = false)
         {
             yield return dialogueManager.StartDialogue(texts, creepy);

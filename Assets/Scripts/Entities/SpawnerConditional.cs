@@ -7,7 +7,7 @@ public class SpawnerConditional : MonoBehaviour
     public GameObject[] originalObjects;
     List<GameObject> instantiatedObjects = new List<GameObject>();
 
-    void Start()
+    protected virtual void Start()
     {
         foreach (GameObject orig in originalObjects)
         {
@@ -15,7 +15,7 @@ public class SpawnerConditional : MonoBehaviour
         }
     }
 
-    public void SpawnObjects()
+    public virtual void SpawnObjects()
     {
         ResetObjects();
         foreach (GameObject orig in originalObjects)
@@ -26,7 +26,7 @@ public class SpawnerConditional : MonoBehaviour
         }
     }
 
-    public void ResetObjects()
+    public virtual void ResetObjects()
     {
         foreach (GameObject orig in instantiatedObjects)
         {
