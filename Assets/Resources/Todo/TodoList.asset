@@ -20,22 +20,25 @@ MonoBehaviour:
     color: {r: 1, g: 0, b: 0, a: 1}
     index: 1
   - name: In Progress
-    color: {r: 0, g: 1, b: 1, a: 1}
+    color: {r: 1, g: 1, b: 0, a: 1}
     index: 2
-  - name: Note
-    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - name: QOL
+    color: {r: 0.7, g: 0.7, b: 1, a: 1}
     index: 3
+  - name: Much Later
+    color: {r: 0.7, g: 0.7, b: 1, a: 0.7}
+    index: 4
   items:
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
     task: replace or improve castle
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
     task: add fake other players (manu and fish)
     isComplete: 0
   - owner:
@@ -57,44 +60,59 @@ MonoBehaviour:
     task: speech bubbles
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Much Later
+      color: {r: 0.7, g: 0.7, b: 1, a: 0.7}
+      index: 4
     task: Save system
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: people fx (chatter, steps)
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Much Later
+      color: {r: 0.7, g: 0.7, b: 1, a: 0.7}
+      index: 4
     task: main menu with credits
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
     task: more npc variants
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: fx when buying sth
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
     task: better mountains
     isComplete: 0
   - owner:
+      name: In Progress
+      color: {r: 1, g: 1, b: 0, a: 1}
+      index: 2
+    task: nicer cave entrance/exit fx (fade in, cave-enter-sound, fade out, music
+      change)
+    isComplete: 0
+  - owner:
+      name: In Progress
+      color: {r: 1, g: 1, b: 0, a: 1}
+      index: 2
+    task: kleiner keller mit 2-3 Metallregalen (vllt. klauen aus MakiSuperm.) und
+      Breaker (auch)
+    isComplete: 0
+  - owner:
+      name: In Progress
+      color: {r: 1, g: 1, b: 0, a: 1}
+      index: 2
+    task: Garage mit Auto
+    isComplete: 0
+  - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: nicer cave entrance/exit fx (fade in, cave-enter-sound, fade out)
+    task: "Storyboard f\xFCr die In-Game-Story"
+    isComplete: 0
+  - owner:
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
+    task: "Storyboard f\xFCr die Horror-Story (schon iwo angefangen, auch an bday-idee
+      orientieren)"
     isComplete: 0

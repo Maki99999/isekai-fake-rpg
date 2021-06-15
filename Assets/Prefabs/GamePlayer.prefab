@@ -1067,9 +1067,9 @@ MonoBehaviour:
   minVolume: 0.7
   maxVolume: 1
   debugMode: 1
-  groundCheckHeight: -0.25
-  groundCheckRadius: 0.7
-  groundCheckDistance: 0.3
+  groundCheckHeight: 0.4
+  groundCheckRadius: 0.4
+  groundCheckDistance: 0.4
   groundLayers:
     serializedVersion: 2
     m_Bits: 0

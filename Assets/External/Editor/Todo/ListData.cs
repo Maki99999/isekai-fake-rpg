@@ -21,8 +21,9 @@ namespace Todo
             // create over list owners, can be an editor window later		
             owners.Add(new ListItemOwner("Normal", Color.white, 0));
             owners.Add(new ListItemOwner("Urgent", Color.red, 1));
-            owners.Add(new ListItemOwner("In Progress", Color.cyan, 2));
-            owners.Add(new ListItemOwner("Note", Color.yellow, 3));
+            owners.Add(new ListItemOwner("In Progress", new Color(1f, 1f, 0f, 1f), 2));
+            owners.Add(new ListItemOwner("QOL", new Color(0.7f, 0.7f, 1f, 1f), 3));
+            owners.Add(new ListItemOwner("Much Later", new Color(0.7f, 0.7f, 1f, 0.7f), 4));
         }
 
         public void AddTask(ListItemOwner owner, string task)

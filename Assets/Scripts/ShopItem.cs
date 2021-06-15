@@ -10,6 +10,7 @@ namespace Default
         public Text priceText;
         public bool isItem;     //Maybe replace this with an enum
         public BuyableItem[] items;
+        public AudioSource boughtSfx;
 
         int currentItem = 0;
 
@@ -47,6 +48,7 @@ namespace Default
         {
             if (currentItem < items.Length && player.stats.ChangeCoins(-items[currentItem].price))
             {
+                boughtSfx.Play();
                 if (isItem)
                 {
                     player.AddHoldableItem(items[currentItem].theObject.GetComponent<ItemHoldable>(), true);
@@ -54,7 +56,10 @@ namespace Default
                         child.gameObject.layer = LayerMask.NameToLayer("Always On Top");
                 }
                 else
+                {
                     player.stats.AddOrReplaceStatItem(items[currentItem].theObject.GetComponent<Armor>());
+                    Destroy(items[currentItem].theObject);
+                }
 
                 List<Outline> outlinesToDelete = new List<Outline>(items[currentItem].theObject.GetComponents<Outline>());
                 outlinesToDelete.AddRange(items[currentItem].theObject.GetComponentsInChildren<Outline>());

@@ -10,6 +10,7 @@ namespace Default
         public PlayerController metaPlayer;
         public DialogueManager dialogue;
         public EventManager eventManager;
+        public MusicManager musicManager;
         public Transform entityStats;
         public Transform meta3dAudio;
         [Range(-1f, 1f)] public float gameAudioPan;
