@@ -87,13 +87,6 @@ MonoBehaviour:
       name: In Progress
       color: {r: 1, g: 1, b: 0, a: 1}
       index: 2
-    task: nicer cave entrance/exit fx (fade in, cave-enter-sound, fade out, music
-      change)
-    isComplete: 0
-  - owner:
-      name: In Progress
-      color: {r: 1, g: 1, b: 0, a: 1}
-      index: 2
     task: kleiner keller mit 2-3 Metallregalen (vllt. klauen aus MakiSuperm.) und
       Breaker (auch)
     isComplete: 0
