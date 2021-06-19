@@ -59,7 +59,7 @@ namespace Default
             {
                 float minDist = 2f;
                 float maxDist = 7f;
-                float maxDistY = 1f;
+                float maxDistY = 1.5f;
 
                 float newVolume;
                 if (Mathf.Abs(transform.position.y - GameController.Instance.metaPlayer.transform.position.y) > maxDistY)

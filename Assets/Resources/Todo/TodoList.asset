@@ -94,7 +94,7 @@ MonoBehaviour:
       name: In Progress
       color: {r: 1, g: 1, b: 0, a: 1}
       index: 2
-    task: Garage mit Auto
+    task: 'Garage: Light Switch (+2nd Lamp), Door that you can open'
     isComplete: 0
   - owner:
       name: Normal
@@ -108,4 +108,10 @@ MonoBehaviour:
       index: 1
     task: "Storyboard f\xFCr die Horror-Story (schon iwo angefangen, auch an bday-idee
       orientieren)"
+    isComplete: 0
+  - owner:
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: Wall Texture
     isComplete: 0
