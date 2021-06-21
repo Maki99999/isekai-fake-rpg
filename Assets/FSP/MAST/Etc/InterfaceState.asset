@@ -15,8 +15,8 @@ MonoBehaviour:
   selectedInterfaceTab: 3
   gridExists: 1
   previousBuildToolIndex: -1
-  selectedBuildToolIndex: 0
-  selectedPrefabIndex: 5
+  selectedBuildToolIndex: 2
+  selectedPrefabIndex: 74
   prefabPath: Assets/FSP/Modular House Collection/Prefabs
   selectedPrefabPaletteFolderIndex: 0
   prefabPaletteColumnCount: 3

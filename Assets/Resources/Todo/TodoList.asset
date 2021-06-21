@@ -84,19 +84,6 @@ MonoBehaviour:
     task: better mountains
     isComplete: 0
   - owner:
-      name: In Progress
-      color: {r: 1, g: 1, b: 0, a: 1}
-      index: 2
-    task: kleiner keller mit 2-3 Metallregalen (vllt. klauen aus MakiSuperm.) und
-      Breaker (auch)
-    isComplete: 0
-  - owner:
-      name: In Progress
-      color: {r: 1, g: 1, b: 0, a: 1}
-      index: 2
-    task: 'Garage: Light Switch (+2nd Lamp), Door that you can open'
-    isComplete: 0
-  - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
