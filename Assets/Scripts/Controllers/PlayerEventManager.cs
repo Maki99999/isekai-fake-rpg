@@ -6,15 +6,17 @@ namespace Default
 {
     public class PlayerEventManager : MonoBehaviour
     {
-        DialogueManager dialogueManager;
+        public DialogueManager dialogueManager;
 
-        PlayerController gamePlayer;
-        PlayerController metaPlayer;
+        public PlayerController gamePlayer;
+        public PlayerController metaPlayer;
 
         void Start()
         {
-            gamePlayer = GameController.Instance.gamePlayer;
-            metaPlayer = GameController.Instance.metaPlayer;
+            if (gamePlayer == null)
+                gamePlayer = GameController.Instance.gamePlayer;
+            if (metaPlayer == null)
+                metaPlayer = GameController.Instance.metaPlayer;
         }
 
         public void FreezePlayer(bool inGame, bool freeze)

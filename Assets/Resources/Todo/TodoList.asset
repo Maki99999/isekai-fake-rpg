@@ -90,9 +90,9 @@ MonoBehaviour:
     task: "Storyboard f\xFCr die In-Game-Story"
     isComplete: 0
   - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
+      name: In Progress
+      color: {r: 1, g: 1, b: 0, a: 1}
+      index: 2
     task: "Storyboard f\xFCr die Horror-Story (schon iwo angefangen, auch an bday-idee
       orientieren)"
     isComplete: 0
@@ -106,5 +106,12 @@ MonoBehaviour:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: mehr Lichter
+    task: "lampen \xFCberarbeiten, jede lampe ein skript, lichtschalter rufen toggle-methode
+      dort auf, bei stromausfall sollen alle lampen ausgehen"
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: zoom with middle mouse click (only meta, not in pc mode)
     isComplete: 0

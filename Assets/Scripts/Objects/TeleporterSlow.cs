@@ -17,15 +17,15 @@ namespace Default
         }
 
         private IEnumerator TeleportEvent() {
-            GameController.Instance.eventManager.FreezePlayer(true, true);
+            GameController.Instance.playerEventManager.FreezePlayer(true, true);
             if (audioFx != null)
                 audioFx.Play();
 
             GameController.Instance.gameGuiFxAnimator.SetTrigger("Cave");
             yield return new WaitForSeconds(0.5f);
             
-            GameController.Instance.eventManager.TeleportPlayer(true, newPos);
-            GameController.Instance.eventManager.FreezePlayer(true, false);
+            GameController.Instance.playerEventManager.TeleportPlayer(true, newPos);
+            GameController.Instance.playerEventManager.FreezePlayer(true, false);
         }
     }
 }

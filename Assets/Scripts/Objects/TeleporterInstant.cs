@@ -19,7 +19,7 @@ namespace Default
 
         protected virtual void TeleportPlayer()
         {
-            GameController.Instance.eventManager.TeleportPlayer(true, newPos);
+            GameController.Instance.playerEventManager.TeleportPlayer(true, newPos);
 
             GameController.Instance.gameGuiFxAnimator.SetTrigger("Teleporter");
             if (audioFx != null)

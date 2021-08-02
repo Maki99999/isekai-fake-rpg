@@ -37,9 +37,9 @@ namespace Default
 
         IEnumerator Cutscene(GenericEnemy moveScript)
         {
-            GameController.Instance.eventManager.FreezePlayer(true, true);
+            GameController.Instance.playerEventManager.FreezePlayer(true, true);
             moveScript.enabled = false;
-            StartCoroutine(GameController.Instance.eventManager.MoveRotatePlayer(true, cutsceneLookPos, 0.75f, true));
+            StartCoroutine(GameController.Instance.playerEventManager.MoveRotatePlayer(true, cutsceneLookPos, 0.75f, true));
             //yield return null;
             Animator bossAnim = instBoss.GetComponentInChildren<Animator>();
             bossAnim.SetTrigger("Scream");
@@ -52,9 +52,9 @@ namespace Default
             screamSfx.Play();
 
             yield return new WaitForSeconds(1.05f);
-            yield return GameController.Instance.eventManager.MoveRotatePlayer(true, playerStartPos, 0.5f, false);
+            yield return GameController.Instance.playerEventManager.MoveRotatePlayer(true, playerStartPos, 0.5f, false);
 
-            GameController.Instance.eventManager.FreezePlayer(true, false);
+            GameController.Instance.playerEventManager.FreezePlayer(true, false);
             moveScript.enabled = true;
         }
 

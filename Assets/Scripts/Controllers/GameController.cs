@@ -9,7 +9,8 @@ namespace Default
         public PlayerController gamePlayer;
         public PlayerController metaPlayer;
         public DialogueManager dialogue;
-        public PlayerEventManager eventManager;
+        public PlayerEventManager playerEventManager;
+        public HorrorEventManager horrorEventManager;
         public MusicManager musicManager;
         public Transform entityStats;
         public Transform meta3dAudio;

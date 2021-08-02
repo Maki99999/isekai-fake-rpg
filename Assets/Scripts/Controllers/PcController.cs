@@ -43,8 +43,8 @@ namespace Default
         {
             #region Editor
             //ToPcModeInstant();
-            GameController.Instance.eventManager.FreezePlayer(false, false);
-            GameController.Instance.eventManager.FreezePlayer(true, true);
+            GameController.Instance.playerEventManager.FreezePlayer(false, false);
+            GameController.Instance.playerEventManager.FreezePlayer(true, true);
             #endregion
 
             immersedValueRegular = GameController.Instance.inPcMode ? 1 : 0;
