@@ -41,10 +41,12 @@ namespace Default
 
         private void Start()
         {
-#region Editor
+            #region Editor
             //ToPcModeInstant();
-            GameController.Instance.metaPlayer.SetCanMove(true);
-#endregion
+            GameController.Instance.eventManager.FreezePlayer(false, false);
+            GameController.Instance.eventManager.FreezePlayer(true, true);
+            #endregion
+
             immersedValueRegular = GameController.Instance.inPcMode ? 1 : 0;
         }
 
