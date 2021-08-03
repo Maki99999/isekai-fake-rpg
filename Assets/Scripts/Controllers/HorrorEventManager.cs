@@ -2,22 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HorrorEventManager : MonoBehaviour
+namespace Default
 {
-    public GameObject eventH5Object;
-
-    public bool StartEvent(string eventId)
+    public class HorrorEventManager : MonoBehaviour
     {
-        return eventId switch
+        public GameObject eventH5Object;
+        public FuseBox eventH4FuseBox;
+
+        public bool StartEvent(string eventId)
         {
-            "H5" => EventH5(),
-            _ => false
-        };
-    }
+            return eventId switch
+            {
+                "H4" => EventH4(),
+                "H5" => EventH5(),
+                _ => false
+            };
+        }
 
-    private bool EventH5()
-    {
-        eventH5Object.SetActive(true);
-        return true;
+        private bool EventH5()
+        {
+            eventH5Object.SetActive(true);
+            return true;
+        }
+
+        private bool EventH4()
+        {
+            eventH4FuseBox.PowerOff();
+            return true;
+        }
     }
 }

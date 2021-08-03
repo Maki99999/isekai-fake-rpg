@@ -78,6 +78,11 @@ public class SurfaceManager : MonoBehaviour {
 			}
 		}
 
+		//Default
+		for(int i = 0; i < definedSurfaces.Length; i++)
+			if (definedSurfaces[i].name == "default")
+				return i;
+
 		return -1;
 	}
 
@@ -104,6 +109,11 @@ public class SurfaceManager : MonoBehaviour {
 				return material.surfaceIndex;
 			}
 		}
+
+		//Default
+		for(int i = 0; i < definedSurfaces.Length; i++)
+			if (definedSurfaces[i].name == "default")
+				return i;
 
 		return -1;
 	}

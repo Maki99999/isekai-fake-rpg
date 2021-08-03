@@ -10,14 +10,11 @@ namespace Default
         public AudioSource lightSwitchAudio;
 
         public bool currentlyOn = false;
-        public Light[] lights;
+        public Lamp[] lamps;
 
         protected override void Start()
         {
             base.Start();
-
-            foreach (Light light in lights)
-                light.enabled = currentlyOn;
 
             if (lightSwitchAnim != null)
                 lightSwitchAnim.SetBool("On", currentlyOn);
@@ -33,8 +30,8 @@ namespace Default
         {
             currentlyOn = !currentlyOn;
 
-            foreach (Light light in lights)
-                light.enabled = currentlyOn;
+            foreach (Lamp lamp in lamps)
+                lamp.Toggle();
 
             if (lightSwitchAnim != null)
                 lightSwitchAnim.SetBool("On", currentlyOn);

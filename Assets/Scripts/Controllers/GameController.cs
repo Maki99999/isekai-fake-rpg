@@ -11,6 +11,7 @@ namespace Default
         public DialogueManager dialogue;
         public PlayerEventManager playerEventManager;
         public HorrorEventManager horrorEventManager;
+        public MetaHouseController metaHouseController;
         public MusicManager musicManager;
         public Transform entityStats;
         public Transform meta3dAudio;

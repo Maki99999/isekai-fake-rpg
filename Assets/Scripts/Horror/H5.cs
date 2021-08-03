@@ -2,41 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class H5 : MonoBehaviour
+namespace Default
 {
-    public Transform personLong;
-    public Transform personLongStartPos;
-    public Animator personLongAnim;
-    public GameObject h5;
-
-    bool triggered = false;
-
-    void Awake()
+    public class H5 : MonoBehaviour
     {
-        personLong.position = personLongStartPos.position - Vector3.down * 100;
-    }
+        public Transform personLong;
+        public Transform personLongStartPos;
+        public Animator personLongAnim;
+        public GameObject h5;
 
-    void OnEnable()
-    {
-        triggered = false;
-        personLongAnim.SetTrigger("Show");
-        personLong.position = personLongStartPos.position;
-    }
+        bool triggered = false;
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (!triggered && other.CompareTag("Player"))
+        void Awake()
         {
-            triggered = true;
-            StartCoroutine(Hide());
+            personLong.position = personLongStartPos.position - Vector3.down * 100;
         }
-    }
 
-    IEnumerator Hide()
-    {
-        personLongAnim.SetTrigger("Hide");
-        yield return new WaitForSeconds(1f);
-        personLong.position = personLongStartPos.position - Vector3.down * 100;
-        h5.SetActive(false);
+        void OnEnable()
+        {
+            triggered = false;
+            personLongAnim.SetTrigger("Show");
+            personLong.position = personLongStartPos.position;
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            if (!triggered && other.CompareTag("Player"))
+            {
+                triggered = true;
+                StartCoroutine(Hide());
+            }
+        }
+
+        IEnumerator Hide()
+        {
+            personLongAnim.SetTrigger("Hide");
+            yield return new WaitForSeconds(1f);
+            personLong.position = personLongStartPos.position - Vector3.down * 100;
+            h5.SetActive(false);
+        }
     }
 }

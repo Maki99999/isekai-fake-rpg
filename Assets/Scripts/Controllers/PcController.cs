@@ -5,7 +5,7 @@ using UnityEngine.Audio;
 
 namespace Default
 {
-    public class PcController : MonoBehaviour, Useable
+    public class PcController : MonoBehaviour, Useable, UsesPower
     {
         [SerializeField, Range(0.0f, 1.0f)]
         private float _immersedValue;
@@ -22,6 +22,16 @@ namespace Default
         public Transform lookAt;
         public Animator headAnim;
 
+        [Space(20)]
+        public GameObject screen;
+        public Renderer pcMesh;
+        public Material matPCaccent;
+        public Material matPC;
+        public AudioSource pcAudio1;
+        public AudioSource pcAudio2;
+
+        bool powerOn = true;
+
         bool isLooking = false;
         bool inTransition = false;
         bool transitionsToPcMode;   //to use in combination with inTransition
@@ -33,7 +43,7 @@ namespace Default
         {
             if (inTransition)
                 return;
-            if (!GameController.Instance.inPcMode)
+            if (!GameController.Instance.inPcMode && powerOn)
                 StartCoroutine(ToPcMode());
         }
 
@@ -67,7 +77,7 @@ namespace Default
                 float maxDistY = 1.5f;
 
                 float newVolume;
-                if (Mathf.Abs(transform.position.y - GameController.Instance.metaPlayer.transform.position.y) > maxDistY)
+                if (Mathf.Abs(transform.position.y - GameController.Instance.metaPlayer.transform.position.y) > maxDistY || !powerOn)
                     newVolume = -80f;
                 else
                 {
@@ -120,7 +130,7 @@ namespace Default
                 immersedValueIsRegular = false;
 
             float oldImmVal = ImmersedValue;
-            float newImmValNormal = 0.5f;
+            float newImmValNormal = Mathf.Min(ImmersedValue, 0.5f);
 
             Vector3 oldRot = GameController.Instance.metaPlayer.GetRotation();
             Vector3 newRot;
@@ -135,6 +145,11 @@ namespace Default
                 GameController.Instance.metaPlayer.SetRotationLerp(oldRot, newRot, Mathf.SmoothStep(0f, 1f, f));
                 ImmersedValue = Mathf.Lerp(oldImmVal, reversed ? immersedValueRegular : newImmValNormal, f);
                 yield return null;
+            }
+            if (!inTransition && ((reversed && !isLooking) || (!reversed && isLooking)))
+            {
+                GameController.Instance.metaPlayer.RotatePlayer(Quaternion.Euler(newRot), 0f);
+                ImmersedValue = reversed ? immersedValueRegular : newImmValNormal;
             }
             if (reversed)
                 immersedValueIsRegular = true;
@@ -152,7 +167,10 @@ namespace Default
                 gameAudio.SetFloat("LowpassCutoff", Mathf.Lerp(450f, 22000f, _immersedValue));
 
                 gameAudio.SetFloat("metaVolume", Mathf.Lerp(0f, -80f, _immersedValue));
-                gameAudio.SetFloat("gameVolume", Mathf.Lerp(-20f, 0f, _immersedValue));
+                if (powerOn)
+                    gameAudio.SetFloat("gameVolume", Mathf.Lerp(-20f, 0f, _immersedValue));
+                else
+                    gameAudio.SetFloat("gameVolume", -80f);
 
                 Vector3 pcLookTransformNoOffset = pcLookTransform.position - Vector3.up * (GameController.Instance.metaPlayer.heightNormal - GameController.Instance.metaPlayer.camOffsetHeight);
                 GameController.Instance.metaPlayer.transform.position = Vector3.Lerp(pcLookTransformNoOffset + Vector3.forward * maxPcLookDistance, pcLookTransformNoOffset, _immersedValue);
@@ -208,7 +226,7 @@ namespace Default
         {
             float startValue = ImmersedValue;
             float rate = 1f / seconds;
-            for (float f = 0; f <= 1f && (!inTransition || !reverse && transitionsToPcMode || reverse && !transitionsToPcMode); f += Time.deltaTime * rate) // (!reverse && !(inTransition && !transitionsToPcMode) || reverse && !(inTransition && transitionsToPcMode))
+            for (float f = 0; f <= 1f && powerOn && (!inTransition || (!reverse && transitionsToPcMode) || (reverse && !transitionsToPcMode)); f += Time.deltaTime * rate) // (!reverse && !(inTransition && !transitionsToPcMode) || reverse && !(inTransition && transitionsToPcMode))
             {
                 float valueNew;
                 if (reverse)
@@ -218,11 +236,41 @@ namespace Default
 
                 if (immersedValueIsRegular)
                     ImmersedValue = valueNew;
-                else
-                    immersedValueRegular = valueNew;
+                immersedValueRegular = valueNew;
 
                 yield return null;
             }
+        }
+
+        public void SetPower(bool powerOn)
+        {
+            //TODO: GameAudio
+            this.powerOn = powerOn;
+            screen.SetActive(powerOn);
+            pcAudio1.enabled = powerOn;
+            pcAudio2.enabled = powerOn;
+
+            PlayerController player = GameController.Instance.gamePlayer;
+            Material[] materials = pcMesh.materials;
+
+            if (powerOn)
+            {
+                player.transform.position += 1000f * Vector3.up;
+                materials[1] = matPCaccent;
+            }
+            else
+            {
+                GameController.Instance.playerEventManager.FreezePlayer(true, true);
+                ImmersedValue = 0f;
+                immersedValueRegular = 0f;
+                gameAudio.SetFloat("gameVolume", -80f);
+                inTransition = false;
+
+                player.transform.position += 1000f * Vector3.down;
+                materials[1] = matPC;
+            }
+
+            pcMesh.materials = materials;
         }
 
         public static float AngleDir(Vector3 fwd, Vector3 targetDir, Vector3 up)

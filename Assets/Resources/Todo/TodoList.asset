@@ -106,12 +106,11 @@ MonoBehaviour:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: "lampen \xFCberarbeiten, jede lampe ein skript, lichtschalter rufen toggle-methode
-      dort auf, bei stromausfall sollen alle lampen ausgehen"
+    task: zoom with middle mouse click (only meta, not in pc mode)
     isComplete: 0
   - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: zoom with middle mouse click (only meta, not in pc mode)
+    task: mark light switches so you can find them in the dark
     isComplete: 0
