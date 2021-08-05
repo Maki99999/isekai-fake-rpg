@@ -59,6 +59,14 @@ namespace Default
                 metaPlayer.TeleportPlayer(newPosition, cameraPerspective, offset);
         }
 
+        public IEnumerator LookAt(bool inGame, Vector3 lookAtPos, float seconds = 2f)
+        {
+            if (inGame)
+                yield return gamePlayer.LookAt(lookAtPos, seconds);
+            else
+                yield return metaPlayer.LookAt(lookAtPos, seconds);
+        }
+
         public IEnumerator PlayDialogue(List<string> texts, bool creepy = false)
         {
             yield return dialogueManager.StartDialogue(texts, creepy);

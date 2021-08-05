@@ -342,9 +342,9 @@ namespace Default
             transform.rotation = rotationPlayerNew;
         }
 
-        public IEnumerator ForceLookPlayer(Transform lookAt, float seconds = 2f)
+        public IEnumerator LookAt(Vector3 lookAtPos, float seconds = 2f)
         {
-            yield return RotatePlayer(Quaternion.LookRotation(lookAt.position - eyeHeightTransform.position), seconds);
+            yield return RotatePlayer(Quaternion.LookRotation(lookAtPos - eyeHeightTransform.position), seconds);
         }
 
         public void SetRotationLerp(Vector3 a, Vector3 b, float t)

@@ -114,3 +114,27 @@ MonoBehaviour:
       index: 0
     task: mark light switches so you can find them in the dark
     isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: goblin small in cave?
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: meta sound silent when looking at clock?
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: music off after escape
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: fadenkreuz verschwindet abrupt anstatt smooth
+    isComplete: 0

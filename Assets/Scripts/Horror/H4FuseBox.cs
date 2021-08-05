@@ -1,0 +1,108 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Default
+{
+    public class H4FuseBox : OutlineCreator, Useable
+    {
+        public Animator animator;
+        public Lamp[] basementLamps;
+
+        public AudioSource audioPower;
+        public AudioClip fxPowerOn;
+        public AudioClip fxPowerOff;
+        public AudioSource audioBox;
+        public AudioClip fxBoxOpen;
+        public AudioClip fxBoxClose;
+
+        bool open = false;
+        bool powerOff = false;
+        bool inAnimation = false;
+
+        protected override void Start()
+        {
+            base.Start();
+        }
+
+        public void PowerOff()
+        {
+            GameController.Instance.metaHouseController.SetPower(false);
+            powerOff = true;
+            animator.SetBool("FuseBlown", true);
+            audioPower.clip = fxPowerOff;
+            audioPower.Play();
+        }
+
+        void Update()
+        {
+            foreach (Outline outline in outlines)
+                outline.enabled = false;
+        }
+
+        void Useable.Use()
+        {
+            if (inAnimation)
+                return;
+
+            if (powerOff)
+                StartCoroutine(Fuse());
+            else
+            {
+                open = !open;
+                animator.SetBool("Open", open);
+
+                if (open)
+                {
+                    audioBox.clip = fxBoxOpen;
+                    audioBox.PlayDelayed(0.28f);
+                }
+                else
+                {
+                    audioBox.clip = fxBoxClose;
+                    audioBox.Play();
+                }
+            }
+        }
+
+        IEnumerator Fuse()
+        {
+            inAnimation = true;
+            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            StartCoroutine(GameController.Instance.playerEventManager.LookAt(false, transform.position - 0.15f * Vector3.up, 1f));
+
+            if (!open)
+            {
+                animator.SetBool("Open", true);
+                audioBox.clip = fxBoxOpen;
+                audioBox.PlayDelayed(0.28f);
+                yield return new WaitForSeconds(1.6f);
+            }
+            animator.SetBool("FuseBlown", false);
+            audioPower.clip = fxPowerOn;
+            audioPower.Play();
+            yield return new WaitForSeconds(0.2f);
+
+            foreach (Lamp lamp in basementLamps)
+                lamp.TurnOn();
+            GameController.Instance.metaHouseController.SetPower(true);
+
+            yield return new WaitForSeconds(0.6f);
+            animator.SetBool("Open", false);
+            audioBox.clip = fxBoxClose;
+            audioBox.Play();
+            yield return new WaitForSeconds(1.2f);
+
+            open = false;
+            powerOff = false;
+            inAnimation = false;
+            GameController.Instance.playerEventManager.FreezePlayer(false, false);
+        }
+
+        void Useable.LookingAt()
+        {
+            foreach (Outline outline in outlines)
+                outline.enabled = true;
+        }
+    }
+}
