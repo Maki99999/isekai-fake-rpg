@@ -30,6 +30,12 @@ namespace Default
         public AudioSource pcAudio1;
         public AudioSource pcAudio2;
 
+        [Space(20)]
+        public bool lookAtPhone = false;
+        public Transform phone;
+        public Transform phonePos;
+        public Animator phoneAnim;
+
         bool powerOn = true;
 
         bool isLooking = false;
@@ -126,18 +132,24 @@ namespace Default
 
         IEnumerator LookAtTransition(bool reversed)
         {
+            if (lookAtPhone)
+                phoneAnim.SetBool("Unlock", !reversed);
+
             if (!reversed)
                 immersedValueIsRegular = false;
 
             float oldImmVal = ImmersedValue;
             float newImmValNormal = Mathf.Min(ImmersedValue, 0.5f);
 
+            ImmersedValue = newImmValNormal;
+            Vector3 currentLookAtPos = (lookAtPhone ? phonePos : lookAt).position;
             Vector3 oldRot = GameController.Instance.metaPlayer.GetRotation();
             Vector3 newRot;
             if (reversed)
                 newRot = Quaternion.LookRotation(transform.position - GameController.Instance.metaPlayer.eyeHeightTransform.position).eulerAngles;
             else
-                newRot = Quaternion.LookRotation(lookAt.position - GameController.Instance.metaPlayer.eyeHeightTransform.position).eulerAngles;
+                newRot = Quaternion.LookRotation(currentLookAtPos - GameController.Instance.metaPlayer.eyeHeightTransform.position).eulerAngles;
+            ImmersedValue = oldImmVal;
 
             float rate = 1f / 0.35f;
             for (float f = 0; f <= 1f && !inTransition && ((reversed && !isLooking) || (!reversed && isLooking)); f += Time.deltaTime * rate)
@@ -166,11 +178,11 @@ namespace Default
                 gameAudio.SetFloat("HighpassCutoff", Mathf.Lerp(150f, 0f, _immersedValue));
                 gameAudio.SetFloat("LowpassCutoff", Mathf.Lerp(450f, 22000f, _immersedValue));
 
-                gameAudio.SetFloat("metaVolume", Mathf.Lerp(0f, -80f, _immersedValue));
+                gameAudio.SetFloat("metaVolume", _immersedValue == 1f ? float.NegativeInfinity : 20f * Mathf.Log10(1f - _immersedValue));
                 if (powerOn)
                     gameAudio.SetFloat("gameVolume", Mathf.Lerp(-20f, 0f, _immersedValue));
                 else
-                    gameAudio.SetFloat("gameVolume", -80f);
+                    gameAudio.SetFloat("gameVolume", float.NegativeInfinity);
 
                 Vector3 pcLookTransformNoOffset = pcLookTransform.position - Vector3.up * (GameController.Instance.metaPlayer.heightNormal - GameController.Instance.metaPlayer.camOffsetHeight);
                 GameController.Instance.metaPlayer.transform.position = Vector3.Lerp(pcLookTransformNoOffset + Vector3.forward * maxPcLookDistance, pcLookTransformNoOffset, _immersedValue);
@@ -183,8 +195,12 @@ namespace Default
         {
             inTransition = true;
             transitionsToPcMode = true;
-            GameController.Instance.metaPlayer.SetCanMove(false);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true);
 
+            phone.gameObject.SetActive(true);
+            phone.position = GameController.Instance.metaPlayer.itemTransform.position;
+            phone.rotation = phonePos.rotation;
+            StartCoroutine(TransformOperations.MoveTo(phone, phonePos.position, phonePos.rotation, 1f));
             yield return GameController.Instance.metaPlayer.MoveRotatePlayer(pcLookTransform, 2f, true, maxPcLookDistance * Vector3.forward);
 
             GameController.Instance.gamePlayer.SetCanMove(true);
@@ -214,7 +230,9 @@ namespace Default
 
             StartCoroutine(Immerse(true, 2f));
 
+            StartCoroutine(TransformOperations.MoveTo(phone, GameController.Instance.metaPlayer.itemTransform.position + Vector3.up * 0.1f, phonePos.rotation, 1f));
             yield return GameController.Instance.metaPlayer.MoveRotatePlayer(standUpTransform, 2f);
+            phone.gameObject.SetActive(false);
 
             GameController.Instance.metaPlayer.SetCanMove(true);
             inTransition = false;

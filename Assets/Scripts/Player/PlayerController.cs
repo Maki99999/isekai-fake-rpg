@@ -405,7 +405,7 @@ namespace Default
         {
             item.transform.parent = itemTransform;
             item.transform.localPosition = item.positionWhenHeld.position;
-            item.transform.localRotation = item.positionWhenHeld.rotation;
+            item.transform.localRotation = Quaternion.Euler(item.positionWhenHeld.rotation);
             item.transform.localScale = item.positionWhenHeld.scale;
 
             items.Add(item);
@@ -417,6 +417,14 @@ namespace Default
                 currentItem = item;
                 currentItem.OnEquip();
             }
+        }
+
+        public void RemoveItem(ItemHoldable item)
+        {
+            item.OnUnequip();
+            if (currentItem == item)
+                currentItem = null;
+            items.Remove(item);
         }
     }
 }

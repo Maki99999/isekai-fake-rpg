@@ -6,6 +6,8 @@ namespace Default
 {
     public class HorrorEventManager : MonoBehaviour
     {
+        public PcController eventH1PcController;
+        public WallClock eventH1Clock;
         public H3Window eventH3Window;
         public H4FuseBox eventH4FuseBox;
         public GameObject eventH5Object;
@@ -14,11 +16,19 @@ namespace Default
         {
             return eventId switch
             {
+                "H1" => EventH1(),
                 "H3" => EventH3(),
                 "H4" => EventH4(),
                 "H5" => EventH5(),
                 _ => false
             };
+        }
+
+        private bool EventH1()
+        {
+            eventH1PcController.lookAtPhone = true;
+            eventH1Clock.enabled = false;
+            return true;
         }
 
         private bool EventH3()

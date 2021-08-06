@@ -16,6 +16,9 @@ namespace Default
         public AudioClip fxBoxOpen;
         public AudioClip fxBoxClose;
 
+        [Space(10)]
+        public GameObject phone;
+
         bool open = false;
         bool powerOff = false;
         bool inAnimation = false;
@@ -32,6 +35,7 @@ namespace Default
             animator.SetBool("FuseBlown", true);
             audioPower.clip = fxPowerOff;
             audioPower.Play();
+            phone.SetActive(true);
         }
 
         void Update()
@@ -86,6 +90,7 @@ namespace Default
             foreach (Lamp lamp in basementLamps)
                 lamp.TurnOn();
             GameController.Instance.metaHouseController.SetPower(true);
+            phone.SetActive(false);
 
             yield return new WaitForSeconds(0.6f);
             animator.SetBool("Open", false);

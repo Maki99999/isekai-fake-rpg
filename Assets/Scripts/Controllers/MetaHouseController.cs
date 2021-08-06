@@ -3,18 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MetaHouseController : MonoBehaviour
+namespace Default
 {
-    private UsesPower[] usesPowers;
-
-    private void Awake()
+    public class MetaHouseController : MonoBehaviour
     {
-        usesPowers = GameObject.FindObjectsOfType<MonoBehaviour>().OfType<UsesPower>().ToArray();
+        private UsesPower[] usesPowers;
+        private Clock[] clocks;
+
+        private void Awake()
+        {
+            usesPowers = GameObject.FindObjectsOfType<MonoBehaviour>().OfType<UsesPower>().ToArray();
+            clocks = GameObject.FindObjectsOfType<MonoBehaviour>().OfType<Clock>().ToArray();
+        }
+
+        public void SetPower(bool powerOn)
+        {
+            foreach (UsesPower usesPower in usesPowers)
+                usesPower.SetPower(powerOn);
+        }
+
+        public void SetTime(int hour, int minute)
+        {
+            foreach (Clock clock in clocks)
+                clock.SetTime(hour, minute);
+        }
     }
 
-    public void SetPower(bool powerOn)
+    public interface Clock
     {
-        foreach (UsesPower usesPower in usesPowers)
-            usesPower.SetPower(powerOn);
+        void SetTime(int hour, int minute);
     }
 }
