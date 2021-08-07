@@ -12,6 +12,7 @@ namespace Default
         public H4FuseBox eventH4FuseBox;
         public GameObject eventH5Object;
         public H8Mirror eventH8Mirror;
+        public H11Glass eventH11Glass;
 
         public bool StartEvent(string eventId)
         {
@@ -22,6 +23,7 @@ namespace Default
                 "H4" => EventH4(),
                 "H5" => EventH5(),
                 "H8" => EventH8(),
+                "H11" => EventH11(),
 
                 //DebugEvents
                 "H908" => EventH908(),
@@ -56,6 +58,12 @@ namespace Default
         private bool EventH8()
         {
             eventH8Mirror.ShowGhost();
+            return true;
+        }
+
+        private bool EventH11()
+        {
+            eventH11Glass.FallingGlass();
             return true;
         }
 
