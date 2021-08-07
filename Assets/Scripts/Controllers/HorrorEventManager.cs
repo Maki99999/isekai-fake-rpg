@@ -11,6 +11,7 @@ namespace Default
         public H3Window eventH3Window;
         public H4FuseBox eventH4FuseBox;
         public GameObject eventH5Object;
+        public H8Mirror eventH8Mirror;
 
         public bool StartEvent(string eventId)
         {
@@ -20,6 +21,10 @@ namespace Default
                 "H3" => EventH3(),
                 "H4" => EventH4(),
                 "H5" => EventH5(),
+                "H8" => EventH8(),
+
+                //DebugEvents
+                "H908" => EventH908(),
                 _ => false
             };
         }
@@ -45,6 +50,19 @@ namespace Default
         private bool EventH5()
         {
             eventH5Object.SetActive(true);
+            return true;
+        }
+
+        private bool EventH8()
+        {
+            eventH8Mirror.ShowGhost();
+            return true;
+        }
+
+        //DebugEvents
+        private bool EventH908()
+        {
+            eventH8Mirror.HideGhost();
             return true;
         }
     }

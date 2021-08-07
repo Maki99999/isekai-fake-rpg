@@ -60,4 +60,4 @@ crashlytics-build.properties
 
 # Custom
 *.blend1
-
+OtherAssets/SAM/*

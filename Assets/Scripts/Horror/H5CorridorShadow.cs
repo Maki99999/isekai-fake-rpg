@@ -13,10 +13,12 @@ namespace Default
 
         public AudioSource audioSource;
 
+        Quaternion origRot;
         bool triggered = false;
 
         void Awake()
         {
+            origRot = personLong.rotation;
             personLong.position = personLongStartPos.position - Vector3.down * 100;
         }
 
@@ -24,6 +26,7 @@ namespace Default
         {
             triggered = false;
             personLongAnim.SetTrigger("Show");
+            personLong.rotation = origRot;
             personLong.position = personLongStartPos.position;
         }
 
