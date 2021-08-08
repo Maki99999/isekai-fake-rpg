@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Useable
   - MAST_Holder
+  - Projectile
   layers:
   - Default
   - TransparentFX

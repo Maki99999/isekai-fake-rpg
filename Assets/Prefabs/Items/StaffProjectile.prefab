@@ -9664,8 +9664,8 @@ GameObject:
   - component: {fileID: -609798329753334237}
   - component: {fileID: 4707477243540458493}
   m_Layer: 0
-  m_Name: Attack
-  m_TagString: Untagged
+  m_Name: StaffProjectile
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

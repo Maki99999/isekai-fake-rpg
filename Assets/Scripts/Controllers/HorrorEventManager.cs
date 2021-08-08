@@ -13,6 +13,7 @@ namespace Default
         public GameObject eventH5Object;
         public H8Mirror eventH8Mirror;
         public H11Glass eventH11Glass;
+        public InvincibleJumpingSpider eventH13JumpingSpider;
 
         public bool StartEvent(string eventId)
         {
@@ -24,6 +25,7 @@ namespace Default
                 "H5" => EventH5(),
                 "H8" => EventH8(),
                 "H11" => EventH11(),
+                "H13" => EventH13(),
 
                 //DebugEvents
                 "H908" => EventH908(),
@@ -64,6 +66,12 @@ namespace Default
         private bool EventH11()
         {
             eventH11Glass.FallingGlass();
+            return true;
+        }
+
+        private bool EventH13()
+        {
+            eventH13JumpingSpider.StartJump();
             return true;
         }
 

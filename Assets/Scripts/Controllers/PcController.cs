@@ -58,9 +58,9 @@ namespace Default
         private void Start()
         {
             #region Editor
-            //ToPcModeInstant();
-            GameController.Instance.playerEventManager.FreezePlayer(false, false);
-            GameController.Instance.playerEventManager.FreezePlayer(true, true);
+            ToPcModeInstant();
+            //GameController.Instance.playerEventManager.FreezePlayer(false, false);
+            //GameController.Instance.playerEventManager.FreezePlayer(true, true);
             #endregion
 
             immersedValueRegular = GameController.Instance.inPcMode ? 1 : 0;
@@ -102,7 +102,7 @@ namespace Default
             {
                 if (!inTransition)
                 {
-                    if (InputSettings.PressingStand())
+                    if (InputSettings.PressingStand() && GameController.Instance.gamePlayer.CanMove() && GameController.Instance.metaPlayer.CanMove())
                         StartCoroutine(ToNonPcMode());
                     else
                         LookingAt();
@@ -160,7 +160,7 @@ namespace Default
             }
             if (!inTransition && ((reversed && !isLooking) || (!reversed && isLooking)))
             {
-                GameController.Instance.metaPlayer.RotatePlayer(Quaternion.Euler(newRot), 0f);
+                GameController.Instance.playerEventManager.RotatePlayer(false, Quaternion.Euler(newRot), 0f);
                 ImmersedValue = reversed ? immersedValueRegular : newImmValNormal;
             }
             if (reversed)
@@ -178,11 +178,11 @@ namespace Default
                 gameAudio.SetFloat("HighpassCutoff", Mathf.Lerp(150f, 0f, _immersedValue));
                 gameAudio.SetFloat("LowpassCutoff", Mathf.Lerp(450f, 22000f, _immersedValue));
 
-                gameAudio.SetFloat("metaVolume", _immersedValue == 1f ? float.NegativeInfinity : 20f * Mathf.Log10(1f - _immersedValue));
+                gameAudio.SetFloat("metaVolume", _immersedValue == 1f ? -80f : 20f * Mathf.Log10(1f - _immersedValue));
                 if (powerOn)
                     gameAudio.SetFloat("gameVolume", Mathf.Lerp(-20f, 0f, _immersedValue));
                 else
-                    gameAudio.SetFloat("gameVolume", float.NegativeInfinity);
+                    gameAudio.SetFloat("gameVolume", -80f);
 
                 Vector3 pcLookTransformNoOffset = pcLookTransform.position - Vector3.up * (GameController.Instance.metaPlayer.heightNormal - GameController.Instance.metaPlayer.camOffsetHeight);
                 GameController.Instance.metaPlayer.transform.position = Vector3.Lerp(pcLookTransformNoOffset + Vector3.forward * maxPcLookDistance, pcLookTransformNoOffset, _immersedValue);
@@ -203,7 +203,7 @@ namespace Default
             StartCoroutine(TransformOperations.MoveTo(phone, phonePos.position, phonePos.rotation, 1f));
             yield return GameController.Instance.metaPlayer.MoveRotatePlayer(pcLookTransform, 2f, true, maxPcLookDistance * Vector3.forward);
 
-            GameController.Instance.gamePlayer.SetCanMove(true);
+            GameController.Instance.playerEventManager.FreezePlayer(true, false);
             inTransition = false;
             GameController.Instance.inPcMode = true;
             headAnim.SetBool("Wobble", true);
@@ -213,13 +213,18 @@ namespace Default
 
         public void ToPcModeInstant()
         {
-            GameController.Instance.metaPlayer.SetCanMove(false);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true);
             GameController.Instance.metaPlayer.TeleportPlayer(pcLookTransform, true, maxPcLookDistance * Vector3.forward);
-            GameController.Instance.gamePlayer.SetCanMove(true);
+            GameController.Instance.playerEventManager.FreezePlayer(true, false);
+
+            phone.gameObject.SetActive(true);
+            phone.position = phonePos.position;
+            phone.rotation = phonePos.rotation;
 
             GameController.Instance.inPcMode = true;
             headAnim.SetBool("Wobble", true);
             ImmersedValue = 1f;
+            immersedValueRegular = 1f;
         }
 
         IEnumerator ToNonPcMode()

@@ -120,3 +120,15 @@ MonoBehaviour:
       index: 3
     task: better torchlight lighting
     isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: update staff hold pos
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: player lock on (spider, stone, fusebox)
+    isComplete: 0
