@@ -58,9 +58,9 @@ namespace Default
         private void Start()
         {
             #region Editor
-            ToPcModeInstant();
-            //GameController.Instance.playerEventManager.FreezePlayer(false, false);
-            //GameController.Instance.playerEventManager.FreezePlayer(true, true);
+            //ToPcModeInstant();
+            GameController.Instance.playerEventManager.FreezePlayer(false, false);
+            GameController.Instance.playerEventManager.FreezePlayer(true, true);
             #endregion
 
             immersedValueRegular = GameController.Instance.inPcMode ? 1 : 0;
@@ -102,7 +102,7 @@ namespace Default
             {
                 if (!inTransition)
                 {
-                    if (InputSettings.PressingStand() && GameController.Instance.gamePlayer.CanMove() && GameController.Instance.metaPlayer.CanMove())
+                    if (InputSettings.PressingStand() && GameController.Instance.gamePlayer.CanMove())
                         StartCoroutine(ToNonPcMode());
                     else
                         LookingAt();

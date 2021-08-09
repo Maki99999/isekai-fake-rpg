@@ -11,6 +11,7 @@ namespace Default
         public H3Window eventH3Window;
         public H4FuseBox eventH4FuseBox;
         public GameObject eventH5Object;
+        public H6SpiderCrawl eventH6Crawl;
         public H8Mirror eventH8Mirror;
         public H11Glass eventH11Glass;
         public InvincibleJumpingSpider eventH13JumpingSpider;
@@ -23,6 +24,7 @@ namespace Default
                 "H3" => EventH3(),
                 "H4" => EventH4(),
                 "H5" => EventH5(),
+                "H6" => EventH6(),
                 "H8" => EventH8(),
                 "H11" => EventH11(),
                 "H13" => EventH13(),
@@ -54,6 +56,12 @@ namespace Default
         private bool EventH5()
         {
             eventH5Object.SetActive(true);
+            return true;
+        }
+
+        private bool EventH6()
+        {
+            eventH6Crawl.Crawl();
             return true;
         }
 
