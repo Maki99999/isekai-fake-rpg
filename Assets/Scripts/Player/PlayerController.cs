@@ -188,10 +188,12 @@ namespace Default
             //First, check if he can unsneak
             if (!willSneak)
             {
-                if (Physics.OverlapCapsule(transform.position + charController.radius * Vector3.up,
+                Collider[] overlappingColldier = Physics.OverlapCapsule(transform.position + charController.radius * Vector3.up,
                         transform.position + (heightNormal - charController.radius) * Vector3.up,
-                        charController.radius * 0.99f).Length > 1)
-                    yield break;
+                        charController.radius * 0.99f);
+                foreach (Collider collider in overlappingColldier)
+                    if (!collider.CompareTag("Player") && !collider.isTrigger)
+                        yield break;
             }
 
             isSneaking = willSneak;
