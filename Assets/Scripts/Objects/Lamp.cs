@@ -4,19 +4,27 @@ using UnityEngine;
 
 public class Lamp : MonoBehaviour, UsesPower
 {
-    public Light[] lights;
+    private Light[] lights;
     public bool isOnAtStart = false;
 
     [Space(10)]
     public GameObject eyes;
+    public AudioSource randomOffSound;
 
     private bool on;
     private bool powerOn = true;
-    private const float randomChance = 0.05f;
+    public static float randomChance = 0.05f;
 
     void Awake()
     {
         on = isOnAtStart;
+
+        Lamp[] lamps = GetComponentsInChildren<Lamp>(false);
+        foreach (Lamp lamp in lamps)
+            if (lamp != this)
+                Destroy(lamp);
+
+        lights = GetComponentsInChildren<Light>(false);
         foreach (Light light in lights)
             light.enabled = on;
     }
@@ -81,6 +89,10 @@ public class Lamp : MonoBehaviour, UsesPower
     IEnumerator TurnOffAfter()
     {
         yield return new WaitForSeconds(Random.Range(7f, 17f));
-        TurnOff();
+        if (on)
+        {
+            randomOffSound.Play();
+            TurnOff();
+        }
     }
 }

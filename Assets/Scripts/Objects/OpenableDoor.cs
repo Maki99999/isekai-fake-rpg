@@ -8,15 +8,21 @@ namespace Default
     {
         public Animator doorAnim;
         public AudioSource doorAudio;
+        public AudioClip sfxOpen;
+        public AudioClip sfxClose;
 
         public bool currentlyOpen = false;
+        public bool openFurther = false;
 
         protected override void Start()
         {
             base.Start();
 
             if (doorAnim != null)
+            {
+                doorAnim.SetBool("Wide", openFurther);
                 doorAnim.SetBool("Open", currentlyOpen);
+            }
         }
 
         void Update()
@@ -27,18 +33,40 @@ namespace Default
 
         void Useable.Use()
         {
-            currentlyOpen = !currentlyOpen;
-
-            if (doorAnim != null)
-                doorAnim.SetBool("Open", currentlyOpen);
-            if (doorAudio != null)
-                doorAudio.Play();
+            if (currentlyOpen)
+                Close();
+            else
+                Open();
         }
 
         void Useable.LookingAt()
         {
             foreach (Outline outline in outlines)
                 outline.enabled = true;
+        }
+
+        public void Open()
+        {
+            if (currentlyOpen)
+                return;
+            currentlyOpen = true;
+            if (doorAnim != null)
+                doorAnim.SetBool("Open", true);
+
+            doorAudio.clip = sfxOpen;
+            doorAudio.Play();
+        }
+
+        public void Close()
+        {
+            if (!currentlyOpen)
+                return;
+            currentlyOpen = false;
+            if (doorAnim != null)
+                doorAnim.SetBool("Open", false);
+
+            doorAudio.clip = sfxClose;
+            doorAudio.PlayDelayed(0.5f);
         }
     }
 }

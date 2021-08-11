@@ -138,3 +138,9 @@ MonoBehaviour:
       index: 4
     task: replace all walls and floors
     isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: locked doors, better doors?, door handles anim
+    isComplete: 0

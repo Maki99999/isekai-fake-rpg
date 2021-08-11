@@ -31,6 +31,7 @@ namespace Default
 
                 //DebugEvents
                 "H908" => EventH908(),
+                "H919" => EventH919(),
                 _ => false
             };
         }
@@ -87,6 +88,12 @@ namespace Default
         private bool EventH908()
         {
             eventH8Mirror.HideGhost();
+            return true;
+        }
+
+        private bool EventH919()
+        {
+            Lamp.randomChance = 1f;
             return true;
         }
     }
