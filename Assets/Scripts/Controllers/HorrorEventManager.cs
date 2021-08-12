@@ -15,6 +15,7 @@ namespace Default
         public H8Mirror eventH8Mirror;
         public H11Glass eventH11Glass;
         public InvincibleJumpingSpider eventH13JumpingSpider;
+        public Microwave eventH14Microwave;
 
         public bool StartEvent(string eventId)
         {
@@ -28,6 +29,7 @@ namespace Default
                 "H8" => EventH8(),
                 "H11" => EventH11(),
                 "H13" => EventH13(),
+                "H14" => EventH14(),
 
                 //DebugEvents
                 "H908" => EventH908(),
@@ -81,6 +83,13 @@ namespace Default
         private bool EventH13()
         {
             eventH13JumpingSpider.StartJump();
+            return true;
+        }
+
+        private bool EventH14()
+        {
+            eventH14Microwave.Close();
+            eventH14Microwave.TurnOn();
             return true;
         }
 
