@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Default
 {
@@ -10,6 +11,8 @@ namespace Default
         float lastPress = -1f;
         string currentCode = "";
 
+        public Text text;
+
         void Update()
         {
             CheckNumpad();
@@ -18,21 +21,29 @@ namespace Default
         void CheckNumpad()
         {
             string codeAddition = CurrentlyPressedButtons();
+            if (Time.time > lastPress + resetTime)
+            {
+                currentCode = "";
+                if (text != null)
+                    text.text = currentCode;
+            }
             if (!NumpadActive())
                 return;
 
-            if (Time.time > lastPress + resetTime)
-                currentCode = "";
             lastPress = Time.time;
 
             currentCode += codeAddition;
             if (currentCode.Length > 3)
                 currentCode = currentCode.Substring(1, 3);
+            if (text != null)
+                text.text = currentCode;
             if (currentCode.Length == 3)
             {
                 int codeNum = int.Parse(currentCode);
                 Debug.Log("CheatHorrorTrigger: Event H" + codeNum);
                 GameController.Instance.horrorEventManager.StartEvent("H" + codeNum);
+                if (text != null)
+                    text.text = "H" + codeNum;
                 currentCode = "";
             }
         }

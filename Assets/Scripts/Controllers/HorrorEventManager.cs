@@ -26,8 +26,10 @@ namespace Default
                 "H4" => EventH4(),
                 "H5" => EventH5(),
                 "H6" => EventH6(),
+                "H7" => EventH7(),
                 "H8" => EventH8(),
                 "H11" => EventH11(),
+                "H12" => EventH12(),
                 "H13" => EventH13(),
                 "H14" => EventH14(),
 
@@ -68,6 +70,15 @@ namespace Default
             return true;
         }
 
+        private bool EventH7()
+        {
+            H7SpiderHide[] spiders = GameObject.FindObjectsOfType<H7SpiderHide>();
+
+            foreach (H7SpiderHide spider in spiders)
+                spider.Show();
+            return true;
+        }
+
         private bool EventH8()
         {
             eventH8Mirror.ShowGhost();
@@ -77,6 +88,12 @@ namespace Default
         private bool EventH11()
         {
             eventH11Glass.FallingGlass();
+            return true;
+        }
+
+        private bool EventH12()
+        {
+            GameController.Instance.musicManager.ChangeMusic(MusicType.HORROR);
             return true;
         }
 

@@ -39,7 +39,7 @@ namespace Default
 
         public void ChangeMusic(MusicType type, bool nextClip = false)
         {
-            if (currentType == type)
+            if (!nextClip && (currentType == type || currentType == MusicType.HORROR))
                 return;
             StopAllCoroutines();
             currentType = type;
@@ -93,6 +93,7 @@ namespace Default
         TOWN,
         CAVE,
         CAVE_BOSS,
-        NONE
+        NONE,
+        HORROR
     }
 }
