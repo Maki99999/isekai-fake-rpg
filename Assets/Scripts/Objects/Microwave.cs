@@ -10,6 +10,8 @@ namespace Default
         public Animator anim;
         new public Light light;
 
+        public H10FoodFlesh fleshScript;
+
         [Space(10)]
         new public AudioSource audio;
         public AudioClip sfxOpen;
@@ -20,6 +22,7 @@ namespace Default
 
         bool open;
         bool turnedOn;
+        bool locked;
 
         void Update()
         {
@@ -28,6 +31,8 @@ namespace Default
 
         public void Use()
         {
+            if (locked)
+                return;
             if (open)
                 Close();
             else
@@ -39,6 +44,22 @@ namespace Default
                 else
                     Open();
             }
+        }
+
+        public void H15Event()
+        {
+            StartCoroutine(H15EventEnumerator());
+        }
+
+        IEnumerator H15EventEnumerator()
+        {
+            fleshScript.ShowFlesh(true);
+            locked = true;
+
+            yield return new WaitForSeconds(3f);
+
+            fleshScript.ShowFlesh(false);
+            locked = false;
         }
 
         void Open()

@@ -13,6 +13,7 @@ namespace Default
         public GameObject eventH5Object;
         public H6SpiderCrawl eventH6Crawl;
         public H8Mirror eventH8Mirror;
+        public H10FoodFlesh eventH10FoodFlesh;
         public H11Glass eventH11Glass;
         public InvincibleJumpingSpider eventH13JumpingSpider;
         public Microwave eventH14Microwave;
@@ -28,10 +29,12 @@ namespace Default
                 "H6" => EventH6(),
                 "H7" => EventH7(),
                 "H8" => EventH8(),
+                "H10" => EventH10(),
                 "H11" => EventH11(),
                 "H12" => EventH12(),
                 "H13" => EventH13(),
                 "H14" => EventH14(),
+                "H15" => EventH15(),
 
                 //DebugEvents
                 "H908" => EventH908(),
@@ -85,6 +88,12 @@ namespace Default
             return true;
         }
 
+        private bool EventH10()
+        {
+            eventH10FoodFlesh.ToggleFlesh();
+            return true;
+        }
+
         private bool EventH11()
         {
             eventH11Glass.FallingGlass();
@@ -107,6 +116,12 @@ namespace Default
         {
             eventH14Microwave.Close();
             eventH14Microwave.TurnOn();
+            return true;
+        }
+
+        private bool EventH15()
+        {
+            eventH14Microwave.H15Event();
             return true;
         }
 
