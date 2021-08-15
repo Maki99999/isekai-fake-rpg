@@ -403,8 +403,19 @@ namespace Default
             fxSource.PlayOneShot(noFx);
         }
 
-        public void AddHoldableItem(ItemHoldable item, bool directlyEquip)
+        public void AddItem(ItemHoldable item, bool directlyEquip)
         {
+            if (item == null)
+            {
+                if (directlyEquip)
+                {
+                    if (currentItem != null)
+                        currentItem.OnUnequip();
+                    currentItem = null;
+                }
+                return;
+            }
+
             item.transform.parent = itemTransform;
             item.transform.localPosition = item.positionWhenHeld.position;
             item.transform.localRotation = Quaternion.Euler(item.positionWhenHeld.rotation);

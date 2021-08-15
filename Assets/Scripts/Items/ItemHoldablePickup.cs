@@ -34,7 +34,7 @@ namespace Default
 
         void Useable.Use()
         {
-            player.AddHoldableItem(item.GetComponent<ItemHoldable>(), true);
+            player.AddItem(item.GetComponent<ItemHoldable>(), true);
             foreach (Transform child in item.transform)
                 child.gameObject.layer = LayerMask.NameToLayer("Always On Top");
 

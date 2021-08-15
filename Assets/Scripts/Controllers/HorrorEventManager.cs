@@ -6,8 +6,9 @@ namespace Default
 {
     public class HorrorEventManager : MonoBehaviour
     {
-        public PcController eventH1PcController;
-        public WallClock eventH1Clock;
+        public PhoneHolding eventH1Call;
+        public PcController eventH2PcController;
+        public WallClock eventH2Clock;
         public H3Window eventH3Window;
         public H4FuseBox eventH4FuseBox;
         public GameObject eventH5Object;
@@ -23,18 +24,22 @@ namespace Default
             return eventId switch
             {
                 "H1" => EventH1(),
+                "H2" => EventH2(),
                 "H3" => EventH3(),
                 "H4" => EventH4(),
                 "H5" => EventH5(),
                 "H6" => EventH6(),
                 "H7" => EventH7(),
                 "H8" => EventH8(),
+                //"H9" => EventH9(),
                 "H10" => EventH10(),
                 "H11" => EventH11(),
                 "H12" => EventH12(),
                 "H13" => EventH13(),
                 "H14" => EventH14(),
                 "H15" => EventH15(),
+                //"H16" => EventH16(),
+                //H17-H20: completely random
 
                 //DebugEvents
                 "H908" => EventH908(),
@@ -45,8 +50,15 @@ namespace Default
 
         private bool EventH1()
         {
-            eventH1PcController.lookAtPhone = true;
-            eventH1Clock.enabled = false;
+            eventH1Call.gameObject.SetActive(true);
+            eventH1Call.H1Call();
+            return true;
+        }
+
+        private bool EventH2()
+        {
+            eventH2PcController.lookAtPhone = true;
+            eventH2Clock.enabled = false;
             return true;
         }
 

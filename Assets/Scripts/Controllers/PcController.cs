@@ -130,6 +130,20 @@ namespace Default
             }
         }
 
+        public void ImmerseBreak(bool breakOn)
+        {
+            immersedValueIsRegular = !breakOn;
+            if (breakOn)
+            {
+                StopAllCoroutines();
+                ImmersedValue = 0f;
+            }
+            else if (ImmersedValue != 1f)
+            {
+                StartCoroutine(Immerse(false, maxImmersionTime));
+            }
+        }
+
         IEnumerator LookAtTransition(bool reversed)
         {
             if (lookAtPhone)
@@ -197,10 +211,7 @@ namespace Default
             transitionsToPcMode = true;
             GameController.Instance.playerEventManager.FreezePlayer(false, true);
 
-            phone.gameObject.SetActive(true);
-            phone.position = GameController.Instance.metaPlayer.itemTransform.position;
-            phone.rotation = phonePos.rotation;
-            StartCoroutine(TransformOperations.MoveTo(phone, phonePos.position, phonePos.rotation, 1f));
+            ShowPhone();
             yield return GameController.Instance.metaPlayer.MoveRotatePlayer(pcLookTransform, 2f, true, maxPcLookDistance * Vector3.forward);
 
             GameController.Instance.playerEventManager.FreezePlayer(true, false);
@@ -217,9 +228,7 @@ namespace Default
             GameController.Instance.metaPlayer.TeleportPlayer(pcLookTransform, true, maxPcLookDistance * Vector3.forward);
             GameController.Instance.playerEventManager.FreezePlayer(true, false);
 
-            phone.gameObject.SetActive(true);
-            phone.position = phonePos.position;
-            phone.rotation = phonePos.rotation;
+            ShowPhone(true);
 
             GameController.Instance.inPcMode = true;
             headAnim.SetBool("Wobble", true);
@@ -235,9 +244,8 @@ namespace Default
 
             StartCoroutine(Immerse(true, 2f));
 
-            StartCoroutine(TransformOperations.MoveTo(phone, GameController.Instance.metaPlayer.itemTransform.position + Vector3.up * 0.1f, phonePos.rotation, 1f));
+            StartCoroutine(HidePhone());
             yield return GameController.Instance.metaPlayer.MoveRotatePlayer(standUpTransform, 2f);
-            phone.gameObject.SetActive(false);
 
             GameController.Instance.metaPlayer.SetCanMove(true);
             inTransition = false;
@@ -245,7 +253,27 @@ namespace Default
             headAnim.SetBool("Wobble", false);
         }
 
-        IEnumerator Immerse(bool reverse, float seconds)
+        public void ShowPhone(bool instant = false)
+        {
+            phone.gameObject.SetActive(true);
+            phone.rotation = phonePos.rotation;
+
+            if (instant)
+                phone.position = phonePos.position;
+            else
+            {
+                phone.position = GameController.Instance.metaPlayer.itemTransform.position;
+                StartCoroutine(TransformOperations.MoveTo(phone, phonePos.position, phonePos.rotation, 1f));
+            }
+        }
+
+        public IEnumerator HidePhone()
+        {
+            yield return TransformOperations.MoveTo(phone, GameController.Instance.metaPlayer.itemTransform.position + Vector3.up * 0.1f, phonePos.rotation, 1f);
+            phone.gameObject.SetActive(false);
+        }
+
+        public IEnumerator Immerse(bool reverse, float seconds)
         {
             float startValue = ImmersedValue;
             float rate = 1f / seconds;

@@ -7,7 +7,7 @@ namespace Default
     public class H4FuseBox : OutlineCreator, Useable
     {
         public Animator animator;
-        public Lamp[] basementLamps;
+        public Lamp basementLamp;
 
         public AudioSource audioPower;
         public AudioClip fxPowerOn;
@@ -17,7 +17,8 @@ namespace Default
         public AudioClip fxBoxClose;
 
         [Space(10)]
-        public GameObject phone;
+        public PhoneHolding phone;
+        public Animator phoneAnim;
 
         bool open = false;
         bool powerOff = false;
@@ -35,7 +36,8 @@ namespace Default
             animator.SetBool("FuseBlown", true);
             audioPower.clip = fxPowerOff;
             audioPower.Play();
-            phone.SetActive(true);
+            GameController.Instance.metaPlayer.AddItem(phone, true);
+            phoneAnim.SetBool("Unlock", true);
         }
 
         void Update()
@@ -87,10 +89,10 @@ namespace Default
             audioPower.Play();
             yield return new WaitForSeconds(0.2f);
 
-            foreach (Lamp lamp in basementLamps)
-                lamp.TurnOn();
+            basementLamp.TurnOn();
             GameController.Instance.metaHouseController.SetPower(true);
-            phone.SetActive(false);
+            GameController.Instance.metaPlayer.RemoveItem(phone);
+            phoneAnim.SetBool("Unlock", false);
 
             yield return new WaitForSeconds(0.6f);
             animator.SetBool("Open", false);
