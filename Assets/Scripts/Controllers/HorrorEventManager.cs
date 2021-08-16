@@ -18,6 +18,7 @@ namespace Default
         public H11Glass eventH11Glass;
         public InvincibleJumpingSpider eventH13JumpingSpider;
         public Microwave eventH14Microwave;
+        public H16Puppet eventH16Puppet;
 
         public bool StartEvent(string eventId)
         {
@@ -38,7 +39,7 @@ namespace Default
                 "H13" => EventH13(),
                 "H14" => EventH14(),
                 "H15" => EventH15(),
-                //"H16" => EventH16(),
+                "H16" => EventH16(),
                 //H17-H20: completely random
 
                 //DebugEvents
@@ -134,6 +135,12 @@ namespace Default
         private bool EventH15()
         {
             eventH14Microwave.H15Event();
+            return true;
+        }
+
+        private bool EventH16()
+        {
+            eventH16Puppet.enabled = true;
             return true;
         }
 
