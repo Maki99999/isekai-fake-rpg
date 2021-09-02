@@ -33,7 +33,7 @@ MonoBehaviour:
       name: QOL
       color: {r: 0.7, g: 0.7, b: 1, a: 1}
       index: 3
-    task: replace or improve castle
+    task: castle interiors (throne room)
     isComplete: 0
   - owner:
       name: QOL
@@ -100,7 +100,7 @@ MonoBehaviour:
       name: QOL
       color: {r: 0.7, g: 0.7, b: 1, a: 1}
       index: 3
-    task: Wall Texture
+    task: Wall Texture (Tapete oder so)
     isComplete: 0
   - owner:
       name: QOL
