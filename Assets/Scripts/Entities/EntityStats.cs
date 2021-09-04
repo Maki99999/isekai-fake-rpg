@@ -7,8 +7,6 @@ namespace Default
 {
     public class EntityStats : MonoBehaviour
     {
-        public static float uiScaleFactor = 1f;
-
         public string displayName;
         public int hp;
         public int maxHp;
@@ -39,7 +37,7 @@ namespace Default
 
             NavMeshAgent agent = GetComponent<NavMeshAgent>();
             if (agent != null)
-                height = agent.height;
+                height = agent.height * transform.lossyScale.y;
 
             statsUi = Instantiate(statsUiPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero), entityStats);
             entityStatsUi = statsUi.GetComponentInChildren<EntityStatsUi>();
@@ -59,7 +57,7 @@ namespace Default
             SetHideUi(true);
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             if (!isHidden)
             {
@@ -68,7 +66,7 @@ namespace Default
                 float camNormDot = Vector3.Dot(camNormal, vectorFromCam.normalized);
 
                 if (camNormDot > 0f)
-                    rectTransform.anchoredPosition = uiCam.WorldToScreenPoint(transform.position + Vector3.up * height) * uiScaleFactor;
+                    rectTransform.anchoredPosition = uiCam.WorldToScreenPoint(transform.position + Vector3.up * height) * GameController.uiScaleFactor;
                 else
                     rectTransform.anchoredPosition = new Vector2(uiCam.pixelWidth * -1, uiCam.pixelHeight * -1);
             }

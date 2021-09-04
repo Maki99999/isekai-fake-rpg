@@ -9,7 +9,7 @@ namespace Default
     {
         public List<EntityStatsUi> stats = new List<EntityStatsUi>();
 
-        void Update()
+        void LateUpdate()
         {
             List<EntityStatsUi> statsActive = new List<EntityStatsUi>(stats);
             statsActive.RemoveAll((s) => s.isHidden);

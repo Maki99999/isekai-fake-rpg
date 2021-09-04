@@ -6,17 +6,28 @@ namespace Default
 {
     public class GameController : MonoBehaviour
     {
+        public static float uiScaleFactor = 1f;
+
         public PlayerController gamePlayer;
         public PlayerController metaPlayer;
+
+        [Space(10)]
         public DialogueManager dialogue;
+        public DialogueBubble dialogueBubble;
+
+        [Space(10)]
         public PlayerEventManager playerEventManager;
         public HorrorEventManager horrorEventManager;
-        public MetaHouseController metaHouseController;
         public MusicManager musicManager;
-        public Transform entityStats;
+
+        [Space(10)]
         public Transform meta3dAudio;
         [Range(-1f, 1f)] public float gameAudioPan;
         [Range(0f, 1f)] public float gameAudioFxStrength;
+
+        [Space(10)]
+        public MetaHouseController metaHouseController;
+        public Transform entityStats;
         public bool inPcMode;
         public Animator gameGuiFxAnimator;
 

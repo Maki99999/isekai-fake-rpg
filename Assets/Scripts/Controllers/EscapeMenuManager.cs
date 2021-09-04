@@ -262,7 +262,7 @@ namespace Default
 
             gameCamera.targetTexture = newText;
             screenMesh.material.SetTexture("_MainTex", newText);
-            EntityStats.uiScaleFactor = scale;
+            GameController.uiScaleFactor = scale;
 
             if (withSave)
                 PlayerPrefs.SetInt("pcRes", step);
