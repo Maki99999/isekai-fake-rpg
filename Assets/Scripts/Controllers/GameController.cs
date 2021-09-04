@@ -19,6 +19,7 @@ namespace Default
         public PlayerEventManager playerEventManager;
         public HorrorEventManager horrorEventManager;
         public MusicManager musicManager;
+        public QuestManager questManager;
 
         [Space(10)]
         public Transform meta3dAudio;
@@ -28,6 +29,7 @@ namespace Default
         [Space(10)]
         public MetaHouseController metaHouseController;
         public Transform entityStats;
+        public OverallStats overallStats;
         public bool inPcMode;
         public Animator gameGuiFxAnimator;
 

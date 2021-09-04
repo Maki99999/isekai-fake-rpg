@@ -167,6 +167,8 @@ namespace Default
 
         private void Die()
         {
+            GameController.Instance.overallStats.AddToStat(1, "Kill_" + entityStats.displayName);
+
             isDead = true;
             entityStats.SetHideUi(false);
             player.stats.ChangeCoins(coinReward);
