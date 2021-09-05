@@ -24,7 +24,7 @@ namespace Default
             {State.IN_QUEST3, new string[] {"Come back after you\nbought a new staff\nfrom the main street."}},
             {State.PRE_QUEST4, new string[] {
                 "Superb!",
-                "As I said, I'll have\nyou defeat the goblin lord\nhiding in the deepest\npart of the cave just outside of the town."
+                "As I said, I'll have\nyou defeat the goblin lord\nhiding in the deepest\npart of the cave just\noutside of the town."
             }},
             {State.IN_QUEST4, new string[] {"Come back after you\ndefeated the goblin lord\nin the cave just outside\nof the town."}},
             {State.POST_QUEST4, new string[] {"Congratulations!\nYour next Quest will\nbe to level up."}},

@@ -10,6 +10,7 @@ namespace Default
         public Text titleText;
         public Text descriptionText;
         public Text progressText;
+        public Animator completedAnim;
 
         [Space(20)]
         public GameObject q2Obj;
@@ -31,6 +32,8 @@ namespace Default
 
         public void StartQuest(string id)
         {
+            completedAnim.SetTrigger("NewQuest");
+            completedAnim.SetBool("Completed", false);
             currentQuestId = id;
             (string, string) questTexts = questDescriptions[id];
             titleText.text = questTexts.Item1;
@@ -60,6 +63,7 @@ namespace Default
             if (currentQuestId == id)
                 currentQuestId = "";
             questsDone.Add(id);
+            completedAnim.SetBool("Completed", true);
         }
 
         public void SetProgressText(string text)

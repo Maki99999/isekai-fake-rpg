@@ -11,6 +11,8 @@ namespace Default
         float speedNormal = 1f;
         float speedNormalSprinting = 1f;
 
+        float timeScaleNormal = 1f;
+
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -24,6 +26,16 @@ namespace Default
             {
                 playerController.speedNormal = speedNormal;
                 playerController.speedSprinting = speedNormalSprinting;
+            }
+
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                timeScaleNormal = Time.timeScale;
+                Time.timeScale *= 10;
+            }
+            else if (Input.GetKeyUp(KeyCode.DownArrow))
+            {
+                Time.timeScale = timeScaleNormal;
             }
         }
     }
