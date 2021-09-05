@@ -54,6 +54,7 @@ namespace Default
                     player.AddItem(items[currentItem].theObject.GetComponent<ItemHoldable>(), true);
                     foreach (Transform child in items[currentItem].theObject.transform)
                         child.gameObject.layer = LayerMask.NameToLayer("Always On Top");
+                    GameController.Instance.overallStats.AddToStat(1, "Bought_Weapon");
                 }
                 else
                 {

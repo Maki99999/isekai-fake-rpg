@@ -8,23 +8,22 @@ namespace Default
     {
         public PlayerController playerController;
 
-        bool fastMode = false;
         float speedNormal = 1f;
+        float speedNormalSprinting = 1f;
 
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                fastMode = !fastMode;
-                if (fastMode)
-                {
-                    speedNormal = playerController.speedNormal;
-                    playerController.speedNormal *= 20;
-                }
-                else
-                {
-                    playerController.speedNormal = speedNormal;
-                }
+                speedNormal = playerController.speedNormal;
+                speedNormalSprinting = playerController.speedSprinting;
+                playerController.speedNormal *= 20;
+                playerController.speedSprinting *= 20;
+            }
+            else if (Input.GetKeyUp(KeyCode.UpArrow))
+            {
+                playerController.speedNormal = speedNormal;
+                playerController.speedSprinting = speedNormalSprinting;
             }
         }
     }
