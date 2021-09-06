@@ -57,12 +57,6 @@ namespace Default
 
         private void Start()
         {
-            #region Editor
-            ToPcModeInstant();
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
-            GameController.Instance.playerEventManager.FreezePlayer(true, false);
-            #endregion
-
             immersedValueRegular = GameController.Instance.inPcMode ? 1 : 0;
         }
 
@@ -102,7 +96,7 @@ namespace Default
             {
                 if (!inTransition)
                 {
-                    if (InputSettings.PressingStand() && GameController.Instance.gamePlayer.CanMove())
+                    if (InputSettings.PressingStand() && !GameController.Instance.gamePlayer.IsFrozen())
                         StartCoroutine(ToNonPcMode());
                     else
                         LookingAt();
@@ -240,14 +234,14 @@ namespace Default
         {
             inTransition = true;
             transitionsToPcMode = false;
-            GameController.Instance.gamePlayer.SetCanMove(false);
+            GameController.Instance.playerEventManager.FreezePlayer(true, true);
 
             StartCoroutine(Immerse(true, 2f));
 
             StartCoroutine(HidePhone());
             yield return GameController.Instance.metaPlayer.MoveRotatePlayer(standUpTransform, 2f);
 
-            GameController.Instance.metaPlayer.SetCanMove(true);
+            GameController.Instance.playerEventManager.FreezePlayer(false, false);
             inTransition = false;
             GameController.Instance.inPcMode = false;
             headAnim.SetBool("Wobble", false);

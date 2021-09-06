@@ -162,3 +162,9 @@ MonoBehaviour:
       index: 3
     task: schild zu cave und slimes
     isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: remainder of current task when doing nothing for too long
+    isComplete: 0

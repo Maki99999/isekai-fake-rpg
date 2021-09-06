@@ -22,7 +22,7 @@ namespace Default
             bool useKey = InputSettings.PressingUse();
 
             //!(IsRiding & pressing)
-            if (playerController.CanMove())  //if (!(useKey && playerController.currentRide != null))
+            if (!playerController.IsFrozen())  //if (!(useKey && playerController.currentRide != null))
             {
                 //Get useable GameObject and maybe use it
                 RaycastHit hit;

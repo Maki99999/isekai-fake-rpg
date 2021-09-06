@@ -18,8 +18,9 @@ namespace Default
         [Space(10)]
         public PlayerEventManager playerEventManager;
         public HorrorEventManager horrorEventManager;
-        public MusicManager musicManager;
         public QuestManager questManager;
+        public TaskManager taskManager;
+        public MusicManager musicManager;
 
         [Space(10)]
         public Transform meta3dAudio;

@@ -27,7 +27,7 @@ namespace Default
         public float fovNormal = 60f;
         public float fovSprinting = 80f;
         [Space(10), SerializeField]
-        private bool isFrozen = false;
+        private int frozenSem = 0;
         [HideInInspector] public bool canControl = true;
         public bool isSneaking = false;
         public bool isSprinting = false;
@@ -71,7 +71,7 @@ namespace Default
             CameraEffects();
 
             //Do nothing when Player isn't allowed to move
-            if (isFrozen || PauseManager.isPaused().Value)
+            if (IsFrozen() || PauseManager.isPaused().Value)
                 return;
 
             MoveData inputs;
@@ -228,19 +228,31 @@ namespace Default
                 cam.fieldOfView = newFov;
         }
 
-        public bool CanMove() { return !isFrozen; }
+        public bool IsFrozen() { return frozenSem <= 0; }
 
-        public void SetCanMove(bool canMove)
+        public void SetFrozen(bool frozen)
         {
-            isFrozen = !canMove;
-            charController.detectCollisions = canMove;
-            crossAnimator.SetBool("Activated", canMove);
+            frozenSem += frozen ? -1 : 1;
 
-            if (currentItem != null)
+            if (frozenSem > 1)
             {
-                if (canMove)
+                frozenSem = 1;
+                Debug.LogWarning(gameObject.name + " got unfrozen twice!");
+            }
+            else if (frozenSem == 1)
+            {
+                charController.detectCollisions = true;
+                crossAnimator.SetBool("Activated", true);
+
+                if (currentItem != null)
                     currentItem.OnEquip();
-                else
+            }
+            else if (frozenSem == 0)
+            {
+                charController.detectCollisions = false;
+                crossAnimator.SetBool("Activated", false);
+
+                if (currentItem != null)
                     currentItem.OnUnequip();
             }
         }

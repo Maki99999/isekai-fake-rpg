@@ -69,12 +69,6 @@ namespace Default
                 if (PauseManager.isPaused().Value)
                     yield return new WaitWhile(() => PauseManager.isPaused().Value);
 
-                if (sentence[i] == '§' && i + 1 < sentence.Length && TextCode(sentence[i + 1]))
-                {
-                    i++;
-                    continue;
-                }
-
                 text.text += sentence[i];
 
                 every4thLetter = (every4thLetter + 1) % 4;
@@ -117,24 +111,6 @@ namespace Default
             if (creepy)
                 return audioClipsCreepy;
             return audioClipsNormal;
-        }
-
-        bool TextCode(char code)
-        {
-            switch (code)
-            {
-                case 'i':
-                    text.fontStyle = FontStyle.Italic;
-                    return true;
-                case 'n':
-                    text.fontStyle = FontStyle.Normal;
-                    return true;
-                case 'b':
-                    text.fontStyle = FontStyle.Bold;
-                    return true;
-                default:
-                    return false;
-            }
         }
 
         void Reset()

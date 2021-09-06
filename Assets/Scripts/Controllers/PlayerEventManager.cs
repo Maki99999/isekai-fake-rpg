@@ -6,8 +6,6 @@ namespace Default
 {
     public class PlayerEventManager : MonoBehaviour
     {
-        public DialogueManager dialogueManager;
-
         public PlayerController gamePlayer;
         public PlayerController metaPlayer;
 
@@ -22,9 +20,15 @@ namespace Default
         public void FreezePlayer(bool inGame, bool freeze)
         {
             if (inGame)
-                gamePlayer.SetCanMove(!freeze);
+                gamePlayer.SetFrozen(freeze);
             else
-                metaPlayer.SetCanMove(!freeze);
+                metaPlayer.SetFrozen(freeze);
+        }
+
+        public void FreezePlayers(bool freeze)
+        {
+            gamePlayer.SetFrozen(freeze);
+            metaPlayer.SetFrozen(freeze);
         }
 
         public IEnumerator MoveRotatePlayer(bool inGame, Transform newPosition, float seconds = 2f, bool cameraPerspective = false, Vector3 offset = default)
@@ -65,11 +69,6 @@ namespace Default
                 yield return gamePlayer.LookAt(lookAtPos, seconds);
             else
                 yield return metaPlayer.LookAt(lookAtPos, seconds);
-        }
-
-        public IEnumerator PlayDialogue(List<string> texts, bool creepy = false)
-        {
-            yield return dialogueManager.StartDialogue(texts, creepy);
         }
     }
 }
