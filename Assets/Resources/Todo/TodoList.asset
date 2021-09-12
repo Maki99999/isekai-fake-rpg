@@ -42,24 +42,6 @@ MonoBehaviour:
     task: add fake other players (manu and fish)
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: add beginning cutscene
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: add king cutscene
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: speech bubbles
-    isComplete: 0
-  - owner:
       name: Much Later
       color: {r: 0.7, g: 0.7, b: 1, a: 0.7}
       index: 4
@@ -112,19 +94,7 @@ MonoBehaviour:
       name: QOL
       color: {r: 0.7, g: 0.7, b: 1, a: 1}
       index: 3
-    task: fadenkreuz verschwindet abrupt anstatt smooth
-    isComplete: 0
-  - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
     task: better torchlight lighting
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: update staff hold pos
     isComplete: 0
   - owner:
       name: QOL
@@ -149,12 +119,6 @@ MonoBehaviour:
       color: {r: 0.7, g: 0.7, b: 1, a: 0.7}
       index: 4
     task: better meta models
-    isComplete: 0
-  - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
-    task: schotter path zu slimes und cave
     isComplete: 0
   - owner:
       name: QOL

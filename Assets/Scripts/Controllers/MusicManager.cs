@@ -17,7 +17,7 @@ namespace Default
         private int currentClipNum;
         bool inTransition = false;
 
-        void Start()
+        void Awake()
         {
             foreach (MusicToEnum musicToEnum in musicToEnums)
             {
@@ -94,6 +94,7 @@ namespace Default
         CAVE,
         CAVE_BOSS,
         NONE,
-        HORROR
+        HORROR,
+        TRAILER
     }
 }

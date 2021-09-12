@@ -94,9 +94,9 @@ namespace Default
             }
             else
             {
-                if (!inTransition)
+                if (!inTransition && !GameController.Instance.gamePlayer.IsFrozen())
                 {
-                    if (InputSettings.PressingStand() && !GameController.Instance.gamePlayer.IsFrozen())
+                    if (InputSettings.PressingStand())
                         StartCoroutine(ToNonPcMode());
                     else
                         LookingAt();

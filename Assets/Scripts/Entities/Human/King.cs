@@ -36,7 +36,7 @@ namespace Default
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!inSpeech && other.CompareTag("Player"))
+            if (!inSpeech && other.CompareTag("Player") && !other.GetComponent<PlayerController>().IsFrozen())
             {
                 inSpeech = true;
                 StartCoroutine(Dialogue());

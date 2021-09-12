@@ -16,6 +16,7 @@ namespace Default
         [Space(10)]
         public MeshRenderer screenMesh;
         public Camera gameCamera;
+        public Camera eventCamera;
 
         [Space(10)]
         public Slider mainVolSlider;
@@ -254,13 +255,17 @@ namespace Default
             }
 
             if (gameCamera.targetTexture != null)
-            {
                 gameCamera.targetTexture.Release();
-            }
+
+            if (eventCamera != null && eventCamera.targetTexture != null)
+                eventCamera.targetTexture.Release();
 
             RenderTexture newText = new RenderTexture(w, h, 24);
 
             gameCamera.targetTexture = newText;
+            if (eventCamera != null)
+                eventCamera.targetTexture = newText;
+
             screenMesh.material.SetTexture("_MainTex", newText);
             GameController.uiScaleFactor = scale;
 

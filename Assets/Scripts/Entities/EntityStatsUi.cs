@@ -113,7 +113,7 @@ namespace Default
 
         void OnDestroy()
         {
-            group.stats.Remove(this);
+            group?.stats.Remove(this);
         }
     }
 }
