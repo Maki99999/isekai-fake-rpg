@@ -49,7 +49,7 @@ namespace Default
         {
             if (inTransition)
                 return;
-            if (!GameController.Instance.inPcMode && powerOn)
+            if (!GameController.Instance.inPcMode && powerOn && !GameController.Instance.storyManager.isTaskBlockingPc())
                 StartCoroutine(ToPcMode());
         }
 
@@ -230,7 +230,7 @@ namespace Default
             immersedValueRegular = 1f;
         }
 
-        IEnumerator ToNonPcMode()
+        public IEnumerator ToNonPcMode()
         {
             inTransition = true;
             transitionsToPcMode = false;

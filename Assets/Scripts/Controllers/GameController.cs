@@ -19,7 +19,7 @@ namespace Default
         public PlayerEventManager playerEventManager;
         public HorrorEventManager horrorEventManager;
         public QuestManager questManager;
-        public TaskManager taskManager;
+        public StoryManager storyManager;
         public MusicManager musicManager;
 
         [Space(10)]

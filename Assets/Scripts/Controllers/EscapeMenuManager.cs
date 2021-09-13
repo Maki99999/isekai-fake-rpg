@@ -28,6 +28,7 @@ namespace Default
         public Toggle fullscreenToggle;
         public Toggle vSyncToggle;
         public Dropdown pcResDropdown;
+        public Slider brightnessSlider;
 
         bool inMenu = false;
         bool inSettings = false;
@@ -163,6 +164,10 @@ namespace Default
             int pcRes = PlayerPrefs.GetInt("pcRes", 1);
             pcResDropdown.value = pcRes;
             SetPcRes(pcRes, false);
+
+            float brightness = PlayerPrefs.GetFloat("brightness", 0.033f);
+            RenderSettings.ambientLight = new Color(brightness, brightness, brightness);
+            brightnessSlider.value = brightness;
         }
 
         public void SetMainVol(float vol)
@@ -271,6 +276,12 @@ namespace Default
 
             if (withSave)
                 PlayerPrefs.SetInt("pcRes", step);
+        }
+
+        public void SetBrightness(float vol)
+        {
+            RenderSettings.ambientLight = new Color(vol, vol, vol);
+            PlayerPrefs.SetFloat("brightness", vol);
         }
     }
 }
