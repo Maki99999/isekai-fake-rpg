@@ -33,6 +33,7 @@ namespace Default
         public OverallStats overallStats;
         public bool inPcMode;
         public Animator gameGuiFxAnimator;
+        public Animator fadingAnimator;
 
         private int mouseSemaphore = 1;
 

@@ -10,10 +10,14 @@ namespace Default
         List<Outline> outlines;
 
         public GameObject item;
+        public bool inGame = true;
 
         void Start()
         {
-            player = GameController.Instance.gamePlayer;
+            if (inGame)
+                player = GameController.Instance.gamePlayer;
+            else
+                player = GameController.Instance.metaPlayer;
 
             outlines = new List<Outline>();
 
@@ -34,17 +38,20 @@ namespace Default
 
         void Useable.Use()
         {
-            player.AddItem(item.GetComponent<ItemHoldable>(), true);
-            foreach (Transform child in item.transform)
-                child.gameObject.layer = LayerMask.NameToLayer("Always On Top");
+            PickThisUp();
+        }
 
-            List<Outline> outlinesToDelete = new List<Outline>(item.GetComponents<Outline>());
-            outlinesToDelete.AddRange(item.GetComponentsInChildren<Outline>());
-            foreach (Outline outline in outlinesToDelete)
-            {
-                outlines.Remove(outline);
+        public void PickThisUp()
+        {
+            int newLayer = inGame ? LayerMask.NameToLayer("Always On Top") : LayerMask.NameToLayer("MetaLayer_Always On Top");
+            foreach (Transform child in item.transform)
+                child.gameObject.layer = newLayer;
+
+            foreach (Outline outline in outlines)
                 Destroy(outline);
-            }
+
+            player.AddItem(item.GetComponent<ItemHoldable>(), true, !inGame);
+            gameObject.SetActive(false);
         }
 
         void Useable.LookingAt()

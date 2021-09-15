@@ -7,6 +7,7 @@ namespace Default
     public class ItemHoldable : MonoBehaviour
     {
         public PosRotScale positionWhenHeld;
+        public string itemName;
         // Override if needed
         public virtual MoveData UseItem(MoveData inputData)
         {

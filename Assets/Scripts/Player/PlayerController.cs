@@ -43,6 +43,7 @@ namespace Default
         public PlayerStats stats;
         public Transform eyeHeightTransform;
         public Camera cam;
+        public UseController useController;
 
         public Transform itemTransform;
         private List<ItemHoldable> items = new List<ItemHoldable>();
@@ -243,6 +244,7 @@ namespace Default
             {
                 charController.detectCollisions = true;
                 crossAnimator.SetBool("Activated", true);
+                useController.enabled = true;
 
                 if (currentItem != null)
                     currentItem.OnEquip();
@@ -251,6 +253,7 @@ namespace Default
             {
                 charController.detectCollisions = false;
                 crossAnimator.SetBool("Activated", false);
+                useController.enabled = false;
 
                 if (currentItem != null)
                     currentItem.OnUnequip();
@@ -415,7 +418,7 @@ namespace Default
             fxSource.PlayOneShot(noFx);
         }
 
-        public void AddItem(ItemHoldable item, bool directlyEquip)
+        public void AddItem(ItemHoldable item, bool directlyEquip, bool smooth = false)
         {
             if (item == null)
             {
@@ -429,11 +432,55 @@ namespace Default
             }
 
             item.transform.parent = itemTransform;
+
+            if (smooth)
+                StartCoroutine(SmoothPickup(item, directlyEquip, 1f));
+            else
+            {
+                item.transform.localPosition = item.positionWhenHeld.position;
+                item.transform.localRotation = Quaternion.Euler(item.positionWhenHeld.rotation);
+                item.transform.localScale = item.positionWhenHeld.scale;
+
+                items.Add(item);
+
+                if (directlyEquip)
+                {
+                    if (currentItem != null)
+                        currentItem.OnUnequip();
+                    currentItem = item;
+                    currentItem.OnEquip();
+                }
+            }
+        }
+
+        private IEnumerator SmoothPickup(ItemHoldable item, bool directlyEquip, float seconds = 1f)
+        {
+            useController.enabled = false;
+
+            Vector3 oldPos = item.transform.localPosition;
+            Quaternion oldRot = item.transform.localRotation;
+            Quaternion newRot = Quaternion.Euler(item.positionWhenHeld.rotation);
+            Vector3 oldScale = item.transform.localScale;
+
+            float rate = 1f / seconds;
+            float fSmooth;
+            for (float f = 0f; f <= 1f; f += rate * Time.deltaTime)
+            {
+                fSmooth = Mathf.SmoothStep(0f, 1f, f);
+
+                item.transform.localPosition = Vector3.Lerp(oldPos, item.positionWhenHeld.position, fSmooth);
+                item.transform.localRotation = Quaternion.Lerp(oldRot, newRot, fSmooth);
+                item.transform.localScale = Vector3.Lerp(oldScale, item.positionWhenHeld.scale, fSmooth);
+
+                yield return null;
+            }
+
             item.transform.localPosition = item.positionWhenHeld.position;
             item.transform.localRotation = Quaternion.Euler(item.positionWhenHeld.rotation);
             item.transform.localScale = item.positionWhenHeld.scale;
 
             items.Add(item);
+            useController.enabled = true;
 
             if (directlyEquip)
             {
@@ -444,12 +491,40 @@ namespace Default
             }
         }
 
+        public bool HasItem(string itemName)
+        {
+            foreach (ItemHoldable item in items)
+                if (item.itemName.Equals(itemName))
+                    return true;
+            return false;
+        }
+
+        public ItemHoldable GetItem(string itemName)
+        {
+            foreach (ItemHoldable item in items)
+                if (item.itemName.Equals(itemName))
+                    return item;
+            return null;
+        }
+
         public void RemoveItem(ItemHoldable item)
         {
             item.OnUnequip();
             if (currentItem == item)
                 currentItem = null;
             items.Remove(item);
+        }
+
+        public void RemoveItem(string itemName)
+        {
+            ItemHoldable item = null;
+            foreach (ItemHoldable itemHoldable in items)
+                if (itemHoldable.itemName.Equals(itemName))
+                {
+                    item = itemHoldable;
+                    break;
+                }
+            RemoveItem(item);
         }
     }
 }
