@@ -11,11 +11,13 @@ namespace Default
         public WashingDryerMachine dryer;
         public float machineTime = 1f;
 
-        private bool dryingMode = false;
+        private int state = 0;  //0:pre washingMachine, 1:T10, 2:post T10/washingMachine, 3:
         private List<string> dialogueStart = new List<string>() { "I should do laundry first.", "The laundry basket is in the bathroom, the washing machine is downstairs below this room." };
         private List<string> dialogueDryer = new List<string>() { "Now the dryer." };
-        private List<string> dialogueFinished = new List<string>() { "Okay, laundry's done for today." };
+        private List<string> dialogueFinished = new List<string>() { "Okay, laundry's done for today. Let's enjoy the game." };
         private List<string> dialoguePC = new List<string>() { "Laundry is not done yet." };
+        private List<string> dialogueT10 = new List<string>() { "I still have trash in the kitchen to bring outside." };
+        private List<string> dialogueT11 = new List<string>() { "The dishes in the kitchen are not done yet." };
 
         private void Start()
         {
@@ -27,14 +29,24 @@ namespace Default
 
         public void MachineStarted()
         {
+            state++;
+            if (state == 1)
+                GameController.Instance.storyManager.StartTask("T10", true);
+            else
+                GameController.Instance.storyManager.StartTask("T11", true);
+        }
+
+        public void MachineShouldFinish()
+        {
+            state++;
             StartCoroutine(MachineTimer());
         }
 
         public void MachineEmptied()
         {
-            if (!dryingMode)
+            state++;
+            if (state == 3)
             {
-                dryingMode = true;
                 dryer.gameObject.SetActive(true);
                 washingMachine.gameObject.SetActive(false);
                 GameController.Instance.dialogue.StartDialogueWithFreeze(dialogueDryer);
@@ -43,24 +55,28 @@ namespace Default
             {
                 dryer.gameObject.SetActive(false);
                 GameController.Instance.dialogue.StartDialogueWithFreeze(dialogueFinished);
-                GameController.Instance.storyManager.TaskFinished(); //TODO: cooperation with T10
+                GameController.Instance.storyManager.TaskFinished();
             }
         }
 
         public bool BlockingPcMode()
         {
-            //TODO: cooperation with T10
-            GameController.Instance.dialogue.StartDialogueWithFreeze(dialoguePC);
+            if (state == 1)
+                GameController.Instance.dialogue.StartDialogueWithFreeze(dialogueT10);
+            else if (state == 4)
+                GameController.Instance.dialogue.StartDialogueWithFreeze(dialogueT11);
+            else
+                GameController.Instance.dialogue.StartDialogueWithFreeze(dialoguePC);
             return true;
         }
 
         IEnumerator MachineTimer()
         {
             yield return new WaitForSeconds(machineTime);
-            if (dryingMode)
-                dryer.Finish();
-            else
+            if (state == 2)
                 washingMachine.Finish();
+            else
+                dryer.Finish();
         }
     }
 }

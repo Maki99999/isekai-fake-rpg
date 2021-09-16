@@ -36,7 +36,10 @@ namespace Default
         public void Use()
         {
             if (!turnedOn)
-                StartCoroutine(PutClothesIn());
+            {
+                if (!finished)
+                    StartCoroutine(PutClothesIn());
+            }
             else
             {
                 if (finished)
@@ -93,16 +96,13 @@ namespace Default
                 Destroy(basketItem.gameObject);
 
                 GameController.Instance.fadingAnimator.SetBool("Black", false);
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(1.5f);
 
                 open = false;
                 animator.SetBool("Open", false);
                 doorSFX.Play();
                 GameController.Instance.playerEventManager.FreezePlayers(false);
                 t4.MachineStarted();
-
-                if (!isDryer)
-                    GameController.Instance.storyManager.StartTask("T10", true);
 
                 yield return new WaitForSeconds(1f);
                 rumblingSFX.Play();
@@ -111,7 +111,9 @@ namespace Default
 
         IEnumerator TakeClothesOut()
         {
-            finished = false;
+            turnedOn = false;
+            beeping = false;
+
             open = true;
             animator.SetBool("Open", true);
             doorSFX.Play();

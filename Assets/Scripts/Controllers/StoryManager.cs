@@ -11,6 +11,8 @@ namespace Default
 
         [Space(10)]
         public T4WashingMachine t4Obj;
+        public T10Trash t10Obj;
+        public T11Dishes t11Obj;
 
         private string currentTaskId = "";
 
@@ -20,7 +22,7 @@ namespace Default
             if (startWithTrailer)
                 trailer.StartTrailer();
 
-            StartTask("T4"); // Debug
+            //StartTask("T4"); // Debug
         }
 
         public bool isTaskBlockingPc()
@@ -44,6 +46,10 @@ namespace Default
                     t4Obj.gameObject.SetActive(true);
                     break;
                 case "T10":
+                    t10Obj.gameObject.SetActive(true);
+                    break;
+                case "T11":
+                    t11Obj.gameObject.SetActive(true);
                     break;
                 default:
                     break;
