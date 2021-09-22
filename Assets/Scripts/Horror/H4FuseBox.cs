@@ -18,7 +18,6 @@ namespace Default
 
         [Space(10)]
         public PhoneHolding phone;
-        public Animator phoneAnim;
 
         bool open = false;
         bool powerOff = false;
@@ -36,8 +35,8 @@ namespace Default
             animator.SetBool("FuseBlown", true);
             audioPower.clip = fxPowerOff;
             audioPower.Play();
+            phone.ActivateFlashlight();
             GameController.Instance.metaPlayer.AddItem(phone, true);
-            phoneAnim.SetBool("Unlock", true);
         }
 
         void Update()
@@ -92,7 +91,6 @@ namespace Default
             basementLamp.TurnOn();
             GameController.Instance.metaHouseController.SetPower(true);
             GameController.Instance.metaPlayer.RemoveItem(phone);
-            phoneAnim.SetBool("Unlock", false);
 
             yield return new WaitForSeconds(0.6f);
             animator.SetBool("Open", false);

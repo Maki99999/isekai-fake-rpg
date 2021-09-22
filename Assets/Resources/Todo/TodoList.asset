@@ -145,3 +145,47 @@ MonoBehaviour:
       index: 3
     task: player freeze -> unsneak, unsprint
     isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: change time on clock after important events
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: "spieler nicht vom pc ausschlie\xDFen (tasks daf\xFCr auch anpassen ->
+      wenn man die vernachl\xE4ssigt, sollen neue horror events den spieler zuerst
+      nerven, dann t\xF6ten)"
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: more quests
+    isComplete: 0
+  - owner:
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: always show current possible controls
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: lookat phone -> move phone a bit to camera
+    isComplete: 0
+  - owner:
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: food models etc.
+    isComplete: 0
+  - owner:
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: H8 -> no soap downstairs
+    isComplete: 0

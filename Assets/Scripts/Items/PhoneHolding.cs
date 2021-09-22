@@ -7,12 +7,15 @@ namespace Default
     public class PhoneHolding : ItemHoldable
     {
         public GameObject flashlight;
+        public GameObject flashlightScreen;
+        public PhoneTimer timer;
+        public GameObject clockScreen;
         public AudioSource tapSound;
+        public Transform phoneChild;
         public Animator phoneAnim;
 
         [Header("H1Call")]
-        public GameObject phoneCallCanvasObj1;
-        public GameObject phoneCallCanvasObj2;
+        public GameObject phoneCallCanvasObj;
         public PcController pcController;
         public AudioSource callAudio;
         public AudioClip sfxRinging;
@@ -21,8 +24,10 @@ namespace Default
         public AudioClip sfxDisconnected;
         public AudioClip sfxAcceptCall;
 
-        bool pressedLastFrame = false;
-        bool isActive = false;
+        private State currentState = State.UNEQUIPPED;
+        private bool pressedLastFrame = false;
+        private Coroutine showHideRoutine = null;
+        private bool currentlyLookingAtInPcMode = false;
 
         public void H1Call()
         {
@@ -31,24 +36,26 @@ namespace Default
 
         public IEnumerator H1CallAnim()
         {
+            State prevState = currentState;
+            currentState = State.CALL;
+
             callAudio.clip = sfxRinging;
             callAudio.loop = true;
             callAudio.Play();
-            phoneCallCanvasObj1.SetActive(true);
-            phoneCallCanvasObj2.SetActive(true);
+            phoneCallCanvasObj.SetActive(true);
 
             if (GameController.Instance.inPcMode)
             {
                 GameController.Instance.playerEventManager.FreezePlayer(true, true);
                 pcController.ImmerseBreak(true);
-                StartCoroutine(pcController.HidePhone());
+                Hide();
             }
             else
                 GameController.Instance.playerEventManager.FreezePlayer(false, true);
 
-            yield return TransformOperations.MoveToLocal(transform.GetChild(0), Vector3.up * 0.3f, 1f);
+            yield return TransformOperations.MoveToLocal(phoneChild, Vector3.up * 0.3f, 1f);
             yield return new WaitForSeconds(2f);
-            StartCoroutine(TransformOperations.MoveToLocal(transform.GetChild(0), Vector3.left * 0.3f + Vector3.up * 0.3f, 1f));
+            StartCoroutine(TransformOperations.MoveToLocal(phoneChild, Vector3.left * 0.3f + Vector3.up * 0.3f, 1f));
 
             yield return new WaitForSeconds(0.1f);
             callAudio.clip = sfxAcceptCall;
@@ -65,57 +72,155 @@ namespace Default
 
             callAudio.clip = sfxDisconnected;
             callAudio.Play();
-            phoneCallCanvasObj1.SetActive(false);
-            phoneCallCanvasObj2.SetActive(false);
+            phoneCallCanvasObj.SetActive(false);
 
-            StartCoroutine(TransformOperations.MoveToLocal(transform.GetChild(0), Vector3.up * 0.3f, 1f));
+            StartCoroutine(TransformOperations.MoveToLocal(phoneChild, Vector3.up * 0.3f, 1f));
             yield return new WaitForSeconds(0.7f);
             callAudio.Stop();
             yield return new WaitForSeconds(0.6f);
-            yield return TransformOperations.MoveToLocal(transform.GetChild(0), Vector3.zero, 1f);
+            yield return TransformOperations.MoveToLocal(phoneChild, Vector3.zero, 1f);
 
             if (GameController.Instance.inPcMode)
             {
                 GameController.Instance.playerEventManager.FreezePlayer(true, false);
                 pcController.ImmerseBreak(false);
-                pcController.ShowPhone();
+                CustomPos(pcController.phonePos);
             }
             else
                 GameController.Instance.playerEventManager.FreezePlayer(false, false);
+
+            currentState = prevState;
+        }
+
+        public void ActivateFlashlight()
+        {
+            currentState = State.FLASHLIGHT_ON;
+            flashlightScreen.SetActive(true);
+            flashlight.SetActive(true);
+        }
+
+        public void ActivateClockApp()
+        {
+            clockScreen.SetActive(true);
+        }
+
+        public void StartTimer(int minutes, float timeMultiplier)
+        {
+            timer.StartTimer(minutes, timeMultiplier);
+        }
+
+        public void SkipTime(float seconds)
+        {
+            timer.SkipTime(seconds);
+        }
+
+        public void ShowScreen(bool show)
+        {
+            phoneAnim.SetBool("Unlock", show);
+            currentlyLookingAtInPcMode = show;
+        }
+
+        public bool IsLookingAtPhone()
+        {
+            return currentState == State.EQUIPPED_VISIBLE || currentlyLookingAtInPcMode;
         }
 
         public override MoveData UseItem(MoveData inputData)
         {
-            if (!pressedLastFrame && inputData.axisPrimary > 0)
+            bool pressedThisFrame = !pressedLastFrame && inputData.axisPrimary > 0;
+
+            if (currentState == State.FLASHLIGHT_ON || currentState == State.FLASHLIGHT_OFF)
             {
-                tapSound.Play();
-                isActive = !isActive;
-                flashlight.SetActive(isActive);
+                if (pressedThisFrame)
+                {
+                    tapSound.Play();
+                    currentState = currentState == State.FLASHLIGHT_ON ? State.FLASHLIGHT_OFF : State.FLASHLIGHT_ON;
+                    flashlight.SetActive(currentState == State.FLASHLIGHT_ON);
+                }
             }
+            else if (currentState == State.EQUIPPED_VISIBLE || currentState == State.EQUIPPED_HIDDEN)
+            {
+                if (pressedThisFrame)
+                {
+                    Hide(currentState == State.EQUIPPED_HIDDEN);
+                }
+            }
+
             pressedLastFrame = inputData.axisPrimary > 0;
             return inputData;
         }
 
         public override void OnEquip()
         {
-            isActive = true;
-            flashlight.SetActive(true);
+            if (currentState == State.UNEQUIPPED)
+                currentState = State.EQUIPPED_VISIBLE;
+            pcController.lookAtPhone = true;
             phoneAnim.SetBool("Unlock", true);
 
-            if (isActiveAndEnabled)
-                StartCoroutine(TransformOperations.MoveToLocal(transform.GetChild(0), Vector3.up * 0.2f, 0.5f));
-            else
-                GameController.Instance.metaPlayer.RemoveItem(this);
+            Hide(true);
         }
 
         public override void OnUnequip()
         {
-            isActive = false;
+            flashlightScreen.SetActive(false);
             flashlight.SetActive(false);
             phoneAnim.SetBool("Unlock", false);
+            if (!GameController.Instance.inPcMode)
+            {
+                currentState = State.UNEQUIPPED;
+                pcController.lookAtPhone = false;
+            }
 
-            if (isActiveAndEnabled)
-                StartCoroutine(TransformOperations.MoveToLocal(transform.GetChild(0), Vector3.zero, 0.5f));
+            Hide(false);
+        }
+
+        public void Hide(bool reversed = false)
+        {
+            if (currentState == State.EQUIPPED_VISIBLE || currentState == State.EQUIPPED_HIDDEN)
+                currentState = reversed ? State.EQUIPPED_VISIBLE : State.EQUIPPED_HIDDEN;
+
+            if (showHideRoutine != null)
+                StopCoroutine(showHideRoutine);
+            showHideRoutine = StartCoroutine(HideAnim(reversed));
+        }
+
+        IEnumerator HideAnim(bool reversed)
+        {
+            phoneChild.parent = transform;
+            if (reversed)
+                yield return TransformOperations.MoveToLocal(phoneChild, Vector3.up * 0.2f, new Vector3(180, 180, 90), 0.5f);
+            else
+                yield return TransformOperations.MoveToLocal(phoneChild, Vector3.zero, new Vector3(180, 180, 90), 0.5f);
+        }
+
+        public void CustomPos(Transform pos, bool instant = false)
+        {
+            if (instant)
+            {
+                phoneChild.parent = pos;
+                phoneChild.position = pos.position;
+                return;
+            }
+
+            if (showHideRoutine != null)
+                StopCoroutine(showHideRoutine);
+            showHideRoutine = StartCoroutine(CustomPosAnim(pos));
+        }
+
+        IEnumerator CustomPosAnim(Transform pos)
+        {
+            phoneChild.parent = pos;
+            yield return TransformOperations.MoveTo(phoneChild, pos.position, pos.rotation, 1f);
+        }
+
+        private enum State
+        {
+            UNEQUIPPED,
+            CALL,
+            EQUIPPED_VISIBLE,
+            EQUIPPED_HIDDEN,
+            FLASHLIGHT_ON,
+            FLASHLIGHT_OFF
         }
     }
 }

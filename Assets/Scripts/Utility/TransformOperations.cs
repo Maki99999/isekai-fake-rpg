@@ -32,7 +32,8 @@ public class TransformOperations
     public static IEnumerator MoveToLocal(Transform transform, Vector3 newPos, Vector3 newRot, float duration)
     {
         Vector3 oldPos = transform.localPosition;
-        Vector3 oldRot = transform.localEulerAngles;
+        Quaternion oldRot = transform.localRotation;
+        Quaternion newRotQuat = Quaternion.Euler(newRot);
 
         float rate = 1f / duration;
         float fSmooth;
@@ -40,13 +41,13 @@ public class TransformOperations
         {
             fSmooth = Mathf.SmoothStep(0f, 1f, f);
             transform.localPosition = Vector3.Lerp(oldPos, newPos, fSmooth);
-            transform.localRotation = Quaternion.Euler(Vector3.Lerp(oldRot, newRot, fSmooth));
+            transform.localRotation = Quaternion.Lerp(oldRot, newRotQuat, fSmooth);
 
             yield return null;
         }
 
         transform.localPosition = newPos;
-        transform.localRotation = Quaternion.Euler(newRot);
+        transform.localRotation = newRotQuat;
     }
 
     public static IEnumerator MoveToLocal(Transform transform, Vector3 newPos, float duration)

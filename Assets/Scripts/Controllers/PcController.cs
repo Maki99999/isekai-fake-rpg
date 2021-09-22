@@ -32,9 +32,8 @@ namespace Default
 
         [Space(20)]
         public bool lookAtPhone = false;
-        public Transform phone;
+        public PhoneHolding phone;
         public Transform phonePos;
-        public Animator phoneAnim;
 
         bool powerOn = true;
 
@@ -140,8 +139,8 @@ namespace Default
 
         IEnumerator LookAtTransition(bool reversed)
         {
-            if (lookAtPhone)
-                phoneAnim.SetBool("Unlock", !reversed);
+            if (lookAtPhone || GameController.Instance.metaHouseController.brokenWallClocksAcknowledged)
+                phone.ShowScreen(!reversed);
 
             if (!reversed)
                 immersedValueIsRegular = false;
@@ -150,7 +149,7 @@ namespace Default
             float newImmValNormal = Mathf.Min(ImmersedValue, 0.5f);
 
             ImmersedValue = newImmValNormal;
-            Vector3 currentLookAtPos = (lookAtPhone ? phonePos : lookAt).position;
+            Vector3 currentLookAtPos = (lookAtPhone || GameController.Instance.metaHouseController.brokenWallClocksAcknowledged ? phonePos : lookAt).position;
             Vector3 oldRot = GameController.Instance.metaPlayer.GetRotation();
             Vector3 newRot;
             if (reversed)
@@ -203,14 +202,14 @@ namespace Default
         {
             inTransition = true;
             transitionsToPcMode = true;
+            GameController.Instance.inPcMode = true;
             GameController.Instance.playerEventManager.FreezePlayer(false, true);
 
-            ShowPhone();
+            phone.CustomPos(phonePos);
             yield return GameController.Instance.metaPlayer.MoveRotatePlayer(pcLookTransform, 2f, true, maxPcLookDistance * Vector3.forward);
 
             GameController.Instance.playerEventManager.FreezePlayer(true, false);
             inTransition = false;
-            GameController.Instance.inPcMode = true;
             headAnim.SetBool("Wobble", true);
 
             StartCoroutine(Immerse(false, maxImmersionTime));
@@ -222,7 +221,7 @@ namespace Default
             GameController.Instance.metaPlayer.TeleportPlayer(pcLookTransform, true, maxPcLookDistance * Vector3.forward);
             GameController.Instance.playerEventManager.FreezePlayer(true, false);
 
-            ShowPhone(true);
+            phone.CustomPos(phonePos, true);
 
             GameController.Instance.inPcMode = true;
             headAnim.SetBool("Wobble", true);
@@ -232,39 +231,22 @@ namespace Default
 
         public IEnumerator ToNonPcMode()
         {
+            if (!GameController.Instance.inPcMode)
+                yield break;
+
             inTransition = true;
             transitionsToPcMode = false;
+            GameController.Instance.inPcMode = false;
             GameController.Instance.playerEventManager.FreezePlayer(true, true);
 
             StartCoroutine(Immerse(true, 2f));
 
-            StartCoroutine(HidePhone());
+            phone.Hide(false);
             yield return GameController.Instance.metaPlayer.MoveRotatePlayer(standUpTransform, 2f);
 
             GameController.Instance.playerEventManager.FreezePlayer(false, false);
             inTransition = false;
-            GameController.Instance.inPcMode = false;
             headAnim.SetBool("Wobble", false);
-        }
-
-        public void ShowPhone(bool instant = false)
-        {
-            phone.gameObject.SetActive(true);
-            phone.rotation = phonePos.rotation;
-
-            if (instant)
-                phone.position = phonePos.position;
-            else
-            {
-                phone.position = GameController.Instance.metaPlayer.itemTransform.position;
-                StartCoroutine(TransformOperations.MoveTo(phone, phonePos.position, phonePos.rotation, 1f));
-            }
-        }
-
-        public IEnumerator HidePhone()
-        {
-            yield return TransformOperations.MoveTo(phone, GameController.Instance.metaPlayer.itemTransform.position + Vector3.up * 0.1f, phonePos.rotation, 1f);
-            phone.gameObject.SetActive(false);
         }
 
         public IEnumerator Immerse(bool reverse, float seconds)

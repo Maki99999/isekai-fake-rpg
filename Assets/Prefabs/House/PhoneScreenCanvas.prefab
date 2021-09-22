@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 10:00
+  m_Text: 00:00
 --- !u!1 &416577995
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +97,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &416577996
 RectTransform:
   m_ObjectHideFlags: 0
@@ -434,7 +434,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c74f3d66abc294ba1ac7b07d4466c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 1004445432}
+  text: {fileID: 151826820}
+  textMs: {fileID: 1004445432}
 --- !u!1 &1004445430
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,7 +532,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1011310723
 RectTransform:
   m_ObjectHideFlags: 0

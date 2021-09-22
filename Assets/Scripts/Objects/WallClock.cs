@@ -14,15 +14,10 @@ namespace Default
 
         public void SetTime(int hour, int minute)
         {
+            if (!enabled)
+                return;
             handHours.localRotation = Quaternion.Euler((-360f / 12f) * hour + (-360f / (12f * 60f)) * minute, 0, 0);
             handMinutes.localRotation = Quaternion.Euler((-360f / 60f) * minute, 0, 0);
-        }
-
-        void Start()
-        {
-            StartCoroutine(Tick());
-
-            SetTime(6, 25);
         }
 
         IEnumerator Tick()
@@ -37,6 +32,7 @@ namespace Default
         private void OnEnable()
         {
             audioSource.Play();
+            StartCoroutine(Tick());
         }
 
         private void OnDisable()

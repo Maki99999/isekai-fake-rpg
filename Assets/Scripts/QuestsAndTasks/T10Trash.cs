@@ -9,6 +9,7 @@ namespace Default
         public Outline[] outlines;
         public Collider useableCollider;
         public ItemHoldable trashItem;
+        public GameObject entrance;
         public T4WashingMachine t4;
 
         private bool locked;
@@ -52,6 +53,7 @@ namespace Default
             GameController.Instance.metaPlayer.AddItem(trashItem, true);
             yield return new WaitForSeconds(2f);
 
+            entrance.SetActive(true);
             GameController.Instance.playerEventManager.FreezePlayers(false);
             GameController.Instance.fadingAnimator.SetBool("Black", false);
             yield return new WaitForSeconds(2f);
