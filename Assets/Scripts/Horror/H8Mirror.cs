@@ -10,10 +10,12 @@ namespace Default
         public AudioSource audioSource;
         public Animator ghostAnim;
         public Transform ghost;
+        public LayerMask ghostLookAtLayer;
 
-        bool playerNearby = false;
-        Vector3 origPos;
-        Quaternion origRot;
+        private bool playerNearby = false;
+        private bool ghostShowing = false;
+        private Vector3 origPos;
+        private Quaternion origRot;
 
         void Start()
         {
@@ -33,7 +35,9 @@ namespace Default
         {
             ghost.position = origPos;
             ghost.rotation = origRot;
+            ghostShowing = true;
             ghostAnim.SetTrigger("Show");
+            StartCoroutine(HideWhenLooking());
         }
 
         public void HideGhost()
@@ -41,8 +45,26 @@ namespace Default
             StartCoroutine(Hide());
         }
 
+        IEnumerator HideWhenLooking()
+        {
+            Transform playerTransform = GameController.Instance.metaPlayer.cam.transform;
+            RaycastHit hit;
+            while (ghostShowing)
+            {
+                if (Physics.Raycast(playerTransform.position, playerTransform.forward, out hit, 2.5f, ghostLookAtLayer))
+                {
+                    if (hit.collider.gameObject.CompareTag("LookAtTrigger"))
+                        break;
+                }
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            yield return Hide();
+        }
+
         IEnumerator Hide()
         {
+            ghostShowing = false;
             audioSource.Play();
             ghostAnim.SetTrigger("Hide");
             yield return new WaitForSeconds(1f);

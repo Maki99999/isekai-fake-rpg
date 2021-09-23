@@ -62,7 +62,7 @@ namespace Default
 
         public bool BlockingPcMode()
         {
-            if (ovenState == OvenState.IDLE)
+            if (ovenState == OvenState.IDLE || ovenState == OvenState.DONE)
             {
                 GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "I'm hungry." });
                 return true;
@@ -229,8 +229,7 @@ namespace Default
 
             if (ovenState == OvenState.FOOD_DONE)
             {
-                ovenState = OvenState.TRAY;
-                GameController.Instance.storyManager.TaskFinished();
+                ovenState = OvenState.DONE;
                 fridgeTrigger.enabled = false;
                 GameController.Instance.playerEventManager.FreezePlayer(false, false);
                 gameObject.SetActive(false);
@@ -257,7 +256,8 @@ namespace Default
             TRAY,
             FOOD_NOT_DONE,
             FOOD_DONE,
-            FOOD_BURNED
+            FOOD_BURNED,
+            DONE
         }
 
         [System.Serializable]

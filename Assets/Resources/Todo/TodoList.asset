@@ -189,3 +189,9 @@ MonoBehaviour:
       index: 3
     task: H8 -> no soap downstairs
     isComplete: 0
+  - owner:
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: phone is visible in mirror
+    isComplete: 0

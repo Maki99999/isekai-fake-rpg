@@ -14,8 +14,9 @@ namespace Default
         public T4WashingMachine t4Obj;
         public T10Trash t10Obj;
         public T11Dishes t11Obj;
+        public T13WashHands t13Obj;
 
-        private string currentTaskId = "";
+        public string currentTaskId { get; private set; } = "";
 
         void Start()
         {
@@ -23,7 +24,7 @@ namespace Default
             if (startWithTrailer)
                 trailer.StartTrailer();
 
-            StartTask("T2"); // Debug
+            //StartTask("T13"); // Debug
         }
 
         public bool isTaskBlockingPc()
@@ -34,6 +35,8 @@ namespace Default
                     return t2Obj.BlockingPcMode();
                 case "T4":
                     return t4Obj.BlockingPcMode();
+                case "T13":
+                    return t13Obj.BlockingPcMode();
                 default:
                     return false;
             }

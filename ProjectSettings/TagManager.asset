@@ -8,6 +8,7 @@ TagManager:
   - Useable
   - MAST_Holder
   - Projectile
+  - LookAtTrigger
   layers:
   - Default
   - TransparentFX
