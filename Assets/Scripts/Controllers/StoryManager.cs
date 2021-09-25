@@ -12,6 +12,7 @@ namespace Default
         [Space(10)]
         public T2Oven t2Obj;
         public T4WashingMachine t4Obj;
+        public T8Cracker t8Obj;
         public T10Trash t10Obj;
         public T11Dishes t11Obj;
         public T13WashHands t13Obj;
@@ -24,7 +25,7 @@ namespace Default
             if (startWithTrailer)
                 trailer.StartTrailer();
 
-            //StartTask("T13"); // Debug
+            StartTask("T8"); // Debug
         }
 
         public bool isTaskBlockingPc()
@@ -35,6 +36,8 @@ namespace Default
                     return t2Obj.BlockingPcMode();
                 case "T4":
                     return t4Obj.BlockingPcMode();
+                case "T8":
+                    return t8Obj.BlockingPcMode();
                 case "T13":
                     return t13Obj.BlockingPcMode();
                 default:
@@ -53,6 +56,9 @@ namespace Default
                     break;
                 case "T4":
                     t4Obj.gameObject.SetActive(true);
+                    break;
+                case "T8":
+                    t8Obj.gameObject.SetActive(true);
                     break;
                 case "T10":
                     t10Obj.gameObject.SetActive(true);

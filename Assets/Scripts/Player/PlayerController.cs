@@ -526,5 +526,12 @@ namespace Default
                 }
             RemoveItem(item);
         }
+
+        public void UnequipCurrentItem()
+        {
+            if (currentItem != null)
+                currentItem.OnUnequip();
+            currentItem = null;
+        }
     }
 }
