@@ -15,6 +15,7 @@ namespace Default
         public T8Cracker t8Obj;
         public T10Trash t10Obj;
         public T11Dishes t11Obj;
+        public T12GetKnife t12Obj;
         public T13WashHands t13Obj;
 
         public string currentTaskId { get; private set; } = "";
@@ -25,7 +26,7 @@ namespace Default
             if (startWithTrailer)
                 trailer.StartTrailer();
 
-            StartTask("T8"); // Debug
+            //StartTask("T12"); // Debug
         }
 
         public bool isTaskBlockingPc()
@@ -38,6 +39,8 @@ namespace Default
                     return t4Obj.BlockingPcMode();
                 case "T8":
                     return t8Obj.BlockingPcMode();
+                case "T12":
+                    return t12Obj.BlockingPcMode();
                 case "T13":
                     return t13Obj.BlockingPcMode();
                 default:
@@ -65,6 +68,9 @@ namespace Default
                     break;
                 case "T11":
                     t11Obj.gameObject.SetActive(true);
+                    break;
+                case "T12":
+                    t12Obj.gameObject.SetActive(true);
                     break;
                 default:
                     break;

@@ -443,6 +443,7 @@ namespace Default
 
                 items.Add(item);
 
+                item.OnPickup();
                 if (directlyEquip)
                 {
                     if (currentItem != null)
@@ -482,6 +483,7 @@ namespace Default
             items.Add(item);
             useController.enabled = true;
 
+            item.OnPickup();
             if (directlyEquip)
             {
                 if (currentItem != null)

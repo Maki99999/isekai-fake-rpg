@@ -44,14 +44,20 @@ namespace Default
         public void PickThisUp()
         {
             int newLayer = inGame ? LayerMask.NameToLayer("Always On Top") : LayerMask.NameToLayer("MetaLayer_Always On Top");
-            foreach (Transform child in item.transform)
-                child.gameObject.layer = newLayer;
+            MoveToLayer(item.transform, newLayer);
 
             foreach (Outline outline in outlines)
                 Destroy(outline);
 
             player.AddItem(item.GetComponent<ItemHoldable>(), true, !inGame);
             gameObject.SetActive(false);
+        }
+
+        void MoveToLayer(Transform root, int layer)
+        {
+            root.gameObject.layer = layer;
+            foreach (Transform child in root)
+                MoveToLayer(child, layer);
         }
 
         void Useable.LookingAt()

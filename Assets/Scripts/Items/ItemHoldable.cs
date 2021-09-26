@@ -16,6 +16,7 @@ namespace Default
 
         public virtual void OnUnequip() { }
         public virtual void OnEquip() { }
+        public virtual void OnPickup() { }
     }
 
     [System.Serializable]
