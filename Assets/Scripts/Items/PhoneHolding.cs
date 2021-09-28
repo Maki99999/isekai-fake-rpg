@@ -199,6 +199,7 @@ namespace Default
             {
                 phoneChild.parent = pos;
                 phoneChild.position = pos.position;
+                phoneChild.rotation = pos.rotation;
                 return;
             }
 

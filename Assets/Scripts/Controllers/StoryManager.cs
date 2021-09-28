@@ -6,8 +6,11 @@ namespace Default
 {
     public class StoryManager : MonoBehaviour
     {
-        public bool startWithTrailer;
+        public bool startWithTrailer = false;
+        public bool startInPcMode = false;
+        [Space(5)]
         public Trailer trailer;
+        public PcController pcController;
 
         [Space(10)]
         public T2Oven t2Obj;
@@ -17,6 +20,7 @@ namespace Default
         public T11Dishes t11Obj;
         public T12GetKnife t12Obj;
         public T13WashHands t13Obj;
+        public T14MissingPhone t14Obj;
 
         public string currentTaskId { get; private set; } = "";
 
@@ -25,8 +29,10 @@ namespace Default
             GameController.Instance.playerEventManager.FreezePlayer(false, false);
             if (startWithTrailer)
                 trailer.StartTrailer();
+            else if (startInPcMode)
+                pcController.ToPcModeInstant();
 
-            //StartTask("T12"); // Debug
+            //StartTask("T14"); // Debug
         }
 
         public bool isTaskBlockingPc()
@@ -43,6 +49,8 @@ namespace Default
                     return t12Obj.BlockingPcMode();
                 case "T13":
                     return t13Obj.BlockingPcMode();
+                case "T14":
+                    return t14Obj.BlockingPcMode();
                 default:
                     return false;
             }
@@ -71,6 +79,9 @@ namespace Default
                     break;
                 case "T12":
                     t12Obj.gameObject.SetActive(true);
+                    break;
+                case "T14":
+                    t14Obj.gameObject.SetActive(true);
                     break;
                 default:
                     break;

@@ -12,6 +12,7 @@ namespace Default
         public GameObject eventH5Object;
         public H6SpiderCrawl eventH6Crawl;
         public H8Mirror eventH8Mirror;
+        public H9MonsterBasement eventH9MonsterBasement;
         public H11Glass eventH11Glass;
         public InvincibleJumpingSpider eventH13JumpingSpider;
         public Microwave eventH14Microwave;
@@ -29,7 +30,7 @@ namespace Default
                 "H6" => EventH6(),
                 "H7" => EventH7(),
                 "H8" => EventH8(),
-                //"H9" => EventH9(),
+                "H9" => EventH9(),
                 //H10: activated automatically
                 "H11" => EventH11(),
                 "H12" => EventH12(),
@@ -88,6 +89,12 @@ namespace Default
         private bool EventH8()
         {
             eventH8Mirror.ShowGhost();
+            return true;
+        }
+
+        private bool EventH9()
+        {
+            eventH9MonsterBasement.gameObject.SetActive(true);
             return true;
         }
 

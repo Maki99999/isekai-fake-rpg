@@ -24,23 +24,25 @@ namespace Default
             else if (!isPressing && isCharging)
             {
                 isCharging = false;
-                Swing();
+                animator.SetBool("Charging", false);
             }
 
             return inputData;
         }
 
-        private void Swing()
+        private void SwingSound()
         {
-            animator.SetBool("Charging", false);
             slashAudio.clip = slashAudioClips[Random.Range(0, slashAudioClips.Length)];
             slashAudio.Play();
         }
 
         public override void OnUnequip()
         {
-            animator.SetBool("Show", false);
-            animator.SetTrigger("Hide");
+            if (isActiveAndEnabled)
+            {
+                animator.SetBool("Show", false);
+                animator.SetTrigger("Hide");
+            }
         }
 
         public override void OnEquip()

@@ -10,9 +10,12 @@ namespace Default
         public AudioSource doorAudio;
         public AudioClip sfxOpen;
         public AudioClip sfxClose;
+        public AudioClip sfxRattle;
 
         public bool currentlyOpen = false;
         public bool openFurther = false;
+
+        public bool locked = false;
 
         protected override void Start()
         {
@@ -33,7 +36,14 @@ namespace Default
 
         void Useable.Use()
         {
-            if (currentlyOpen)
+            if (locked)
+            {
+                doorAnim.SetTrigger("Rattle");
+                doorAudio.clip = sfxRattle;
+                doorAudio.Play();
+                return;
+            }
+            else if (currentlyOpen)
                 Close();
             else
                 Open();

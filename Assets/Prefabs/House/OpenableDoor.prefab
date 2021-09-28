@@ -291,12 +291,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36911b10b2231cc4898a56ac030fd1a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outlinesGameObjectParent: {fileID: 0}
   doorAnim: {fileID: 5300701942573568259}
   doorAudio: {fileID: 8592827790685730691}
   sfxOpen: {fileID: 8300000, guid: aa706f284e9fdd449a889f77874f803a, type: 3}
   sfxClose: {fileID: 8300000, guid: 2f2c63bebd67aec4e9e0d7c681c2a439, type: 3}
+  sfxRattle: {fileID: 8300000, guid: 775479a35e2fb594395e2430dd1d4e79, type: 3}
   currentlyOpen: 0
   openFurther: 0
+  closed: 0
 --- !u!95 &5300701942573568259
 Animator:
   serializedVersion: 3

@@ -217,14 +217,15 @@ namespace Default
 
         public void ToPcModeInstant()
         {
+            GameController.Instance.inPcMode = true;
             GameController.Instance.playerEventManager.FreezePlayer(false, true);
-            GameController.Instance.metaPlayer.TeleportPlayer(pcLookTransform, true, maxPcLookDistance * Vector3.forward);
-            GameController.Instance.playerEventManager.FreezePlayer(true, false);
 
             phone.CustomPos(phonePos, true);
+            GameController.Instance.metaPlayer.TeleportPlayer(pcLookTransform, true, maxPcLookDistance * Vector3.forward);
 
-            GameController.Instance.inPcMode = true;
+            GameController.Instance.playerEventManager.FreezePlayer(true, false);
             headAnim.SetBool("Wobble", true);
+
             ImmersedValue = 1f;
             immersedValueRegular = 1f;
         }
