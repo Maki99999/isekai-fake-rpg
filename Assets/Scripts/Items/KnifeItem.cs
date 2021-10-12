@@ -53,6 +53,7 @@ namespace Default
         public override void OnPickup()
         {
             GameController.Instance.storyManager.TaskFinished();
+            GameController.Instance.horrorEventManager.StartEvent("H6");
             animator.enabled = true;
         }
     }

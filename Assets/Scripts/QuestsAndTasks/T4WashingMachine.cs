@@ -25,6 +25,7 @@ namespace Default
             GameController.Instance.dialogue.StartDialogueWithFreeze(dialogueStart);
 
             washingMachine.gameObject.SetActive(true);
+            GameController.Instance.horrorEventManager.StartEvent("H5");
         }
 
         public void MachineStarted()

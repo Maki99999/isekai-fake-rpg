@@ -32,6 +32,8 @@ namespace Default
 
         public void StartQuest(string id)
         {
+            if (currentQuestId != "")
+                EndQuest(currentQuestId);
             completedAnim.SetTrigger("NewQuest");
             completedAnim.SetBool("Completed", false);
             currentQuestId = id;
@@ -64,6 +66,15 @@ namespace Default
                 currentQuestId = "";
             questsDone.Add(id);
             completedAnim.SetBool("Completed", true);
+
+            switch (id)
+            {
+                case "Q4":
+                    GameController.Instance.horrorEventManager.StartEvent("H13");
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void SetProgressText(string text)

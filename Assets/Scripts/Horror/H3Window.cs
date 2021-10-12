@@ -14,18 +14,18 @@ namespace Default
 
         bool triggered = false;
 
-        public bool Trigger()
+        public void Trigger()
         {
             if (triggered)
-                return false;
+                return;
             triggered = true;
+
+            GameController.Instance.horrorEventManager.StartEvent("H12");
 
             normalWindow.SetActive(false);
             brokenWindow.SetActive(true);
             audio1.PlayDelayed(0.25f);
             audio2.PlayDelayed(0.65f);
-
-            return true;
         }
     }
 }

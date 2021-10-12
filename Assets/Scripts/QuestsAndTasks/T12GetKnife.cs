@@ -8,10 +8,13 @@ namespace Default
     {
         public Collider knifeCollider;
 
-        void Start()
+        IEnumerator Start()
         {
             GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "I'm not feeling safe. I'll grab a knife." });
             knifeCollider.enabled = true;
+
+            yield return new WaitForSeconds(16f);
+            GameController.Instance.horrorEventManager.StartEvent("H1");
         }
 
         public bool BlockingPcMode()

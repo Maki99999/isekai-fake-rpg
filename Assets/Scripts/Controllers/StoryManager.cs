@@ -22,6 +22,8 @@ namespace Default
         public T13WashHands t13Obj;
         public T14MissingPhone t14Obj;
 
+        public H16Puppet puppet;
+
         public string currentTaskId { get; private set; } = "";
 
         void Start()
@@ -31,8 +33,6 @@ namespace Default
                 trailer.StartTrailer();
             else if (startInPcMode)
                 pcController.ToPcModeInstant();
-
-            //StartTask("T14"); // Debug
         }
 
         public bool isTaskBlockingPc()
@@ -81,6 +81,7 @@ namespace Default
                     t12Obj.gameObject.SetActive(true);
                     break;
                 case "T14":
+                    puppet.enabled = true;
                     t14Obj.gameObject.SetActive(true);
                     break;
                 default:
@@ -90,7 +91,44 @@ namespace Default
 
         public void TaskFinished()
         {
+            switch (currentTaskId)
+            {
+                case "T4":
+                    StartCoroutine(StartNextTaskDelayed("T2", "Q1"));
+                    break;
+                case "T2":
+                    StartCoroutine(StartNextTaskDelayed("T8", "Q2"));
+                    break;
+                case "T8":
+                    StartCoroutine(StartNextHorrorEventDelayed("H4"));
+                    break;
+                case "T12":
+                    StartCoroutine(StartNextTaskDelayed("T14", "Q4"));
+                    break;
+                case "T14":
+                    puppet.enabled = false;
+                    //End
+                    break;
+                default:
+                    break;
+            }
             StartTask("");
+        }
+
+        private IEnumerator StartNextTaskDelayed(string nextTaskId, string questToWaitFor = "")
+        {
+            if (questToWaitFor != "")
+                yield return new WaitUntil(() => GameController.Instance.questManager.IsQuestDone(questToWaitFor));
+            yield return new WaitUntil(() => GameController.Instance.inPcMode);
+            yield return new WaitForSeconds(27f);
+            StartTask(nextTaskId);
+        }
+
+        private IEnumerator StartNextHorrorEventDelayed(string nextHorrorEventId)
+        {
+            yield return new WaitUntil(() => GameController.Instance.inPcMode);
+            yield return new WaitForSeconds(27f);
+            GameController.Instance.horrorEventManager.StartEvent(nextHorrorEventId);
         }
     }
 }

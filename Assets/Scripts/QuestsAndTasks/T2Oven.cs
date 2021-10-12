@@ -32,12 +32,12 @@ namespace Default
 
         private IEnumerator Start()
         {
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            GameController.Instance.playerEventManager.FreezePlayers(true);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "I'm hungry." });
             if (GameController.Instance.inPcMode)
                 yield return pcController.ToNonPcMode();
             fridgeTrigger.enabled = true;
-            GameController.Instance.playerEventManager.FreezePlayer(false, false);
+            GameController.Instance.playerEventManager.FreezePlayers(false);
         }
 
         void Update()
@@ -160,6 +160,7 @@ namespace Default
 
             yield return new WaitForSeconds(overallTime / 2f);
             GameController.Instance.metaHouseController.StopWallClocks();
+            GameController.Instance.horrorEventManager.StartEvent("H1");
 
             //yield return new WaitForSeconds(overallTime / 2f);
             //foodObjects[currentFood].foodOnTrayRaw.SetActive(false);

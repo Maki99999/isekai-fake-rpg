@@ -195,3 +195,58 @@ MonoBehaviour:
       index: 3
     task: phone is visible in mirror
     isComplete: 0
+  - owner:
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: when starting game for the first time -> brightness slider (move the slider
+      so that the logo is barely visible)
+    isComplete: 0
+  - owner:
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: random magic circles
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: 'food: "time to play some more"'
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: 'food 2nd: say after some time that the clocks stopped working'
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: goblins are small again -.-
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: more horror during food task
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: stone message?
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: small spiderhide not spawning
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: fuse wrong phone mode
+    isComplete: 0

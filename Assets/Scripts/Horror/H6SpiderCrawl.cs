@@ -19,8 +19,6 @@ public class H6SpiderCrawl : MonoBehaviour
         audioSource.PlayDelayed(3f);
 
         foreach (GameObject smallSpider in smallSpiders)
-        {
             smallSpider.SetActive(true);
-        }
     }
 }

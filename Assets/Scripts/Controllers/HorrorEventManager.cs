@@ -7,15 +7,15 @@ namespace Default
     public class HorrorEventManager : MonoBehaviour
     {
         public PhoneHolding eventH1Call;
-        public H3Window eventH3Window;
+        public GameObject eventH3Window;
         public H4FuseBox eventH4FuseBox;
         public GameObject eventH5Object;
-        public H6SpiderCrawl eventH6Crawl;
+        public GameObject eventH6Crawl;
         public H8Mirror eventH8Mirror;
         public H9MonsterBasement eventH9MonsterBasement;
-        public H11Glass eventH11Glass;
-        public InvincibleJumpingSpider eventH13JumpingSpider;
-        public Microwave eventH14Microwave;
+        public GameObject eventH11Glass;
+        public GameObject eventH13JumpingSpider;
+        public GameObject eventH14Microwave;
         public H16Puppet eventH16Puppet;
 
         public bool StartEvent(string eventId)
@@ -36,7 +36,7 @@ namespace Default
                 "H12" => EventH12(),
                 "H13" => EventH13(),
                 "H14" => EventH14(),
-                "H15" => EventH15(),
+                //H15: with H14
                 "H16" => EventH16(),
                 //H17-H20: completely random
 
@@ -47,16 +47,22 @@ namespace Default
             };
         }
 
+        public void StartEventsAfterT8()
+        {
+            StartEvent("H12");
+            StartEvent("H3");
+        }
+
         private bool EventH1()
         {
-            eventH1Call.gameObject.SetActive(true);
             eventH1Call.H1Call();
             return true;
         }
 
         private bool EventH3()
         {
-            return eventH3Window.Trigger();
+            eventH3Window.SetActive(true);
+            return true;
         }
 
         private bool EventH4()
@@ -73,7 +79,7 @@ namespace Default
 
         private bool EventH6()
         {
-            eventH6Crawl.Crawl();
+            eventH6Crawl.SetActive(true);
             return true;
         }
 
@@ -100,7 +106,7 @@ namespace Default
 
         private bool EventH11()
         {
-            eventH11Glass.FallingGlass();
+            eventH11Glass.SetActive(true);
             return true;
         }
 
@@ -112,20 +118,13 @@ namespace Default
 
         private bool EventH13()
         {
-            eventH13JumpingSpider.StartJump();
+            eventH13JumpingSpider.SetActive(true);
             return true;
         }
 
         private bool EventH14()
         {
-            eventH14Microwave.Close();
-            eventH14Microwave.TurnOn();
-            return true;
-        }
-
-        private bool EventH15()
-        {
-            eventH14Microwave.H15Event();
+            eventH14Microwave.SetActive(true);
             return true;
         }
 

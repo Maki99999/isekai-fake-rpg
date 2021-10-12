@@ -16,6 +16,7 @@ namespace Default
         private void Start()
         {
             GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "The dishes are next." });
+            GameController.Instance.horrorEventManager.StartEvent("H11");
         }
 
         void Update()

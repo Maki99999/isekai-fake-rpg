@@ -14,9 +14,14 @@ namespace Default
 
         private bool locked;
 
-        private void Start()
+        private IEnumerator Start()
         {
-            GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "I still have trash in the kitchen to bring outside." });
+            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "I still have trash in the kitchen to bring outside." });
+            GameController.Instance.playerEventManager.FreezePlayer(false, false);
+
+            yield return new WaitForSeconds(16f);
+            GameController.Instance.horrorEventManager.StartEvent("H1");
         }
 
         void Update()

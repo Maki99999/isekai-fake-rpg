@@ -283,6 +283,7 @@ namespace Default
 
             if (powerOn)
             {
+                GameController.Instance.playerEventManager.FreezePlayer(true, false);
                 player.transform.position += 1000f * Vector3.up;
                 materials[1] = matPCaccent;
             }
@@ -296,6 +297,8 @@ namespace Default
 
                 player.transform.position += 1000f * Vector3.down;
                 materials[1] = matPC;
+
+                StartCoroutine(ToNonPcMode());
             }
 
             pcMesh.materials = materials;

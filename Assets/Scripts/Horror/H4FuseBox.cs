@@ -31,12 +31,13 @@ namespace Default
         public void PowerOff()
         {
             GameController.Instance.metaHouseController.SetPower(false);
+            GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() {"Has the fuse blown?", "Back to the basement..."});
             powerOff = true;
             animator.SetBool("FuseBlown", true);
             audioPower.clip = fxPowerOff;
             audioPower.Play();
-            phone.ActivateFlashlight();
             GameController.Instance.metaPlayer.AddItem(phone, true);
+            phone.ActivateFlashlight();
         }
 
         void Update()
@@ -102,6 +103,7 @@ namespace Default
             powerOff = false;
             inAnimation = false;
             GameController.Instance.playerEventManager.FreezePlayer(false, false);
+            GameController.Instance.horrorEventManager.StartEvent("H14");
         }
 
         void Useable.LookingAt()

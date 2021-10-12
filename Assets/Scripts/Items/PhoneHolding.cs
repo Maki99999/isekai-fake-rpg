@@ -165,7 +165,7 @@ namespace Default
             flashlightScreen.SetActive(false);
             flashlight.SetActive(false);
             phoneAnim.SetBool("Unlock", false);
-            if (!GameController.Instance.inPcMode)
+            if (!GameController.Instance.inPcMode && (currentState != State.FLASHLIGHT_ON || currentState != State.FLASHLIGHT_OFF))
             {
                 currentState = State.UNEQUIPPED;
                 pcController.lookAtPhone = false;

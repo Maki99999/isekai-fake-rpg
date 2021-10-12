@@ -10,6 +10,7 @@ namespace Default
         public Animator anim;
         new public Light light;
 
+        public GameObject h15Trigger;
         public H10FoodFlesh fleshScript;
 
         [Space(10)]
@@ -22,7 +23,7 @@ namespace Default
 
         bool open;
         bool turnedOn;
-        bool locked;
+        bool locked = true;
 
         void Update()
         {
@@ -35,15 +36,26 @@ namespace Default
                 return;
             if (open)
                 Close();
+            else if (turnedOn)
+                TurnOff();
             else
-            {
-                if (turnedOn)
-                    TurnOff();
-                else if (Random.value < 0.5f)
-                    TurnOn();
-                else
-                    Open();
-            }
+                Open();
+        }
+
+        public void H14Event()
+        {
+            Close();
+            TurnOn();
+
+            h15Trigger.SetActive(true);
+
+            StartCoroutine(StartNextTaskDelayedFast());
+        }
+
+        private IEnumerator StartNextTaskDelayedFast()
+        {
+            yield return new WaitForSeconds(10f);
+            GameController.Instance.storyManager.StartTask("T12");
         }
 
         public void H15Event()
@@ -54,7 +66,6 @@ namespace Default
         IEnumerator H15EventEnumerator()
         {
             fleshScript.ShowFlesh(true);
-            locked = true;
 
             yield return new WaitForSeconds(3f);
 
@@ -88,7 +99,8 @@ namespace Default
 
         public void LookingAt()
         {
-            outline.enabled = true;
+            if (enabled && !locked)
+                outline.enabled = true;
         }
 
         public void TurnOn()

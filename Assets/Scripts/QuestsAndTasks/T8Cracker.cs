@@ -13,13 +13,13 @@ namespace Default
 
         private IEnumerator Start()
         {
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            GameController.Instance.playerEventManager.FreezePlayers(true);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "I'm hungry again.", "I'll get some crackers from the basement and maybe a bottle of cola." });
             if (GameController.Instance.inPcMode)
                 yield return pcController.ToNonPcMode();
             colaCollider.enabled = true;
             crackerCollider.enabled = true;
-            GameController.Instance.playerEventManager.FreezePlayer(false, false);
+            GameController.Instance.playerEventManager.FreezePlayers(false);
         }
 
         public bool BlockingPcMode()
