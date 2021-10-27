@@ -42,15 +42,15 @@ MonoBehaviour:
     task: add fake other players (manu and fish)
     isComplete: 0
   - owner:
-      name: Much Later
-      color: {r: 0.7, g: 0.7, b: 1, a: 0.7}
-      index: 4
+      name: In Progress
+      color: {r: 1, g: 1, b: 0, a: 1}
+      index: 2
     task: Save system
     isComplete: 0
   - owner:
-      name: Much Later
-      color: {r: 0.7, g: 0.7, b: 1, a: 0.7}
-      index: 4
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: main menu with credits
     isComplete: 0
   - owner:
@@ -64,19 +64,6 @@ MonoBehaviour:
       color: {r: 0.7, g: 0.7, b: 1, a: 1}
       index: 3
     task: better mountains
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: "Storyboard f\xFCr die In-Game-Story"
-    isComplete: 0
-  - owner:
-      name: In Progress
-      color: {r: 1, g: 1, b: 0, a: 1}
-      index: 2
-    task: "Storyboard f\xFCr die Horror-Story (schon iwo angefangen, auch an bday-idee
-      orientieren)"
     isComplete: 0
   - owner:
       name: QOL
@@ -209,44 +196,26 @@ MonoBehaviour:
     task: random magic circles
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: 'food: "time to play some more"'
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: 'food 2nd: say after some time that the clocks stopped working'
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: goblins are small again -.-
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
     task: more horror during food task
     isComplete: 0
   - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: stone message?
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: small spiderhide not spawning
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
     task: fuse wrong phone mode
+    isComplete: 0
+  - owner:
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: Spider legs right at the start of the intro
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: phone call more buttons to auflegen
     isComplete: 0

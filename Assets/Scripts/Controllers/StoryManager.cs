@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace Default
 {
-    public class StoryManager : MonoBehaviour
+    public class StoryManager : SaveDataObject
     {
-        public bool startWithTrailer = false;
+        public SaveManager saveManager;
+        public bool startNormally = true;
         public bool startInPcMode = false;
         [Space(5)]
         public Trailer trailer;
@@ -25,14 +26,32 @@ namespace Default
         public H16Puppet puppet;
 
         public string currentTaskId { get; private set; } = "";
+        public override string saveDataId { get => "saveManager"; }
+
+        private HashSet<string> finishedTasks = new HashSet<string>();
 
         void Start()
         {
             GameController.Instance.playerEventManager.FreezePlayer(false, false);
-            if (startWithTrailer)
-                trailer.StartTrailer();
+            if (startNormally)
+                saveManager.LoadGame();
             else if (startInPcMode)
                 pcController.ToPcModeInstant();
+        }
+
+        public override SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+            entry.Add("finishedTasks", new List<string>(finishedTasks));
+
+            return new SaveDataEntry();
+        }
+
+        public override void Load(SaveDataEntry dictEntry)
+        {
+            Debug.LogWarning("TODO: Load this!");
+            if (dictEntry == null)
+                trailer.StartTrailer();
         }
 
         public bool isTaskBlockingPc()
@@ -91,6 +110,12 @@ namespace Default
 
         public void TaskFinished()
         {
+            string finishedTask = currentTaskId;
+
+            finishedTasks.Add(finishedTask);
+            Debug.Log("Task " + finishedTask + " finished.");
+            saveManager.SaveGame();
+
             switch (currentTaskId)
             {
                 case "T4":
