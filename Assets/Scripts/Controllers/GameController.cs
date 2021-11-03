@@ -21,6 +21,7 @@ namespace Default
         public QuestManager questManager;
         public StoryManager storyManager;
         public MusicManager musicManager;
+        public SaveManager saveManager;
 
         [Space(10)]
         public Transform meta3dAudio;
@@ -55,11 +56,7 @@ namespace Default
         private void Start()
         {
             LockMouse();
-        }
-
-        public void PlayMeta3dSound(AudioSource audio)
-        {
-            //TODO: Make empty; copy audioSource component to it; set parent to; destroy(audioClipLength)
+            saveManager.LoadGame();
         }
 
         public void LockMouse()

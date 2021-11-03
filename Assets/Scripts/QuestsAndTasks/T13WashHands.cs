@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class T13WashHands : MonoBehaviour, Useable
+    public class T13WashHands : MonoBehaviour, Useable, Task
     {
         public Outline outline;
 
@@ -58,5 +58,7 @@ namespace Default
             inUse = false;
             GameController.Instance.playerEventManager.FreezePlayer(false, false);
         }
+
+        public void SkipTask() { }
     }
 }

@@ -4,117 +4,104 @@ using UnityEngine;
 
 namespace Default
 {
-    public class StoryManager : SaveDataObject
+    public class StoryManager : MonoBehaviour, ISaveDataObject
     {
-        public SaveManager saveManager;
-        public bool startNormally = true;
-        public bool startInPcMode = false;
-        [Space(5)]
         public Trailer trailer;
-        public PcController pcController;
 
         [Space(10)]
         public T2Oven t2Obj;
         public T4WashingMachine t4Obj;
         public T8Cracker t8Obj;
-        public T10Trash t10Obj;
-        public T11Dishes t11Obj;
         public T12GetKnife t12Obj;
         public T13WashHands t13Obj;
         public T14MissingPhone t14Obj;
 
-        public H16Puppet puppet;
+        public Dictionary<string, Task> tasks;
 
         public string currentTaskId { get; private set; } = "";
-        public override string saveDataId { get => "saveManager"; }
+        public string saveDataId { get => "saveManager"; }
 
-        private HashSet<string> finishedTasks = new HashSet<string>();
+        private HashSet<string> finishedTasks = new HashSet<string>() { };
+        private string taskOnDelay = "";
+        private string taskOnDelayWaitQuest = "";
 
-        void Start()
+        private void Awake()
         {
-            GameController.Instance.playerEventManager.FreezePlayer(false, false);
-            if (startNormally)
-                saveManager.LoadGame();
-            else if (startInPcMode)
-                pcController.ToPcModeInstant();
+            tasks = new Dictionary<string, Task>()
+            {
+                {"T2", t2Obj},
+                {"T4", t4Obj},
+                {"T8", t8Obj},
+                {"T12", t12Obj},
+                {"T13", t13Obj},
+                {"T14", t14Obj},
+            };
         }
 
-        public override SaveDataEntry Save()
+        private IEnumerator Start()
+        {
+            yield return null;
+            yield return null;
+            GameController.Instance.playerEventManager.FreezePlayer(false, false);
+        }
+
+        public SaveDataEntry Save()
         {
             SaveDataEntry entry = new SaveDataEntry();
             entry.Add("finishedTasks", new List<string>(finishedTasks));
-
-            return new SaveDataEntry();
+            entry.Add("currentTaskId", currentTaskId);
+            entry.Add("taskOnDelay", taskOnDelay);
+            entry.Add("taskOnDelayWaitQuest", taskOnDelayWaitQuest);
+            return entry;
         }
 
-        public override void Load(SaveDataEntry dictEntry)
+        public void Load(SaveDataEntry dictEntry)
         {
-            Debug.LogWarning("TODO: Load this!");
             if (dictEntry == null)
+            {
                 trailer.StartTrailer();
+                return;
+            }
+            foreach (string taskId in dictEntry.GetList("finishedTasks", new List<string>()))
+                tasks[taskId].SkipTask();
+
+            StartTask(dictEntry.GetString("currentTaskId", ""));
+
+            string taskOnDelay = dictEntry.GetString("taskOnDelay", "");
+            string taskOnDelayWaitQuest = dictEntry.GetString("taskOnDelayWaitQuest", "");
+            if (taskOnDelay != "")
+                StartCoroutine(StartNextTaskDelayed(taskOnDelay, taskOnDelayWaitQuest));
         }
 
         public bool isTaskBlockingPc()
         {
-            switch (currentTaskId)
-            {
-                case "T2":
-                    return t2Obj.BlockingPcMode();
-                case "T4":
-                    return t4Obj.BlockingPcMode();
-                case "T8":
-                    return t8Obj.BlockingPcMode();
-                case "T12":
-                    return t12Obj.BlockingPcMode();
-                case "T13":
-                    return t13Obj.BlockingPcMode();
-                case "T14":
-                    return t14Obj.BlockingPcMode();
-                default:
-                    return false;
-            }
+            if (currentTaskId == "")
+                return false;
+            return tasks[currentTaskId].BlockingPcMode();
         }
 
-        public void StartTask(string id, bool sideTask = false)
+        public void StartTask(string id)
         {
-            if (!sideTask)
-                currentTaskId = id;
-            switch (id)
+            if (id != "")
             {
-                case "T2":
-                    t2Obj.gameObject.SetActive(true);
-                    break;
-                case "T4":
-                    t4Obj.gameObject.SetActive(true);
-                    break;
-                case "T8":
-                    t8Obj.gameObject.SetActive(true);
-                    break;
-                case "T10":
-                    t10Obj.gameObject.SetActive(true);
-                    break;
-                case "T11":
-                    t11Obj.gameObject.SetActive(true);
-                    break;
-                case "T12":
-                    t12Obj.gameObject.SetActive(true);
-                    break;
-                case "T14":
-                    puppet.enabled = true;
-                    t14Obj.gameObject.SetActive(true);
-                    break;
-                default:
-                    break;
+                if (tasks.ContainsKey(id))
+                    ((MonoBehaviour)tasks[id]).gameObject.SetActive(true);
             }
+            currentTaskId = id;
         }
 
-        public void TaskFinished()
+        public void TaskFinished(string taskId = null)
         {
+            if (taskId != null && currentTaskId != taskId)
+            {
+                Debug.LogWarning("Task to end was not the current task.");
+                return;
+            }
             string finishedTask = currentTaskId;
 
             finishedTasks.Add(finishedTask);
             Debug.Log("Task " + finishedTask + " finished.");
-            saveManager.SaveGame();
+            GameController.Instance.saveManager.SaveGameNextFrame();
 
             switch (currentTaskId)
             {
@@ -122,17 +109,16 @@ namespace Default
                     StartCoroutine(StartNextTaskDelayed("T2", "Q1"));
                     break;
                 case "T2":
-                    StartCoroutine(StartNextTaskDelayed("T8", "Q2"));
+                    StartCoroutine(StartNextTaskDelayed("T8", "Q3"));
                     break;
                 case "T8":
-                    StartCoroutine(StartNextHorrorEventDelayed("H4"));
+                    GameController.Instance.horrorEventManager.StartEventDelayed("H4");
                     break;
                 case "T12":
                     StartCoroutine(StartNextTaskDelayed("T14", "Q4"));
                     break;
                 case "T14":
-                    puppet.enabled = false;
-                    //End
+                    //TODO: End
                     break;
                 default:
                     break;
@@ -142,18 +128,22 @@ namespace Default
 
         private IEnumerator StartNextTaskDelayed(string nextTaskId, string questToWaitFor = "")
         {
-            if (questToWaitFor != "")
+            if (taskOnDelay != "")
+                Debug.LogError("Cannot schedule two tasks at a time!");
+
+            taskOnDelay = nextTaskId;
+            if (!System.String.IsNullOrEmpty(questToWaitFor))
                 yield return new WaitUntil(() => GameController.Instance.questManager.IsQuestDone(questToWaitFor));
             yield return new WaitUntil(() => GameController.Instance.inPcMode);
             yield return new WaitForSeconds(27f);
+            taskOnDelay = "";
             StartTask(nextTaskId);
         }
+    }
 
-        private IEnumerator StartNextHorrorEventDelayed(string nextHorrorEventId)
-        {
-            yield return new WaitUntil(() => GameController.Instance.inPcMode);
-            yield return new WaitForSeconds(27f);
-            GameController.Instance.horrorEventManager.StartEvent(nextHorrorEventId);
-        }
+    public interface Task
+    {
+        bool BlockingPcMode();
+        void SkipTask();
     }
 }

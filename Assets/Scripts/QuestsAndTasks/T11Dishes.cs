@@ -53,5 +53,10 @@ namespace Default
             t4.MachineShouldFinish();
             gameObject.SetActive(false);
         }
+
+        public void SkipTask()
+        {
+            dishes.SetActive(false);
+        }
     }
 }

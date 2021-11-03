@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class T8Cracker : MonoBehaviour
+    public class T8Cracker : MonoBehaviour, Task
     {
         public PcController pcController;
 
@@ -41,6 +41,14 @@ namespace Default
                 GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "I'll get some crackers from the basement and maybe a bottle of cola." });
                 return true;
             }
+        }
+
+        public void SkipTask()
+        {
+            GameController.Instance.metaPlayer.AddItem(colaCollider.GetComponent<ItemHoldable>(), false, false);
+            GameController.Instance.metaPlayer.AddItem(crackerCollider.GetComponent<ItemHoldable>(), false, false);
+            colaCollider.gameObject.SetActive(false);
+            crackerCollider.gameObject.SetActive(false);
         }
     }
 }

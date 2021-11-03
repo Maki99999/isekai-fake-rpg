@@ -4,13 +4,16 @@ using UnityEngine;
 
 namespace Default
 {
-    public class KnifeItem : ItemHoldable
+    public class KnifeItem : ItemHoldable, ISaveDataObject
     {
         public Animator animator;
         public AudioSource slashAudio;
         public AudioClip[] slashAudioClips;
 
+        private bool equipped = false;
         private bool isCharging = false;
+
+        public string saveDataId => "knifeItem";
 
         public override MoveData UseItem(MoveData inputData)
         {
@@ -38,6 +41,7 @@ namespace Default
 
         public override void OnUnequip()
         {
+            equipped = false;
             if (isActiveAndEnabled)
             {
                 animator.SetBool("Show", false);
@@ -47,14 +51,38 @@ namespace Default
 
         public override void OnEquip()
         {
+            equipped = true;
             animator.SetBool("Show", true);
         }
 
         public override void OnPickup()
         {
-            GameController.Instance.storyManager.TaskFinished();
+            GameController.Instance.storyManager.TaskFinished("T12");
             GameController.Instance.horrorEventManager.StartEvent("H6");
             animator.enabled = true;
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+            entry.Add("enabled", enabled ? "true" : "false");
+            entry.Add("equipped", equipped ? "true" : "false");
+            return entry;
+        }
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry == null)
+                return;
+
+            if (dictEntry.GetString("enabled", "true") == "false")
+            {
+                gameObject.SetActive(false);
+            }
+            else if (dictEntry.GetString("equipped", "false") == "true")
+            {
+                GameController.Instance.metaPlayer.AddItem(this, true, false);
+            }
         }
     }
 }

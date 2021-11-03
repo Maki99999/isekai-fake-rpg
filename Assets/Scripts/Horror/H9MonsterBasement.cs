@@ -37,6 +37,7 @@ namespace Default
 
             yield return new WaitForSeconds(2f);
             doorCollider.enabled = true;
+            GameController.Instance.horrorEventManager.StartEvent("H916");
             GameController.Instance.storyManager.TaskFinished();
             gameObject.SetActive(false);
         }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Default
 {
-    public class QuestManager : MonoBehaviour
+    public class QuestManager : MonoBehaviour, ISaveDataObject
     {
         public Text titleText;
         public Text descriptionText;
@@ -17,23 +17,24 @@ namespace Default
         public GameObject q3Obj;
         public GameObject q4Obj;
 
-        private List<string> questsDone = new List<string>();
-        private string currentQuestId = "";
+        public string saveDataId => "questManager";
 
-        void Start()
-        {
-            StartQuest("Q1");
-        }
+        private HashSet<string> finishedQuests = new HashSet<string>();
+        private string currentQuestId = "";
 
         public bool IsQuestDone(string id)
         {
-            return questsDone.Contains(id);
+            return finishedQuests.Contains(id);
         }
 
         public void StartQuest(string id)
         {
             if (currentQuestId != "")
                 EndQuest(currentQuestId);
+
+            if (id == "")
+                return;
+
             completedAnim.SetTrigger("NewQuest");
             completedAnim.SetBool("Completed", false);
             currentQuestId = id;
@@ -64,7 +65,7 @@ namespace Default
         {
             if (currentQuestId == id)
                 currentQuestId = "";
-            questsDone.Add(id);
+            finishedQuests.Add(id);
             completedAnim.SetBool("Completed", true);
 
             switch (id)
@@ -80,6 +81,25 @@ namespace Default
         public void SetProgressText(string text)
         {
             progressText.text = text;
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+            entry.Add("finishedQuests", new List<string>(finishedQuests));
+            entry.Add("currentQuestId", currentQuestId);
+            return entry;
+        }
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry == null)
+            {
+                StartQuest("Q1");
+                return;
+            }
+            finishedQuests = new HashSet<string>(dictEntry.GetList("finishedQuests", new List<string>()));
+            StartQuest(dictEntry.GetString("currentQuestId", ""));
         }
 
         private Dictionary<string, (string, string)> questDescriptions = new Dictionary<string, (string, string)> {

@@ -2,23 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class H6SpiderCrawl : MonoBehaviour
+namespace Default
 {
-    public Animator crawlAnimator;
-    public Animator spiderAnimator;
-
-    public AudioSource audioSource;
-
-    public GameObject[] smallSpiders;
-
-    public void Crawl()
+    public class H6SpiderCrawl : MonoBehaviour
     {
-        crawlAnimator.SetTrigger("Crawl");
-        spiderAnimator.SetFloat("MovingSpeed", 1f);
+        public Animator crawlAnimator;
+        public Animator spiderAnimator;
 
-        audioSource.PlayDelayed(3f);
+        public AudioSource audioSource;
 
-        foreach (GameObject smallSpider in smallSpiders)
-            smallSpider.SetActive(true);
+        public H7SpiderHide[] smallSpiders;
+
+        public void Crawl()
+        {
+            crawlAnimator.SetTrigger("Crawl");
+            spiderAnimator.SetFloat("MovingSpeed", 1f);
+
+            audioSource.PlayDelayed(3f);
+
+            foreach (H7SpiderHide smallSpider in smallSpiders)
+                smallSpider.Show();
+        }
     }
 }

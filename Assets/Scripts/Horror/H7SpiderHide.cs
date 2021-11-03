@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class H7SpiderHide : MonoBehaviour
+    public class H7SpiderHide : MonoBehaviour, ISaveDataObject
     {
         public Animator hideAnimator;
         public Animator spiderAnimator;
@@ -13,6 +13,8 @@ namespace Default
 
         bool active;
         bool playerNearby;
+
+        public string saveDataId => "SpiderHide" + transform.parent.name;
 
         private void Start()
         {
@@ -65,6 +67,21 @@ namespace Default
         {
             if (other.CompareTag("Player"))
                 playerNearby = false;
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+            entry.Add("active", active ? "true" : "false");
+            return entry;
+        }
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry == null)
+                return;
+            if (dictEntry.GetString("active", "false") == "true")
+                Show();
         }
     }
 }

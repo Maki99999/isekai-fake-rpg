@@ -4,8 +4,12 @@ using UnityEngine;
 
 namespace Default
 {
-    public class T4WashingMachine : MonoBehaviour
+    public class T4WashingMachine : MonoBehaviour, Task
     {
+        public T10Trash t10Obj;
+        public T11Dishes t11Obj;
+
+        [Space(10)]
         public Collider basketUseableCollider;
         public WashingDryerMachine washingMachine;
         public WashingDryerMachine dryer;
@@ -32,9 +36,9 @@ namespace Default
         {
             state++;
             if (state == 1)
-                GameController.Instance.storyManager.StartTask("T10", true);
+                t10Obj.gameObject.SetActive(true);
             else
-                GameController.Instance.storyManager.StartTask("T11", true);
+                t11Obj.gameObject.SetActive(true);
         }
 
         public void MachineShouldFinish()
@@ -78,6 +82,14 @@ namespace Default
                 washingMachine.Finish();
             else
                 dryer.Finish();
+        }
+
+        public void SkipTask()
+        {
+            dryer.basketClothing.SetActive(true);
+            dryer.basket.SetActive(true);
+            t10Obj.SkipTask();
+            t11Obj.SkipTask();
         }
     }
 }

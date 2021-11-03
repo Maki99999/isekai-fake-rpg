@@ -47,6 +47,18 @@ namespace Default
             };
         }
 
+        public void StartEventDelayed(string nextHorrorEventId)
+        {
+            StartCoroutine(HorrorEventDelayed(nextHorrorEventId));
+        }
+
+        private IEnumerator HorrorEventDelayed(string nextHorrorEventId)
+        {
+            yield return new WaitUntil(() => GameController.Instance.inPcMode);
+            yield return new WaitForSeconds(27f);
+            GameController.Instance.horrorEventManager.StartEvent(nextHorrorEventId);
+        }
+
         public void StartEventsAfterT8()
         {
             StartEvent("H12");
@@ -134,10 +146,17 @@ namespace Default
             return true;
         }
 
-        //DebugEvents
+        //Stop / Restart Events
+
         private bool EventH908()
         {
             eventH8Mirror.HideGhost();
+            return true;
+        }
+
+        private bool EventH916()
+        {
+            eventH16Puppet.enabled = false;
             return true;
         }
 

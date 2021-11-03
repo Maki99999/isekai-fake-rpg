@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class T12GetKnife : MonoBehaviour
+    public class T12GetKnife : MonoBehaviour, Task
     {
         public Collider knifeCollider;
 
@@ -22,5 +22,7 @@ namespace Default
             GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "Something's here. I'll get a knife." });
             return true;
         }
+
+        public void SkipTask() { }
     }
 }

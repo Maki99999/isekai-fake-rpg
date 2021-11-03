@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class T2Oven : MonoBehaviour, Useable
+    public class T2Oven : MonoBehaviour, Useable, Task
     {
         public Outline outline;
         public Animator ovenAnim;
@@ -247,10 +247,16 @@ namespace Default
             }
             else
             {
-                //horror?
+                //TODO: horror?
                 Debug.Log("Boo!");
                 GameController.Instance.playerEventManager.FreezePlayer(false, false);
             }
+        }
+
+        public void SkipTask()
+        {
+            ovenState = OvenState.DONE;
+            gameObject.SetActive(false);
         }
 
         private enum OvenState

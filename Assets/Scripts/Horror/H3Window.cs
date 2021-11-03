@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class H3Window : MonoBehaviour
+    public class H3Window : MonoBehaviour, ISaveDataObject
     {
         public GameObject normalWindow;
         public GameObject brokenWindow;
@@ -13,6 +13,27 @@ namespace Default
         public AudioSource audio2;
 
         bool triggered = false;
+
+        public string saveDataId => "H3Window";
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry == null)
+                return;
+            if (dictEntry.GetString("triggered", "false") == "true")
+            {
+                triggered = true;
+                normalWindow.SetActive(false);
+                brokenWindow.SetActive(true);
+            }
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+            entry.Add("triggered", triggered ? "true" : "false");
+            return entry;
+        }
 
         public void Trigger()
         {

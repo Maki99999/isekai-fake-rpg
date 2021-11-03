@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class H10FoodFlesh : ItemHoldable, Useable
+    public class H10FoodFlesh : ItemHoldable, Useable, ISaveDataObject
     {
         public Outline outline;
         new public Collider collider;
@@ -21,6 +21,8 @@ namespace Default
 
         bool pickedUp = false;
         bool fleshOn = false;
+
+        public string saveDataId => "H10" + gameObject.name;
 
         void Update()
         {
@@ -92,6 +94,47 @@ namespace Default
             flesh.SetActive(show);
             food.SetActive(!show);
             sound.Play();
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+            entry.Add("fleshOn", fleshOn ? "true" : "false");
+            entry.Add("transform", SaveManager.TransformToString(transform));
+            if (plateFallAnim != null)
+                entry.Add("plateFallTransform", SaveManager.TransformToString(plateFallAnim.transform));
+            return entry;
+        }
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry == null)
+                return;
+            string transformString = dictEntry.GetString("transform", null);
+            if (transformString != null)
+                SaveManager.ApplyStringToTransform(transform, transformString);
+            if (dictEntry.GetString("fleshOn", "false") == "true")
+            {
+                gameObject.SetActive(true);
+                fleshOn = true;
+                flesh.SetActive(true);
+                food.SetActive(false);
+
+                if (fakeFood != null && plateFallAnim != null)
+                {
+                    collider.enabled = false;
+                    transformString = dictEntry.GetString("plateFallTransform", null);
+                    SaveManager.ApplyStringToTransform(plateFallAnim.transform, transformString);
+                    fakeFood.gameObject.SetActive(true);
+                    fakeFood.position = transform.position;
+                    fakeFood.rotation = transform.rotation;
+                    foreach (GameObject obj in objectsToHide)
+                        obj.SetActive(false);
+                    transform.parent = fakeFood;
+                    plateFallAnim.enabled = true;
+                    plateFallAnim.SetTrigger("Fall");
+                }
+            }
         }
     }
 }
