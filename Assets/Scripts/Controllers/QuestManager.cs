@@ -99,7 +99,21 @@ namespace Default
                 return;
             }
             finishedQuests = new HashSet<string>(dictEntry.GetList("finishedQuests", new List<string>()));
-            StartQuest(dictEntry.GetString("currentQuestId", ""));
+            string quest = dictEntry.GetString("currentQuestId", "");
+            if (quest == "" && finishedQuests.Count < questDescriptions.Count)
+            {
+                string lastQuest = "Q1";
+                foreach (string finishedQuest in finishedQuests)
+                    if (string.Compare(finishedQuest, lastQuest) > 0)
+                        lastQuest = finishedQuest;
+
+                (string, string) questTexts = questDescriptions[lastQuest];
+                titleText.text = questTexts.Item1;
+                descriptionText.text = questTexts.Item2;
+                progressText.text = "";
+                completedAnim.SetBool("Completed", true);
+            }
+            StartQuest(quest);
         }
 
         private Dictionary<string, (string, string)> questDescriptions = new Dictionary<string, (string, string)> {

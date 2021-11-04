@@ -42,12 +42,6 @@ MonoBehaviour:
     task: add fake other players (manu and fish)
     isComplete: 0
   - owner:
-      name: In Progress
-      color: {r: 1, g: 1, b: 0, a: 1}
-      index: 2
-    task: Save system
-    isComplete: 0
-  - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
@@ -202,9 +196,9 @@ MonoBehaviour:
     task: more horror during food task
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
     task: fuse wrong phone mode
     isComplete: 0
   - owner:
@@ -214,33 +208,21 @@ MonoBehaviour:
     task: Spider legs right at the start of the intro
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
     task: phone call more buttons to auflegen
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
     task: in game death respawn
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: "stone message 180\xB0 drehen"
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: goblins small -.-
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
     task: looking for phone -> stand up
     isComplete: 0
   - owner:
@@ -259,37 +241,19 @@ MonoBehaviour:
       name: QOL
       color: {r: 0.7, g: 0.7, b: 1, a: 1}
       index: 3
-    task: knife save if equipped or not
-    isComplete: 0
-  - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
     task: save players pos
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
     task: timer put in time not showing (because the dialogue?)
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
     task: food timer 30 seconds too late
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: start song
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: saveload phone call
     isComplete: 0
   - owner:
       name: Normal
@@ -310,22 +274,16 @@ MonoBehaviour:
     task: save gamePlayer stats, items etc.
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: fleshplate doesn't fall down
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: fleshplate doesn't fall down perfectly
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
     task: somehow mute sounds when loading and skip all animations
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: save current music (incl. horror)
     isComplete: 0
   - owner:
       name: Normal
@@ -343,11 +301,11 @@ MonoBehaviour:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: hide phone for last quest
+    task: hide phone before last quest
     isComplete: 0
   - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: skipped a quest i think?
+    task: save light state
     isComplete: 0

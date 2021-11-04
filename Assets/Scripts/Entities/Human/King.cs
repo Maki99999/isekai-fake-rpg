@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class King : MonoBehaviour
+    public class King : MonoBehaviour, ISaveDataObject
     {
         private static readonly Dictionary<State, string[]> texts = new Dictionary<State, string[]> {
             {State.PRE_QUEST2, new string[] {
@@ -33,6 +33,8 @@ namespace Default
 
         private State currentState = State.PRE_QUEST2;
         private bool inSpeech = false;
+
+        public string saveDataId => "king";
 
         private void OnTriggerEnter(Collider other)
         {
@@ -76,6 +78,19 @@ namespace Default
             }
 
             inSpeech = false;
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+            entry.Add("currentState", (int)currentState);
+            return entry;
+        }
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry != null)
+                currentState = (State)dictEntry.GetInt("currentState", 0);
         }
 
         private enum State

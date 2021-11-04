@@ -31,7 +31,7 @@ namespace Default
             //T12
             //"{\"info\":{\"dictString\":{\"version\":\"0.1\"},\"dictList\":{}},\"questManager\":{\"dictString\":{\"currentQuestId\":\"Q3\"},\"dictList\":{\"finishedQuests\":[\"Q1\",\"Q2\"]}},\"saveManager\":{\"dictString\":{\"currentTaskId\":\"\",\"taskOnDelay\":\"T14\",\"taskOnDelayWaitQuest\":\"\"},\"dictList\":{\"finishedTasks\":[\"T8\",\"T12\"]}},\"H3Window\":{\"dictString\":{\"triggered\":\"true\"},\"dictList\":{}},\"SpiderHideBedroom\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"SpiderHideGarage\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"SpiderHideBasement\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"SpiderHideLiving Room\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"H11Glass\":{\"dictString\":{\"triggered\":\"true\"},\"dictList\":{}},\"H10FleshThing\":{\"dictString\":{\"fleshOn\":\"false\",\"transform\":\"-12,56054;0,0639;-6,562063;1,129504E-09;0,7806123;-1,044877E-08;-0,6250156;1;1;1\"},\"dictList\":{}},\"H10PizzaFleshPlate\":{\"dictString\":{\"fleshOn\":\"true\",\"transform\":\"-4,776506;-0,8700001;-1,260042;0;0;0;1;1;1;1\",\"plateFallTransform\":\"-4,776506;-0,8700001;-1,260042;0;0;0;1;1;1;1\"},\"dictList\":{}},\"H10PizzaFleshPlateFake\":{\"dictString\":{\"fleshOn\":\"false\",\"transform\":\"-4,776506;-0,8700001;-1,260042;0;0;0;1;1;1;1\",\"plateFallTransform\":\"-4,776506;-0,8700001;-1,260042;0;0;0;1;1;1;1\"},\"dictList\":{}},\"SpiderHideKitchen\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"knifeItem\":{\"dictString\":{\"enabled\":\"true\",\"equipped\":\"true\"},\"dictList\":{}}}";
             //T14
-            "{\"info\":{\"dictString\":{\"version\":\"0.1\"},\"dictList\":{}},\"questManager\":{\"dictString\":{\"currentQuestId\":\"\"},\"dictList\":{\"finishedQuests\":[\"Q1\",\"Q2\",\"Q3\",\"Q4\"]}},\"saveManager\":{\"dictString\":{\"currentTaskId\":\"\",\"taskOnDelay\":\"\",\"taskOnDelayWaitQuest\":\"\"},\"dictList\":{\"finishedTasks\":[\"T8\",\"T12\",\"T14\"]}},\"H3Window\":{\"dictString\":{\"triggered\":\"true\"},\"dictList\":{}},\"SpiderHideBedroom\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"SpiderHideGarage\":{\"dictString\":{\"active\":\"true\"},\"dictList\":{}},\"SpiderHideBasement\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"SpiderHideLiving Room\":{\"dictString\":{\"active\":\"true\"},\"dictList\":{}},\"H11Glass\":{\"dictString\":{\"triggered\":\"true\"},\"dictList\":{}},\"H10FleshThing\":{\"dictString\":{\"fleshOn\":\"false\",\"transform\":\"-12,56054;0,0639;-6,562063;1,201314E-09;0,7380794;-1,111306E-08;-0,6747141;1;1;1\"},\"dictList\":{}},\"H10PizzaFleshPlate\":{\"dictString\":{\"fleshOn\":\"true\",\"transform\":\"-4,776506;-0,8700001;-1,260042;0;0;0;1;1;1;1\",\"plateFallTransform\":\"-4,776506;-0,8700001;-1,260042;0;0;0;1;1;1;1\"},\"dictList\":{}},\"H10PizzaFleshPlateFake\":{\"dictString\":{\"fleshOn\":\"false\",\"transform\":\"-4,776506;-0,8700001;-1,260042;0;0;0;1;1;1;1\",\"plateFallTransform\":\"-4,776506;-0,8700001;-1,260042;0;0;0;1;1;1;1\"},\"dictList\":{}},\"SpiderHideKitchen\":{\"dictString\":{\"active\":\"true\"},\"dictList\":{}},\"knifeItem\":{\"dictString\":{\"enabled\":\"true\",\"equipped\":\"true\"},\"dictList\":{}}}";
+            "{\"info\":{\"dictString\":{\"version\":\"0.1\"},\"dictList\":{}},\"H1Call\":{\"dictString\":{\"nextCallClip\": \"2\"},\"dictList\":{}},\"king\": {\"dictString\": {\"currentState\": \"6\"},\"dictList\":{}},\"musicManager\": {\"dictString\": {\"currentType\": \"5\"},\"dictList\": {}},\"questManager\":{\"dictString\":{\"currentQuestId\":\"\"},\"dictList\":{\"finishedQuests\":[\"Q1\",\"Q2\",\"Q3\",\"Q4\"]}},\"saveManager\":{\"dictString\":{\"currentTaskId\":\"\",\"taskOnDelay\":\"\",\"taskOnDelayWaitQuest\":\"\"},\"dictList\":{\"finishedTasks\":[\"T8\",\"T12\",\"T14\"]}},\"H3Window\":{\"dictString\":{\"triggered\":\"true\"},\"dictList\":{}},\"SpiderHideBedroom\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"SpiderHideGarage\":{\"dictString\":{\"active\":\"true\"},\"dictList\":{}},\"SpiderHideBasement\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"SpiderHideLiving Room\":{\"dictString\":{\"active\":\"true\"},\"dictList\":{}},\"H11Glass\":{\"dictString\":{\"triggered\":\"true\"},\"dictList\":{}},\"H10FleshThing\":{\"dictString\":{\"fleshOn\":\"false\",\"transform\":\"-12,56054;0,0639;-6,562063;1,201314E-09;0,7380794;-1,111306E-08;-0,6747141;1;1;1\"},\"dictList\":{}},\"H10PizzaFleshPlate\":{\"dictString\":{\"fleshOn\":\"true\",\"transform\":\"-4,776506;-0,8700001;-1,260042;0;0;0;1;1;1;1\",\"plateFallTransform\":\"-4,776506;-0,8700001;-1,260042;0;0;0;1;1;1;1\"},\"dictList\":{}},\"H10PizzaFleshPlateFake\":{\"dictString\":{\"fleshOn\":\"false\",\"transform\":\"-4,776506;-0,8700001;-1,260042;0;0;0;1;1;1;1\",\"plateFallTransform\":\"-4,776506;-0,8700001;-1,260042;0;0;0;1;1;1;1\"},\"dictList\":{}},\"SpiderHideKitchen\":{\"dictString\":{\"active\":\"true\"},\"dictList\":{}},\"knifeItem\":{\"dictString\":{\"enabled\":\"true\",\"equipped\":\"true\"},\"dictList\":{}}}";
         #endregion
 
         public void SaveGameNextFrame()
@@ -153,6 +153,26 @@ namespace Default
             dictString.Add(key, value);
         }
 
+        public void Add(string key, int value)
+        {
+            if (dictList.ContainsKey(key) || dictString.ContainsKey(key))
+            {
+                Debug.LogError("Key already present");
+                return;
+            }
+            dictString.Add(key, value.ToString());
+        }
+
+        public void Add(string key, bool value)
+        {
+            if (dictList.ContainsKey(key) || dictString.ContainsKey(key))
+            {
+                Debug.LogError("Key already present");
+                return;
+            }
+            dictString.Add(key, value.ToString());
+        }
+
         public void Add(string key, List<string> values)
         {
             if (dictList.ContainsKey(key) || dictString.ContainsKey(key))
@@ -167,6 +187,26 @@ namespace Default
         {
             if (dictString.ContainsKey(key))
                 return dictString[key];
+            else
+                return defaultValue;
+        }
+
+        public int GetInt(string key, int defaultValue)
+        {
+            int returnValue;
+            bool returnSuccessful = int.TryParse(dictString?[key], out returnValue);
+            if (returnSuccessful)
+                return returnValue;
+            else
+                return defaultValue;
+        }
+
+        public bool GetBool(string key, bool defaultValue)
+        {
+            bool returnValue;
+            bool returnSuccessful = bool.TryParse(dictString?[key], out returnValue);
+            if (returnSuccessful)
+                return returnValue;
             else
                 return defaultValue;
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class PhoneHolding : ItemHoldable
+    public class PhoneHolding : ItemHoldable, ISaveDataObject
     {
         public GameObject flashlight;
         public GameObject flashlightScreen;
@@ -28,6 +28,8 @@ namespace Default
         private bool pressedLastFrame = false;
         private Coroutine showHideRoutine = null;
         private bool currentlyLookingAtInPcMode = false;
+
+        public string saveDataId => "H1Call";
 
         public void H1Call()
         {
@@ -212,6 +214,20 @@ namespace Default
         {
             phoneChild.parent = pos;
             yield return TransformOperations.MoveTo(phoneChild, pos.position, pos.rotation, 1f);
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+            entry.Add("nextCallClip", nextCallClip);
+            return entry;
+        }
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry == null)
+                return;
+            nextCallClip = dictEntry.GetInt("nextCallClip", 0);
         }
 
         private enum State

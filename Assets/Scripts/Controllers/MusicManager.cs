@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class MusicManager : MonoBehaviour
+    public class MusicManager : MonoBehaviour, ISaveDataObject
     {
         public AudioSource audioSource;
         public MusicToEnum[] musicToEnums;
@@ -17,6 +17,8 @@ namespace Default
         private int currentClipNum;
         bool inTransition = false;
 
+        public string saveDataId => "musicManager";
+
         void Awake()
         {
             foreach (MusicToEnum musicToEnum in musicToEnums)
@@ -26,7 +28,7 @@ namespace Default
                 else
                     musicToEnumsDict.Add(musicToEnum.musicType, musicToEnum.audioClips);
             }
-            ChangeMusic(MusicType.TRAVEL);
+            ChangeMusic(MusicType.TOWN);
         }
 
         void Update()
@@ -77,6 +79,20 @@ namespace Default
                 yield return null;
             }
             inTransition = false;
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+            entry.Add("currentType", ((int)currentType).ToString());
+            return entry;
+        }
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry == null)
+                return;
+            ChangeMusic((MusicType)int.Parse(dictEntry.GetString("currentType", "1")));
         }
     }
 

@@ -96,6 +96,13 @@ namespace Default
 
         public void CloseGame()
         {
+            GameController.Instance.saveManager.SaveGameNextFrame();
+            StartCoroutine(QuitNextFrame());
+        }
+
+        private IEnumerator QuitNextFrame()
+        {
+            yield return null;
             Application.Quit();
         }
 

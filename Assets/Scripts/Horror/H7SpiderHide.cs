@@ -16,11 +16,6 @@ namespace Default
 
         public string saveDataId => "SpiderHide" + transform.parent.name;
 
-        private void Start()
-        {
-            Hide2();
-        }
-
         private void Update()
         {
             if (active && playerNearby)
@@ -79,9 +74,14 @@ namespace Default
         public void Load(SaveDataEntry dictEntry)
         {
             if (dictEntry == null)
+            {
+                Hide2();
                 return;
+            }
             if (dictEntry.GetString("active", "false") == "true")
                 Show();
+            else
+                Hide2();
         }
     }
 }

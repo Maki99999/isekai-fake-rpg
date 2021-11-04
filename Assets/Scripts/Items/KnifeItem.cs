@@ -12,6 +12,7 @@ namespace Default
 
         private bool equipped = false;
         private bool isCharging = false;
+        private bool doStoryStuff = true;
 
         public string saveDataId => "knifeItem";
 
@@ -57,8 +58,11 @@ namespace Default
 
         public override void OnPickup()
         {
-            GameController.Instance.storyManager.TaskFinished("T12");
-            GameController.Instance.horrorEventManager.StartEvent("H6");
+            if (doStoryStuff)
+            {
+                GameController.Instance.storyManager.TaskFinished("T12");
+                GameController.Instance.horrorEventManager.StartEvent("H6");
+            }
             animator.enabled = true;
         }
 
@@ -81,6 +85,7 @@ namespace Default
             }
             else if (dictEntry.GetString("equipped", "false") == "true")
             {
+                doStoryStuff = false;
                 GameController.Instance.metaPlayer.AddItem(this, true, false);
             }
         }
