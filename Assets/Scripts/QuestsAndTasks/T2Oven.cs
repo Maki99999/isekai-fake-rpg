@@ -18,7 +18,7 @@ namespace Default
         [SerializeField] private FoodObject[] foodObjects;
         public int foodTimeMinutes = 10;
         public float foodSkippedSecondsPcMode = 222f;
-        public float foodTimeMinutesMultiplier = 0.5f;
+        public float foodTimeMinutesMultiplier = 2f;
 
         [Space(10)]
         public PhoneHolding phone;
@@ -116,11 +116,17 @@ namespace Default
 
         IEnumerator BakeWithTimer()
         {
+            GameController.Instance.playerEventManager.FreezePlayers(true);
             GameController.Instance.metaPlayer.AddItem(phone, true, false);
-            phone.StartTimer(foodTimeMinutes, foodTimeMinutesMultiplier * 1.05f);
-            GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "Time to play some more." });
+            float endTime = Time.time + (foodTimeMinutes / foodTimeMinutesMultiplier) * 60f;
+            phone.PrepareTimer(endTime, 2f);
+            yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Time to play some more." });
+            GameController.Instance.playerEventManager.FreezePlayers(false);
+            yield return new WaitForSeconds(2.1f);
 
-            float endTime = Time.time + (foodTimeMinutes * foodTimeMinutesMultiplier) * 60f;
+            phone.StartTime();
+            endTime = Time.time + (foodTimeMinutes / foodTimeMinutesMultiplier) * 60f;
+            phone.SetTime(endTime);
             bool skippedTime = false;
             while (Time.time < endTime)
             {
@@ -128,11 +134,12 @@ namespace Default
                 if (!skippedTime && GameController.Instance.inPcMode)
                 {
                     skippedTime = true;
-                    phone.SkipTime(foodSkippedSecondsPcMode);
                     endTime -= foodSkippedSecondsPcMode;
                 }
+                phone.SetTime(endTime);
             }
 
+            phone.StopTime();
             foodObjects[currentFood].foodOnTrayRaw.SetActive(false);
             foodObjects[currentFood].foodOnTrayBurned.SetActive(true);
             ovenState = OvenState.FOOD_BURNED;
@@ -153,9 +160,9 @@ namespace Default
             GameController.Instance.playerEventManager.FreezePlayer(false, true);
             GameController.Instance.metaHouseController.SetFixedTime(22, 48);
             GameController.Instance.metaHouseController.LetTimeAdvance(true, foodTimeMinutesMultiplier);
-            float overallTime = (foodTimeMinutes * foodTimeMinutesMultiplier) * 60f;
+            float overallTime = (foodTimeMinutes / foodTimeMinutesMultiplier) * 60f;
 
-            GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "I'll just look at a clock sporadically. Food should be done at 11:00.", "Time to play some more." });
+            GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "I'll just look at a clock sporadically. Food should be done at 11:00.", "I'll play some more." });
             yield return GameController.Instance.playerEventManager.LookAt(false, lookAtPos.position, 1f);
             GameController.Instance.playerEventManager.FreezePlayer(false, false);
 
@@ -177,10 +184,10 @@ namespace Default
 
         IEnumerator BakeWithPhoneClock()
         {
-            GameController.Instance.metaHouseController.SetFixedTime(23, 18);
+            GameController.Instance.metaHouseController.SetFixedTime(23, 20);
             GameController.Instance.metaHouseController.LetTimeAdvance(true, foodTimeMinutesMultiplier);
             GameController.Instance.metaPlayer.AddItem(phone, true, false);
-            float overallTime = (foodTimeMinutes * foodTimeMinutesMultiplier) * 60f;
+            float overallTime = (foodTimeMinutes / foodTimeMinutesMultiplier) * 60f;
 
             GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "The clocks seem to be broken, so I'll use the clock on my phone. Should be done at 11:30." });
 

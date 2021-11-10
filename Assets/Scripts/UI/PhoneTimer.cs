@@ -9,36 +9,47 @@ public class PhoneTimer : MonoBehaviour
     public Text textMs;
 
     bool showMiliseconds = false;
+    bool start = false;
     float endTime = 0f;
+    float timeMultiplier = 1f;
 
-    public void StartTimer(int minutes, float timeMultiplier)
+    public void PrepareTimer(float endTime, float timeMultiplier)
     {
         StopAllCoroutines();
-        StartCoroutine(TimerAnim(minutes, timeMultiplier));
+        this.endTime = endTime;
+        this.timeMultiplier = timeMultiplier;
+        StartCoroutine(TimerAnim());
     }
 
-    public void SkipTime(float seconds)
+    public void StartTime()
     {
-        endTime -= seconds;
+        start = true;
     }
 
-    IEnumerator TimerAnim(int minutesTotal, float timeMultiplier)
+    public void SetTime(float endTime)
     {
+        this.endTime = endTime;
+    }
+
+    IEnumerator TimerAnim()
+    {
+        start = false;
+        float visibleTimeLeft = (endTime - Time.time) * timeMultiplier;
         yield return new WaitForSeconds(1.5f);
-        text.text = string.Format("{0:D2}:00", Mathf.FloorToInt(minutesTotal / 10f));
+        text.text = string.Format("{0:D2}:00", Mathf.FloorToInt(visibleTimeLeft / 600f));
         yield return new WaitForSeconds(0.3f);
-        text.text = string.Format("{0:D2}:00", minutesTotal);
-        yield return new WaitForSeconds(0.3f);
+        text.text = string.Format("{0:D2}:00", Mathf.FloorToInt(visibleTimeLeft / 60f));
+
+        yield return new WaitUntil(() => start);
 
         showMiliseconds = true;
-        endTime = Time.time + (minutesTotal * 60f) * timeMultiplier;
         while (Time.time < endTime)
         {
-            float visibleTimeSeconds = (endTime - Time.time) / timeMultiplier;
-            int minutes = Mathf.FloorToInt(visibleTimeSeconds / 60f);
-            int seconds = Mathf.FloorToInt(visibleTimeSeconds % 60f);
+            visibleTimeLeft = (endTime - Time.time) * timeMultiplier;
+            int minutes = Mathf.FloorToInt(visibleTimeLeft / 60f);
+            int seconds = Mathf.FloorToInt(visibleTimeLeft % 60f);
             text.text = string.Format("{0:D2}:{1:D2}", minutes, seconds);
-            yield return new WaitForSeconds(0.5f * timeMultiplier);
+            yield return new WaitForSeconds(0.5f);
         }
         OnDisable();
     }
@@ -53,6 +64,7 @@ public class PhoneTimer : MonoBehaviour
 
     public void OnDisable()
     {
+        StopAllCoroutines();
         showMiliseconds = false;
         text.text = "00:00";
         textMs.text = ".00";

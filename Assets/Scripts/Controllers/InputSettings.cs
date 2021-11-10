@@ -23,7 +23,7 @@ public class InputSettings
 
     public static bool PressingConfirm()
     {
-        return Input.GetAxis(PrimaryAxisName) > 0 || Input.GetKey(KeyCode.Return);
+        return Input.GetAxis(PrimaryAxisName) > 0 || Input.GetKey(KeyCode.Return) || InputSettings.PressingUse();
     }
 
     public static bool PressingUse()

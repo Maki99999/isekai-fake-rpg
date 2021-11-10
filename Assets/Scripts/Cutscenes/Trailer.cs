@@ -37,6 +37,7 @@ namespace Default
             GameController.Instance.playerEventManager.FreezePlayers(true);
             dragonAnim.gameObject.SetActive(true);
             pcController.ToPcModeInstant();
+            GameController.Instance.playerEventManager.FreezePlayers(true);
             gamePlayer.SetActive(false);
             eventCamera.SetActive(true);
             mainAnim.SetTrigger("Start");
@@ -120,6 +121,7 @@ namespace Default
                 gameGUI.SetActive(true);
             dragonAnim.gameObject.SetActive(false);
             gamePlayer.SetActive(true);
+            GameController.Instance.playerEventManager.FreezePlayers(false);
             eventCamera.SetActive(false);
         }
 

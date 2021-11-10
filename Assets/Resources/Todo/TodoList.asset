@@ -174,12 +174,6 @@ MonoBehaviour:
       name: QOL
       color: {r: 0.7, g: 0.7, b: 1, a: 1}
       index: 3
-    task: phone is visible in mirror
-    isComplete: 0
-  - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
     task: when starting game for the first time -> brightness slider (move the slider
       so that the logo is barely visible)
     isComplete: 0
@@ -199,31 +193,7 @@ MonoBehaviour:
       name: Urgent
       color: {r: 1, g: 0, b: 0, a: 1}
       index: 1
-    task: fuse wrong phone mode
-    isComplete: 0
-  - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
-    task: Spider legs right at the start of the intro
-    isComplete: 0
-  - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
-    task: phone call more buttons to auflegen
-    isComplete: 0
-  - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
     task: in game death respawn
-    isComplete: 0
-  - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
-    task: looking for phone -> stand up
     isComplete: 0
   - owner:
       name: QOL
@@ -244,27 +214,15 @@ MonoBehaviour:
     task: save players pos
     isComplete: 0
   - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
-    task: timer put in time not showing (because the dialogue?)
-    isComplete: 0
-  - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
-    task: food timer 30 seconds too late
-    isComplete: 0
-  - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
     task: dialogue variation in food task
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
     task: somehow ground player after teleporting
     isComplete: 0
   - owner:
@@ -304,8 +262,20 @@ MonoBehaviour:
     task: hide phone before last quest
     isComplete: 0
   - owner:
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: save light state
+    isComplete: 0
+  - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: save light state
+    task: save stopped clock state
+    isComplete: 0
+  - owner:
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
+    task: ending
     isComplete: 0

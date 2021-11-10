@@ -82,6 +82,7 @@ namespace Default
             open = true;
 
             audio.clip = sfxOpen;
+            audio.loop = false;
             audio.Play();
         }
 
@@ -94,6 +95,7 @@ namespace Default
             open = false;
 
             audio.clip = sfxClose;
+            audio.loop = false;
             audio.PlayDelayed(0.32f);
         }
 
@@ -111,6 +113,7 @@ namespace Default
             turnedOn = true;
 
             audio.clip = sfxStarting;
+            audio.loop = false;
             audio.Play();
             StartCoroutine(TurnOnDelay());
         }
@@ -125,6 +128,7 @@ namespace Default
 
             light.enabled = false;
             audio.clip = sfxFinishing;
+            audio.loop = false;
             audio.Play();
         }
 
@@ -139,6 +143,7 @@ namespace Default
                 light.enabled = true;
 
                 audio.clip = sfxActive;
+                audio.loop = true;
                 audio.Play();
             }
         }

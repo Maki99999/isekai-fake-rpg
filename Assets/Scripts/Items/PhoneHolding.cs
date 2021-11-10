@@ -69,8 +69,8 @@ namespace Default
             callAudio.Play();
             nextCallClip = (nextCallClip + 1) % sfxCalls.Length;
 
-            yield return new WaitUntil(() => InputSettings.PressingUse());
-            yield return new WaitWhile(() => InputSettings.PressingUse());
+            yield return new WaitUntil(() => InputSettings.PressingConfirm());
+            yield return new WaitWhile(() => InputSettings.PressingConfirm());
 
             callAudio.clip = sfxDisconnected;
             callAudio.Play();
@@ -99,6 +99,14 @@ namespace Default
             currentState = State.FLASHLIGHT_ON;
             flashlightScreen.SetActive(true);
             flashlight.SetActive(true);
+        }        
+        
+        public void DeactivateFlashlight()
+        {
+            currentState = State.EQUIPPED_VISIBLE;
+            flashlightScreen.SetActive(false);
+            flashlight.SetActive(false);
+            OnUnequip();
         }
 
         public void ActivateClockApp()
@@ -106,14 +114,24 @@ namespace Default
             clockScreen.SetActive(true);
         }
 
-        public void StartTimer(int minutes, float timeMultiplier)
+        public void PrepareTimer(float endTime, float timeMultiplier)
         {
-            timer.StartTimer(minutes, timeMultiplier);
+            timer.PrepareTimer(endTime, timeMultiplier);
         }
 
-        public void SkipTime(float seconds)
+        public void StartTime()
         {
-            timer.SkipTime(seconds);
+            timer.StartTime();
+        }
+
+        public void SetTime(float endTime)
+        {
+            timer.SetTime(endTime);
+        }
+
+        public void StopTime()
+        {
+            timer.OnDisable();
         }
 
         public void ShowScreen(bool show)
@@ -164,15 +182,17 @@ namespace Default
 
         public override void OnUnequip()
         {
-            flashlightScreen.SetActive(false);
-            flashlight.SetActive(false);
+            if (currentState != State.FLASHLIGHT_ON && currentState != State.FLASHLIGHT_OFF)
+            {
+                flashlightScreen.SetActive(false);
+                flashlight.SetActive(false);
+            }
             phoneAnim.SetBool("Unlock", false);
-            if (!GameController.Instance.inPcMode && (currentState != State.FLASHLIGHT_ON || currentState != State.FLASHLIGHT_OFF))
+            if (!GameController.Instance.inPcMode && currentState != State.FLASHLIGHT_ON && currentState != State.FLASHLIGHT_OFF)
             {
                 currentState = State.UNEQUIPPED;
                 pcController.lookAtPhone = false;
             }
-
             Hide(false);
         }
 

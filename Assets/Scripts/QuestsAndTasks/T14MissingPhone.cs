@@ -6,13 +6,17 @@ namespace Default
 {
     public class T14MissingPhone : MonoBehaviour, Task
     {
-        public H16Puppet puppet;
+        public PcController pcController;
 
-        void Start()
+        IEnumerator Start()
         {
-            GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "Time...", "Where's my phone?", "I'll look for it." });
+            GameController.Instance.playerEventManager.FreezePlayers(true);
+            yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Time...", "Where's my phone?"});
+            StartCoroutine(pcController.ToNonPcMode());
+            yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "I'll look for it." });
             GameController.Instance.horrorEventManager.StartEvent("H9");
             GameController.Instance.horrorEventManager.StartEvent("H16");
+            GameController.Instance.playerEventManager.FreezePlayers(false);
         }
 
         public bool BlockingPcMode()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class HorrorEventManager : MonoBehaviour
+    public class HorrorEventManager : MonoBehaviour, ISaveDataObject
     {
         public PhoneHolding eventH1Call;
         public GameObject eventH3Window;
@@ -17,6 +17,9 @@ namespace Default
         public GameObject eventH13JumpingSpider;
         public GameObject eventH14Microwave;
         public H16Puppet eventH16Puppet;
+
+        public string saveDataId => "horrorEventManager";
+        private string delayedEvent = "";
 
         public bool StartEvent(string eventId)
         {
@@ -54,9 +57,11 @@ namespace Default
 
         private IEnumerator HorrorEventDelayed(string nextHorrorEventId)
         {
+            delayedEvent = nextHorrorEventId;
             yield return new WaitUntil(() => GameController.Instance.inPcMode);
             yield return new WaitForSeconds(27f);
             GameController.Instance.horrorEventManager.StartEvent(nextHorrorEventId);
+            delayedEvent = "";
         }
 
         public void StartEventsAfterT8()
@@ -164,6 +169,22 @@ namespace Default
         {
             Lamp.randomChance = 1f;
             return true;
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+            entry.Add("delayedEvent", delayedEvent);
+            return entry;
+        }
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry == null)
+                return;
+            delayedEvent = dictEntry.GetString("delayedEvent", "");
+            if (delayedEvent != "")
+                StartEventDelayed(delayedEvent);
         }
     }
 }

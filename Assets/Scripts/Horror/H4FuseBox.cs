@@ -91,6 +91,7 @@ namespace Default
 
             basementLamp.TurnOn();
             GameController.Instance.metaHouseController.SetPower(true);
+            phone.DeactivateFlashlight();
             GameController.Instance.metaPlayer.RemoveItem(phone);
 
             yield return new WaitForSeconds(0.6f);

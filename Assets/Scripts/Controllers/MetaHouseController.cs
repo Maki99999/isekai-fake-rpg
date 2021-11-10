@@ -70,7 +70,7 @@ namespace Default
             while (timeIsAdvancing)
             {
                 float secondsSinceStart = Time.time - startTime;
-                float secondsSince0 = secondsSinceStart / timeMultiplier + (60f * 60f * fixedHour) + (60f * fixedMinute);
+                float secondsSince0 = secondsSinceStart * timeMultiplier + (60f * 60f * fixedHour) + (60f * fixedMinute);
                 int hour = Mathf.FloorToInt(secondsSince0 / (60f * 60f)) % 24;
                 int minute = Mathf.FloorToInt(secondsSince0 / 60f) % 60;
                 SetTime(hour, minute);
