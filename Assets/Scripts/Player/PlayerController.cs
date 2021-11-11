@@ -33,7 +33,8 @@ namespace Default
         public bool isSprinting = false;
         [Space(10)]
         public Animator crossAnimator;
-        public Animator bloodyScreen;
+        public Animator damageAnimator;
+        public GameObject deathObject;
         [Space(10)]
         public AudioSource fxSource;
         public AudioClip hitFx;
@@ -396,18 +397,20 @@ namespace Default
 
         void EntityStatsObserver.ChangedHp(int value)
         {
+            if (value == 0)
+                return;
             if (stats.hp <= 0)
             {
-                //TODO: Dead
                 fxSource.pitch = 0.2f;
                 fxSource.PlayOneShot(hitFx);
-                bloodyScreen.SetTrigger("Dead");
+                damageAnimator.SetTrigger("Dead");
+                deathObject.SetActive(true);
             }
             else if (value < 0)
             {
                 fxSource.pitch = 1f;
                 fxSource.PlayOneShot(hitFx);
-                bloodyScreen.SetTrigger("Hit");
+                damageAnimator.SetTrigger("Hit");
             }
         }
 
