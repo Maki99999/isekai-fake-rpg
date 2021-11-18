@@ -11,7 +11,7 @@ namespace Default
             base.OnTriggerEnter(other);
         }
 
-        protected override void TeleportPlayer()
+        public override void TeleportPlayer()
         {
             StartCoroutine(TeleportEvent());
         }

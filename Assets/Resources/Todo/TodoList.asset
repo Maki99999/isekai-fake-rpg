@@ -30,15 +30,15 @@ MonoBehaviour:
     index: 4
   items:
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: castle interiors (throne room)
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: add fake other players (manu and fish)
     isComplete: 0
   - owner:
@@ -48,45 +48,45 @@ MonoBehaviour:
     task: main menu with credits
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: more npc variants
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: better mountains
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: Wall Texture (Tapete oder so)
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: zoom with middle mouse click (only meta, not in pc mode)
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: better torchlight lighting
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: player lock on (spiderjumpcrawlhide, stone, fusebox)
     isComplete: 0
   - owner:
-      name: Much Later
-      color: {r: 0.7, g: 0.7, b: 1, a: 0.7}
-      index: 4
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: replace all walls and floors
     isComplete: 0
   - owner:
@@ -96,34 +96,34 @@ MonoBehaviour:
     task: locked doors, better doors?, door handles anim
     isComplete: 0
   - owner:
-      name: Much Later
-      color: {r: 0.7, g: 0.7, b: 1, a: 0.7}
-      index: 4
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: better meta models
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: schild zu cave und slimes
     isComplete: 0
   - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
-    task: remainder of current task when doing nothing for too long
+    task: reminder of current task when doing nothing for too long
     isComplete: 0
   - owner:
-      name: Much Later
-      color: {r: 0.7, g: 0.7, b: 1, a: 0.7}
-      index: 4
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: metahouse outside (only front site of house visible, everything cur off
       by black planes, trashcans visible (T10Support))
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: player freeze -> unsneak, unsprint
     isComplete: 0
   - owner:
@@ -147,9 +147,9 @@ MonoBehaviour:
     task: more quests
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: always show current possible controls
     isComplete: 0
   - owner:
@@ -159,52 +159,52 @@ MonoBehaviour:
     task: lookat phone -> move phone a bit to camera
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: food models etc.
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: H8 -> no soap downstairs
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: when starting game for the first time -> brightness slider (move the slider
       so that the logo is barely visible)
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: random magic circles
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: more horror during food task
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: oven save within task
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: t8cracker save state of the optional cola bottle
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: save players pos
     isComplete: 0
   - owner:
@@ -214,9 +214,9 @@ MonoBehaviour:
     task: dialogue variation in food task
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: somehow ground player after teleporting
     isComplete: 0
   - owner:
@@ -226,15 +226,15 @@ MonoBehaviour:
     task: save gamePlayer stats, items etc.
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: fleshplate doesn't fall down perfectly
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: somehow mute sounds when loading and skip all animations
     isComplete: 0
   - owner:
@@ -256,9 +256,9 @@ MonoBehaviour:
     task: hide phone before last quest
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: save light state
     isComplete: 0
   - owner:
@@ -271,5 +271,5 @@ MonoBehaviour:
       name: Urgent
       color: {r: 1, g: 0, b: 0, a: 1}
       index: 1
-    task: ending
+    task: glitch monster glitch camera effects
     isComplete: 0

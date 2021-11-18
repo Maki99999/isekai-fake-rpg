@@ -179,23 +179,28 @@ namespace Default
             get { return _immersedValue; }
             set
             {
-                _immersedValue = value;
-
-                gameAudio.SetFloat("eqOctaveRange", Mathf.Lerp(5f, 0f, _immersedValue));
-                gameAudio.SetFloat("HighpassCutoff", Mathf.Lerp(150f, 0f, _immersedValue));
-                gameAudio.SetFloat("LowpassCutoff", Mathf.Lerp(450f, 22000f, _immersedValue));
-
-                gameAudio.SetFloat("metaVolume", _immersedValue == 1f ? -80f : 20f * Mathf.Log10(1f - _immersedValue));
-                if (powerOn)
-                    gameAudio.SetFloat("gameVolume", Mathf.Lerp(-20f, 0f, _immersedValue));
-                else
-                    gameAudio.SetFloat("gameVolume", -80f);
+                SetImmersedValueWithoutTransform(value);
 
                 Vector3 pcLookTransformNoOffset = pcLookTransform.position - Vector3.up * (GameController.Instance.metaPlayer.heightNormal - GameController.Instance.metaPlayer.camOffsetHeight);
                 GameController.Instance.metaPlayer.transform.position = Vector3.Lerp(pcLookTransformNoOffset + Vector3.forward * maxPcLookDistance, pcLookTransformNoOffset, _immersedValue);
-
-                GameController.Instance.gameAudioFxStrength = 1f - _immersedValue;
             }
+        }
+
+        public void SetImmersedValueWithoutTransform(float value)
+        {
+            _immersedValue = value;
+
+            gameAudio.SetFloat("eqOctaveRange", Mathf.Lerp(5f, 0f, _immersedValue));
+            gameAudio.SetFloat("HighpassCutoff", Mathf.Lerp(150f, 0f, _immersedValue));
+            gameAudio.SetFloat("LowpassCutoff", Mathf.Lerp(450f, 22000f, _immersedValue));
+
+            gameAudio.SetFloat("metaVolume", _immersedValue == 1f ? -80f : 20f * Mathf.Log10(1f - _immersedValue));
+            if (powerOn)
+                gameAudio.SetFloat("gameVolume", Mathf.Lerp(-20f, 0f, _immersedValue));
+            else
+                gameAudio.SetFloat("gameVolume", -80f);
+
+            GameController.Instance.gameAudioFxStrength = 1f - _immersedValue;
         }
 
         IEnumerator ToPcMode()

@@ -17,7 +17,7 @@ namespace Default
             }
         }
 
-        protected virtual void TeleportPlayer()
+        public virtual void TeleportPlayer()
         {
             GameController.Instance.playerEventManager.TeleportPlayer(true, newPos);
 

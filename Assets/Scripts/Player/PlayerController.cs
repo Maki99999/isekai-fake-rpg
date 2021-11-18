@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class PlayerController : MonoBehaviour, EntityStatsObserver
+    public class PlayerController : MonoBehaviour, EntityStatsObserver, ISaveDataObject
     {
         [Space(20)]
         public float mouseSensitivityX = 2f;
@@ -51,6 +51,8 @@ namespace Default
         private ItemHoldable currentItem = null;
 
         private LayerMask myLayerMask;
+
+        public string saveDataId => gameObject.name;
 
         void Awake()
         {
@@ -537,6 +539,22 @@ namespace Default
             if (currentItem != null)
                 currentItem.OnUnequip();
             currentItem = null;
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+            entry.Add("pos", SaveManager.TransformToString(transform));
+            entry.Add("rot", SaveManager.TransformToString(eyeHeightTransform));
+            return entry;
+        }
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry == null)
+                return;
+            SaveManager.ApplyStringToTransform(transform, dictEntry.GetString("pos", SaveManager.TransformToString(transform)));
+            SaveManager.ApplyStringToTransform(eyeHeightTransform, dictEntry.GetString("rot", SaveManager.TransformToString(eyeHeightTransform)));
         }
     }
 }

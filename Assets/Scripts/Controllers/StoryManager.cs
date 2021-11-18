@@ -7,6 +7,7 @@ namespace Default
     public class StoryManager : MonoBehaviour, ISaveDataObject
     {
         public Trailer trailer;
+        public Ending ending;
 
         [Space(10)]
         public T2Oven t2Obj;
@@ -34,7 +35,7 @@ namespace Default
                 {"T8", t8Obj},
                 {"T12", t12Obj},
                 {"T13", t13Obj},
-                {"T14", t14Obj},
+                {"T14", t14Obj}
             };
         }
 
@@ -82,7 +83,9 @@ namespace Default
 
         public void StartTask(string id)
         {
-            if (id != "")
+            if (id == "Ending")
+                ending.StartEnding();
+            else if (id != "")
             {
                 if (tasks.ContainsKey(id))
                     ((MonoBehaviour)tasks[id]).gameObject.SetActive(true);
@@ -118,7 +121,7 @@ namespace Default
                     StartCoroutine(StartNextTaskDelayed("T14", "Q4"));
                     break;
                 case "T14":
-                    //TODO: End
+                    StartCoroutine(StartNextTaskDelayed("Ending"));
                     break;
                 default:
                     break;
@@ -132,11 +135,13 @@ namespace Default
                 Debug.LogError("Cannot schedule two tasks at a time!");
 
             taskOnDelay = nextTaskId;
+            taskOnDelayWaitQuest = questToWaitFor;
             if (!System.String.IsNullOrEmpty(questToWaitFor))
                 yield return new WaitUntil(() => GameController.Instance.questManager.IsQuestDone(questToWaitFor));
             yield return new WaitUntil(() => GameController.Instance.inPcMode);
-            yield return new WaitForSeconds(27f);
+            yield return new WaitForSeconds(25f);
             taskOnDelay = "";
+            taskOnDelayWaitQuest = "";
             StartTask(nextTaskId);
         }
     }

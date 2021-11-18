@@ -48,7 +48,8 @@ namespace Default
         public void Hide2()
         {
             active = false;
-            hideAnimator.SetBool("Hide", false);
+            if (hideAnimator.isActiveAndEnabled)
+                hideAnimator.SetBool("Hide", false);
             spiderAnimator.gameObject.SetActive(false);
         }
 
