@@ -31,7 +31,7 @@ namespace Default
         public Slider brightnessSlider;
 
         bool inMenu = false;
-        bool inSettings = false;
+        bool inSubMenu = false;
 
         bool pressedLastFrame = false;
 
@@ -49,12 +49,10 @@ namespace Default
             {
                 if (inMenu)
                 {
-                    if (inSettings)
-                        CloseSettings();
+                    if (inSubMenu)
+                        CloseSubMenu();
                     else
-                    {
                         CloseMenu();
-                    }
                 }
                 else
                 {
@@ -84,14 +82,21 @@ namespace Default
 
         public void OpenSettings()
         {
-            inSettings = true;
+            inSubMenu = true;
             animator.SetBool("SettingsIn", true);
         }
 
-        public void CloseSettings()
+        public void CloseSubMenu()
         {
-            inSettings = false;
+            inSubMenu = false;
             animator.SetBool("SettingsIn", false);
+            animator.SetBool("CreditsIn", false);
+        }
+
+        public void OpenCredits()
+        {
+            inSubMenu = true;
+            animator.SetBool("CreditsIn", true);
         }
 
         public void CloseGame()

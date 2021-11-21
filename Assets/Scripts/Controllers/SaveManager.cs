@@ -71,7 +71,6 @@ namespace Default
             writer.WriteLine(jsonString);
             writer.Close();
 
-            Debug.Log(jsonString);
             Debug.Log("Saved Game to:\n" + path);
             saveAnim.SetTrigger("Saved");
         }
