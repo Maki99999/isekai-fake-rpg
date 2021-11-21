@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 6740188528858007610}
   - component: {fileID: 6182475642626982905}
   - component: {fileID: 3313697341352062193}
+  - component: {fileID: 4253602176688759002}
   m_Layer: 12
   m_Name: GlitchMonster
   m_TagString: Untagged
@@ -146,6 +147,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4253602176688759002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3047823583277654152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ec4369d09d5c3d49862e2d3a75ca0ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: {fileID: 11400000, guid: 6f5bd28657094ad41b5cade98ce73482, type: 2}
+  power: 0.2
+  speed: 1
+  scale: 100
+  contrast: 20
 --- !u!1 &3242874560719990717
 GameObject:
   m_ObjectHideFlags: 0
