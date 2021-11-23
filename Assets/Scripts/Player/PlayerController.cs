@@ -24,8 +24,7 @@ namespace Default
         public float camOffsetHeight = 0.2f;
         public float camOffsetX = 0f;
         public float camOffsetY = 0f;
-        public float fovNormal = 60f;
-        public float fovSprinting = 80f;
+        public FOVController fOVController;
         [Space(10), SerializeField]
         private int frozenSem = 0;
         [HideInInspector] public bool canControl = true;
@@ -130,7 +129,7 @@ namespace Default
                     StartCoroutine(Sneak(true));
 
                 if (isSprinting)
-                    StartCoroutine(Sprint(false));
+                    Sprint(false);
             }
             else
             {
@@ -143,12 +142,12 @@ namespace Default
                     if (inputs.axisSprint > 0 && inputs.axisVertical > 0)
                     {
                         if (!isSprinting)
-                            StartCoroutine(Sprint(true));
+                            Sprint(true);
                     }
                     else
                     {
                         if (isSprinting)
-                            StartCoroutine(Sprint(false));
+                            Sprint(false);
                     }
                 }
             }
@@ -216,20 +215,10 @@ namespace Default
                 eyeHeightTransform.localPosition = new Vector3(0f, newHeight, 0f);
         }
 
-        IEnumerator Sprint(bool willSprint)
+        private void Sprint(bool willSprint)
         {
             isSprinting = willSprint;
-
-            float oldFov = willSprint ? fovNormal : fovSprinting;
-            float newFov = willSprint ? fovSprinting : fovNormal;
-
-            for (float i = 0; i < 1 && (isSprinting == willSprint); i = i + 0.2f)
-            {
-                cam.fieldOfView = Mathf.Lerp(oldFov, newFov, i);
-                yield return new WaitForSeconds(1f / 60f);
-            }
-            if (isSprinting == willSprint)
-                cam.fieldOfView = newFov;
+            fOVController.isSprinting = willSprint;
         }
 
         public bool IsFrozen() { return frozenSem <= 0; }
@@ -260,13 +249,16 @@ namespace Default
 
                 if (currentItem != null)
                     currentItem.OnUnequip();
+
+                Sprint(false);
+                StartCoroutine(Sneak(false));
             }
         }
 
         public void TeleportPlayer(Transform newPosition, bool cameraPerspective = false, Vector3 offset = new Vector3())
         {
             if (isSprinting)
-                StartCoroutine(Sprint(false));
+                Sprint(false);
             float heightOffset = 0f;
             if (isSneaking && cameraPerspective)
             {
@@ -293,7 +285,7 @@ namespace Default
         public IEnumerator MoveRotatePlayer(Transform newPosition, float seconds = 2f, bool cameraPerspective = false, Vector3 offset = new Vector3())
         {
             if (isSprinting)
-                StartCoroutine(Sprint(false));
+                Sprint(false);
             float heightOffset = 0f;
             if (isSneaking && cameraPerspective)
             {
@@ -317,7 +309,7 @@ namespace Default
         public IEnumerator MovePlayer(Vector3 newPosition, float seconds = 2f, bool ignoreSneak = false)
         {
             if (isSprinting)
-                StartCoroutine(Sprint(false));
+                Sprint(false);
             if (isSneaking && !ignoreSneak)
                 StartCoroutine(Sneak(false));
 
@@ -339,7 +331,7 @@ namespace Default
         public IEnumerator RotatePlayer(Quaternion newRotation, float seconds = 2f)
         {
             if (isSprinting)
-                StartCoroutine(Sprint(false));
+                Sprint(false);
 
             Quaternion rotationPlayerOld = transform.rotation;
             Quaternion rotationCameraOld = eyeHeightTransform.localRotation;
