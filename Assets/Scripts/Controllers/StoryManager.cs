@@ -60,7 +60,7 @@ namespace Default
         {
             if (dictEntry == null)
             {
-                //trailer.StartTrailer();
+                trailer.StartTrailer();
                 return;
             }
             foreach (string taskId in dictEntry.GetList("finishedTasks", new List<string>()))
