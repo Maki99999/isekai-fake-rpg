@@ -34,6 +34,7 @@ namespace Default
         public bool lookAtPhone = false;
         public PhoneHolding phone;
         public Transform phonePos;
+        public Transform phoneCloserLookPos;
 
         bool powerOn = true;
 
@@ -140,7 +141,13 @@ namespace Default
         IEnumerator LookAtTransition(bool reversed)
         {
             if (lookAtPhone || GameController.Instance.metaHouseController.brokenWallClocksAcknowledged)
+            {
                 phone.ShowScreen(!reversed);
+                if (!reversed)
+                    phone.CustomPos(phoneCloserLookPos);
+                else
+                    phone.CustomPos(phonePos);
+            }
 
             if (!reversed)
                 immersedValueIsRegular = false;

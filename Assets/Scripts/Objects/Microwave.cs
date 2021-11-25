@@ -46,6 +46,7 @@ namespace Default
         {
             Close();
             TurnOn();
+            StartCoroutine(GameController.Instance.playerEventManager.FocusObject(false, transform, 2f));
 
             h15Trigger.SetActive(true);
 
@@ -54,7 +55,7 @@ namespace Default
 
         private IEnumerator StartNextTaskDelayedFast()
         {
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(15f);
             GameController.Instance.storyManager.StartTask("T12");
         }
 
@@ -63,7 +64,7 @@ namespace Default
             StartCoroutine(H15EventEnumerator());
         }
 
-        IEnumerator H15EventEnumerator()
+        private IEnumerator H15EventEnumerator()
         {
             fleshScript.ShowFlesh(true);
 

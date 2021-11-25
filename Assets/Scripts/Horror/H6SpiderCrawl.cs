@@ -17,6 +17,7 @@ namespace Default
         {
             crawlAnimator.SetTrigger("Crawl");
             spiderAnimator.SetFloat("MovingSpeed", 1f);
+            StartCoroutine(GameController.Instance.playerEventManager.FocusObject(false, spiderAnimator.transform, 6f));
 
             audioSource.PlayDelayed(3f);
 

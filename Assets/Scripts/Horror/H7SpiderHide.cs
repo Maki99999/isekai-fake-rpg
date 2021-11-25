@@ -36,7 +36,7 @@ namespace Default
 
         public void Hide()
         {
-            StartCoroutine(GameController.Instance.playerEventManager.LookAt(false, transform.position, 1f));
+            StartCoroutine(GameController.Instance.playerEventManager.FocusObject(false, spiderAnimator.transform, 1f));
 
             active = false;
             hideAnimator.SetBool("Hide", true);

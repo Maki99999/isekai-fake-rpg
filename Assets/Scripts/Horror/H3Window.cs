@@ -43,6 +43,7 @@ namespace Default
 
             GameController.Instance.horrorEventManager.StartEvent("H12");
 
+            StartCoroutine(GameController.Instance.playerEventManager.FocusObject(false, transform, 2f));
             normalWindow.SetActive(false);
             brokenWindow.SetActive(true);
             audio1.PlayDelayed(0.25f);

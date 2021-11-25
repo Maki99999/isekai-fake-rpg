@@ -70,5 +70,20 @@ namespace Default
             else
                 yield return metaPlayer.LookAt(lookAtPos, seconds);
         }
+
+        public IEnumerator FocusObject(bool inGame, Transform transform, float seconds)
+        {
+            if (inGame)
+                gamePlayer.focusedObject = transform;
+            else
+                metaPlayer.focusedObject = transform;
+
+            yield return new WaitForSeconds(seconds);
+
+            if (inGame)
+                gamePlayer.focusedObject = null;
+            else
+                metaPlayer.focusedObject = null;
+        }
     }
 }

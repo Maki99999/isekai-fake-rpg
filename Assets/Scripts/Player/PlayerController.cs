@@ -6,6 +6,7 @@ namespace Default
 {
     public class PlayerController : MonoBehaviour, EntityStatsObserver, ISaveDataObject
     {
+        [HideInInspector] public Transform focusedObject;
         [Space(20)]
         public float mouseSensitivityX = 2f;
         public float mouseSensitivityY = 2f;
@@ -102,7 +103,10 @@ namespace Default
             if (currentItem != null)
                 currentItem.UseItem(inputs);
 
-            Rotate(inputs.xRot, inputs.yRot);
+            if (focusedObject == null)
+                Rotate(inputs.xRot, inputs.yRot);
+            else
+                FocusObject();
             Move(inputs);
         }
 
@@ -118,6 +122,17 @@ namespace Default
 
             transform.localRotation = characterTargetRot;
             eyeHeightTransform.localRotation = cameraTargetRot;
+        }
+
+        void FocusObject()
+        {
+            Quaternion oldRot = Quaternion.Euler(eyeHeightTransform.localEulerAngles.x, transform.localEulerAngles.y, 0f);
+            Quaternion newRot = Quaternion.LookRotation(focusedObject.position - eyeHeightTransform.position);
+
+            Quaternion targetRot = Quaternion.Lerp(oldRot, newRot, 8f * Time.deltaTime);
+
+            transform.localEulerAngles = new Vector3(0, targetRot.eulerAngles.y, 0);
+            eyeHeightTransform.localEulerAngles = new Vector3(targetRot.eulerAngles.x, 0, 0);
         }
 
         void Move(MoveData inputs)
