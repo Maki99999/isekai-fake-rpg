@@ -191,11 +191,14 @@ namespace Default
             foodObjects[currentFood].foodOnTrayDone?.SetActive(true);
             ovenState = OvenState.FOOD_DONE;
 
-            yield return new WaitForSeconds(overallTime / 2f);
-            GameController.Instance.metaHouseController.LetTimeAdvance(false);
-            foodObjects[currentFood].foodOnTrayRaw?.SetActive(false);
-            foodObjects[currentFood].foodOnTrayBurned?.SetActive(true);
-            ovenState = OvenState.FOOD_BURNED;
+            if (false)  //Bypassing Softlock. TODO: see lower todo
+            {
+                yield return new WaitForSeconds(overallTime / 2f);
+                GameController.Instance.metaHouseController.LetTimeAdvance(false);
+                foodObjects[currentFood].foodOnTrayRaw?.SetActive(false);
+                foodObjects[currentFood].foodOnTrayBurned?.SetActive(true);
+                ovenState = OvenState.FOOD_BURNED;
+            }
         }
 
         IEnumerator TakeOutFood()
@@ -253,8 +256,7 @@ namespace Default
             }
             else
             {
-                //TODO: SOFTLOCK!!!!!!!!
-                //cheap jumpscare, then just load the game.
+                //TODO: maybe: jumpscare, then just load the game.
                 Debug.Log("Boo!");
                 GameController.Instance.playerEventManager.FreezePlayer(false, false);
             }
@@ -263,6 +265,9 @@ namespace Default
         public void SkipTask()
         {
             ovenState = OvenState.DONE;
+            GameController.Instance.metaHouseController.brokenWallClocksAcknowledged = true;
+            GameController.Instance.metaHouseController.StopWallClocks();
+            phone.ActivateClockApp();
             gameObject.SetActive(false);
         }
 

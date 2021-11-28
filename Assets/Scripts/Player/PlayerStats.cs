@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class PlayerStats : EntityStats
+    public class PlayerStats : EntityStats, ISaveDataObject
     {
         [Space(10)]
         public PlayerController player;
@@ -19,6 +19,7 @@ namespace Default
         [Space(10)]
         public Transform statItemsTransform;
         public Armor statItems;
+        private bool hasStatItem = false;
 
         [SerializeField]
         private int coins = 0;
@@ -30,6 +31,8 @@ namespace Default
 
         private bool inLevelMenu = false;
         private bool pressingButton = false;
+
+        public string saveDataId => "PlayerStats" + gameObject.name;
 
         void Start()
         {
@@ -93,13 +96,6 @@ namespace Default
             ShowLevel();
         }
 
-        //For Saving/Loading
-        public void SetXp(int xp)
-        {
-            currentXp = xp;
-            //level = NextLevelRequirementInversed...
-        }
-
         public void LevelUp()
         {
             while (currentXp >= nextNeededXp)
@@ -132,6 +128,7 @@ namespace Default
             if (statItems != null)
                 statPoints.ChangePoints(StatPointName.Hp, -statItems.hpStatPoints);
 
+            hasStatItem = true;
             statItems = item;
             statPoints.ChangePoints(StatPointName.Hp, statItems.hpStatPoints);
             item.transform.SetParent(statItemsTransform);
@@ -153,6 +150,8 @@ namespace Default
             entityStatsUi.SetMaxMp(maxMp, -1);
             ChangeHp(maxHp - oldHp);
             ChangeMp(maxMp - oldMp);
+
+            levelUpUi.SetValues(statPoints);
         }
 
         private static int NextLevelRequirement(int currlevel)
@@ -173,6 +172,75 @@ namespace Default
             coins += changeValue;
             ((PlayerStatsUi)entityStatsUi).SetCoins(coins);
             return true;
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+
+            entry.Add("maxHp", maxHp);
+            entry.Add("maxMp", maxMp);
+            entry.Add("level", level);
+            entry.Add("statsRegen.hpRegenMultiplier", statsRegen.hpRegenMultiplier);
+            entry.Add("statsRegen.mpRegenMultiplier", statsRegen.mpRegenMultiplier);
+            if (hasStatItem)
+            {
+                entry.Add("statPoints.hp", statPoints.hp - statItems.hpStatPoints);
+            }
+            else
+                entry.Add("statPoints.hp", statPoints.hp);
+            entry.Add("statPoints.hpRegen", statPoints.hpRegen);
+            entry.Add("statPoints.mp", statPoints.mp);
+            entry.Add("statPoints.mpRegen", statPoints.mpRegen);
+            entry.Add("statPoints.freePoints", statPoints.freePoints);
+            entry.Add("coins", coins);
+            entry.Add("levelInt", levelInt);
+            entry.Add("currentXp", currentXp);
+            entry.Add("lastNeededXp", lastNeededXp);
+            entry.Add("nextNeededXp", nextNeededXp);
+
+            return entry;
+        }
+
+        public void Load(SaveDataEntry dataEntry)
+        {
+            if (dataEntry == null)
+                return;
+            StartCoroutine(LoadNextFrame(dataEntry));
+        }
+
+        private IEnumerator LoadNextFrame(SaveDataEntry entry)
+        {
+            yield return null;
+            maxHp = entry.GetInt("maxHp", maxHp);
+            hp = maxHp;
+            maxMp = entry.GetInt("maxMp", maxMp);
+            mp = maxMp;
+            level = entry.GetFloat("level", level);
+            statsRegen.hpRegenMultiplier = entry.GetFloat("statsRegen.hpRegenMultiplier", statsRegen.hpRegenMultiplier);
+            statsRegen.mpRegenMultiplier = entry.GetFloat("statsRegen.mpRegenMultiplier", statsRegen.mpRegenMultiplier);
+            if (hasStatItem)
+            {
+                statPoints.hp = statPoints.hp - 5 + entry.GetInt("statPoints.hp", statPoints.hp);
+            }
+            else
+                statPoints.hp = entry.GetInt("statPoints.hp", statPoints.hp);
+            statPoints.hpRegen = entry.GetInt("statPoints.hpRegen", statPoints.hpRegen);
+            statPoints.mp = entry.GetInt("statPoints.mp", statPoints.mp);
+            statPoints.mpRegen = entry.GetInt("statPoints.mpRegen", statPoints.mpRegen);
+            statPoints.freePoints = entry.GetInt("statPoints.freePoints", statPoints.freePoints);
+            coins = entry.GetInt("coins", coins);
+            levelInt = entry.GetInt("levelInt", levelInt);
+            currentXp = entry.GetInt("currentXp", currentXp);
+            lastNeededXp = entry.GetInt("lastNeededXp", lastNeededXp);
+            nextNeededXp = entry.GetInt("nextNeededXp", nextNeededXp);
+
+            entityStatsUi.SetMaxHp(maxHp, -1);
+            entityStatsUi.SetMaxMp(maxMp, -1);
+            entityStatsUi.SetText("Level " + Mathf.FloorToInt(level));
+            levelUpUi.SetValues(statPoints);
+            ((PlayerStatsUi)entityStatsUi).SetCoins(coins);
+            ((PlayerStatsUi)entityStatsUi).SetSublevel(level % 1f);
         }
     }
 

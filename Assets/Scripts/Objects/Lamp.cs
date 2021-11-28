@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class Lamp : MonoBehaviour, UsesPower
+    public class Lamp : MonoBehaviour, UsesPower, ISaveDataObject
     {
         private Light[] lights;
         public bool isOnAtStart = false;
@@ -26,7 +26,7 @@ namespace Default
             Lamp[] lamps = GetComponentsInChildren<Lamp>(false);
             foreach (Lamp lamp in lamps)
                 if (lamp != this)
-                    Destroy(lamp);
+                    lamp.enabled = false;
 
             lights = GetComponentsInChildren<Light>(false);
             foreach (Light light in lights)
@@ -100,11 +100,10 @@ namespace Default
             }
         }
 
-        public SaveDataEntry Save() //TODO: make it work
+        public SaveDataEntry Save()
         {
             SaveDataEntry entry = new SaveDataEntry();
             entry.Add("on", on);
-            entry.Add("eyesActive", eyes == null ? false : eyes.activeSelf);
             return entry;
         }
 
@@ -113,7 +112,6 @@ namespace Default
             if (dictEntry == null)
                 return;
             on = dictEntry.GetBool("on", on);
-            eyes?.SetActive(dictEntry.GetBool("eyesActive", eyes.activeSelf));
             if (powerOn)
                 foreach (Light light in lights)
                     light.enabled = on;

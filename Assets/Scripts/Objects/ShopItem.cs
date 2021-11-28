@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Default
 {
-    public class ShopItem : MonoBehaviour, Useable
+    public class ShopItem : MonoBehaviour, Useable, ISaveDataObject
     {
         public Text priceText;
         public bool isItem;     //Maybe replace this with an enum
@@ -14,13 +14,12 @@ namespace Default
 
         int currentItem = 0;
 
-        PlayerController player;
         List<Outline> outlines;
+
+        public string saveDataId => "ShopItem" + gameObject.name;
 
         void Start()
         {
-            player = GameController.Instance.gamePlayer;
-
             outlines = new List<Outline>();
 
             MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>();
@@ -46,9 +45,17 @@ namespace Default
 
         void Useable.Use()
         {
-            if (currentItem < items.Length && player.stats.ChangeCoins(-items[currentItem].price))
+            BuyCurrentItem();
+        }
+
+        private void BuyCurrentItem(bool silentAndFree = false)
+        {
+            PlayerController player = GameController.Instance.gamePlayer;
+
+            if (currentItem < items.Length && (silentAndFree || player.stats.ChangeCoins(-items[currentItem].price)))
             {
-                boughtSfx.Play();
+                if (!silentAndFree)
+                    boughtSfx.Play();
                 if (isItem)
                 {
                     player.AddItem(items[currentItem].theObject.GetComponent<ItemHoldable>(), true);
@@ -85,6 +92,33 @@ namespace Default
         {
             foreach (Outline outline in outlines)
                 outline.enabled = true;
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+            entry.Add("currentItem", currentItem);
+            return entry;
+        }
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry == null)
+                return;
+            int itemsToBuy = dictEntry.GetInt("currentItem", currentItem);
+            if (itemsToBuy > 0)
+            {
+                StartCoroutine(BuyItemsNextFrames(itemsToBuy));
+            }
+        }
+
+        private IEnumerator BuyItemsNextFrames(int itemsToBuy)
+        {
+            GameController.Instance.playerEventManager.FreezePlayer(true, true);
+            yield return null;
+            for (int i = 0; i < itemsToBuy; i++)
+                BuyCurrentItem(true);
+            GameController.Instance.playerEventManager.FreezePlayer(true, false);
         }
     }
 

@@ -20,7 +20,7 @@ namespace Default
         private static readonly string debugGameFile =
             //Start
             "{\"info\":{\"dictString\":{\"version\":\"0.1\"},\"dictList\":{}}}";
-            
+
             //Machines done, no Quests done
             //"{\"info\":{\"dictString\":{\"version\":\"0.1\"},\"dictList\":{}},\"horrorEventManager\":{\"dictString\":{\"delayedEvent\":\"\"},\"dictList\":{}},\"musicManager\":{\"dictString\":{\"currentType\":\"1\"},\"dictList\":{}},\"questManager\":{\"dictString\":{\"currentQuestId\":\"Q1\"},\"dictList\":{\"finishedQuests\":[]}},\"saveManager\":{\"dictString\":{\"currentTaskId\":\"\",\"taskOnDelay\":\"T2\",\"taskOnDelayWaitQuest\":\"\"},\"dictList\":{\"finishedTasks\":[\"T4\"]}},\"GamePlayer\":{\"dictString\":{\"pos\":\"453,1283;60,08732;620,7281;0;0,2588191;0;0,9659258;1;1;1\",\"rot\":\"453,1283;61,68732;620,7281;0;0,2588191;0;0,9659258;1;1;1\"},\"dictList\":{}},\"MetaPlayer\":{\"dictString\":{\"pos\":\"-11,62743;-0,8700001;5,014137;0;0,3379172;0;0,9411759;1;1;1\",\"rot\":\"-11,62743;0,6299999;5,014137;0,2791004;0,3227174;-0,1002074;0,898841;1;1;1\"},\"dictList\":{}},\"H1Call\":{\"dictString\":{\"nextCallClip\":\"1\"},\"dictList\":{}},\"king\":{\"dictString\":{\"currentState\":\"0\"},\"dictList\":{}},\"H3Window\":{\"dictString\":{\"triggered\":\"false\"},\"dictList\":{}},\"SpiderHideBedroom\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"SpiderHideGarage\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"SpiderHideBasement\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"SpiderHideLiving Room\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"H11Glass\":{\"dictString\":{\"triggered\":\"true\"},\"dictList\":{}},\"H10FleshThing\":{\"dictString\":{\"fleshOn\":\"false\",\"transform\":\"-12,56054;0,0639;-6,562059;0;-0,1074732;0;0,9942082;1;1;1\"},\"dictList\":{}},\"H10PizzaFleshPlate\":{\"dictString\":{\"fleshOn\":\"false\",\"transform\":\"-15,215;-0,009;-6,41;0;0;0;1;1;1;1\",\"plateFallTransform\":\"-9,343;-1;-0,232;0;0;0;1;1;1;1\"},\"dictList\":{}},\"H10PizzaFleshPlateFake\":{\"dictString\":{\"fleshOn\":\"false\",\"transform\":\"-9,343;0;-0,232;0;0;0;1;1;1;1\",\"plateFallTransform\":\"-9,343;-1;-0,232;0;0;0;1;1;1;1\"},\"dictList\":{}},\"SpiderHideKitchen\":{\"dictString\":{\"active\":\"false\"},\"dictList\":{}},\"knifeItem\":{\"dictString\":{\"enabled\":\"true\",\"equipped\":\"false\"},\"dictList\":{}}}";
 
@@ -62,8 +62,7 @@ namespace Default
             Dictionary<string, SaveDataEntry> saveDict = new Dictionary<string, SaveDataEntry>();
             saveDict.Add("info", generalInfo);
             foreach (ISaveDataObject saveObject in saveObjects)
-                if (saveObject != null)
-                    saveDict.Add(saveObject.saveDataId, saveObject.Save());
+                saveDict.Add(saveObject.saveDataId, saveObject.Save());
 
             string jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(saveDict);
 
@@ -131,11 +130,12 @@ namespace Default
 
         public static string GetGameObjectPath(Transform transform)
         {
-            string path = transform.name;
-            while (transform.parent != null)
+            Transform lastTransform = transform;
+            string path = lastTransform.name;
+            while (lastTransform.parent != null)
             {
-                transform = transform.parent;
-                path = transform.name + "/" + path;
+                lastTransform = lastTransform.parent;
+                path = lastTransform.name + "/" + path;
             }
             return path;
         }
@@ -181,6 +181,16 @@ namespace Default
             dictString.Add(key, value.ToString());
         }
 
+        public void Add(string key, float value)
+        {
+            if (dictList.ContainsKey(key) || dictString.ContainsKey(key))
+            {
+                Debug.LogError("Key already present");
+                return;
+            }
+            dictString.Add(key, value.ToString());
+        }
+
         public void Add(string key, bool value)
         {
             if (dictList.ContainsKey(key) || dictString.ContainsKey(key))
@@ -211,8 +221,18 @@ namespace Default
 
         public int GetInt(string key, int defaultValue)
         {
-            int returnValue;
-            bool returnSuccessful = int.TryParse(dictString?[key], out returnValue);
+            int returnValue = defaultValue;
+            bool returnSuccessful = dictString.ContainsKey(key) && int.TryParse(dictString[key], out returnValue);
+            if (returnSuccessful)
+                return returnValue;
+            else
+                return defaultValue;
+        }
+
+        public float GetFloat(string key, float defaultValue)
+        {
+            float returnValue = defaultValue;
+            bool returnSuccessful = dictString.ContainsKey(key) && float.TryParse(dictString[key], out returnValue);
             if (returnSuccessful)
                 return returnValue;
             else
@@ -221,8 +241,8 @@ namespace Default
 
         public bool GetBool(string key, bool defaultValue)
         {
-            bool returnValue;
-            bool returnSuccessful = bool.TryParse(dictString?[key], out returnValue);
+            bool returnValue = defaultValue;
+            bool returnSuccessful = dictString.ContainsKey(key) && bool.TryParse(dictString[key], out returnValue);
             if (returnSuccessful)
                 return returnValue;
             else
