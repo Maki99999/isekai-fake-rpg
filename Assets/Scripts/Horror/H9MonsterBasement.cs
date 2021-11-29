@@ -23,6 +23,7 @@ namespace Default
             door.locked = true;
             GameController.Instance.playerEventManager.FreezePlayer(false, true);
             yield return GameController.Instance.playerEventManager.LookAt(false, monsterAnim.transform.position + Vector3.up, 1f);
+            monsterAnim.gameObject.SetActive(true);
             monsterAnim.SetBool("Show", true);
             yield return new WaitForSeconds(1.2f);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "What the..." });

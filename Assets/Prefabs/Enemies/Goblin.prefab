@@ -401,6 +401,18 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.026500348
       objectReference: {fileID: 0}
+    - target: {fileID: 4351045871439756789, guid: 1795256c9cdde3d4197438a875d7e94f, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5535150447441811571, guid: 1795256c9cdde3d4197438a875d7e94f, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592293305217157803, guid: 1795256c9cdde3d4197438a875d7e94f, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5592293305217157803, guid: 1795256c9cdde3d4197438a875d7e94f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -444,6 +456,10 @@ PrefabInstance:
     - target: {fileID: 8020357029719549272, guid: 1795256c9cdde3d4197438a875d7e94f, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8324927613112572296, guid: 1795256c9cdde3d4197438a875d7e94f, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1795256c9cdde3d4197438a875d7e94f, type: 3}

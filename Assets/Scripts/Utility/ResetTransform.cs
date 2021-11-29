@@ -6,11 +6,15 @@ namespace Default
 {
     public class ResetTransform : MonoBehaviour
     {
-        void Start()
+        IEnumerator Start()
         {
-            transform.localPosition = Vector3.zero;
-            transform.localEulerAngles = Vector3.zero;
-            transform.localScale = Vector3.one;
+            while (isActiveAndEnabled)
+            {
+                transform.localPosition = Vector3.zero;
+                transform.localEulerAngles = Vector3.zero;
+                transform.localScale = Vector3.one;
+                yield return new WaitForSeconds(1f);
+            }
         }
     }
 }

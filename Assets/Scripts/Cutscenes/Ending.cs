@@ -38,6 +38,9 @@ namespace Default
         {
             GameController.Instance.playerEventManager.FreezePlayers(true);
 
+            //no knife allowed
+            metaPlayer.UnequipCurrentItem();
+
             //ImmersionBreak with a loud clang or sth
             pcController.ImmerseBreak(true);
             metaPlayer.transform.SetParent(metaPlayerWrap);
@@ -114,6 +117,7 @@ namespace Default
             animatorEyes.SetTrigger("Close");
 
             //TODO: Start Credits Scene
+            Application.Quit();
         }
     }
 }

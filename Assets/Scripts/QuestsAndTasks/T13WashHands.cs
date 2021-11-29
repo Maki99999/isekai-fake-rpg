@@ -8,6 +8,8 @@ namespace Default
     {
         public Outline outline;
 
+        new public AudioSource audio;
+
         private bool inUse = false;
 
         void Update()
@@ -42,7 +44,7 @@ namespace Default
             GameController.Instance.fadingAnimator.SetBool("Black", true);
             yield return new WaitForSeconds(1.5f);
 
-            //insert sound here
+            audio.Play();
 
             if (GameController.Instance.storyManager.currentTaskId.Equals("T13"))
             {

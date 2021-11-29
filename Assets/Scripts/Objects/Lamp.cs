@@ -109,7 +109,7 @@ namespace Default
 
         public void Load(SaveDataEntry dictEntry)
         {
-            if (dictEntry == null)
+            if (dictEntry == null || !isActiveAndEnabled)
                 return;
             on = dictEntry.GetBool("on", on);
             if (powerOn)
