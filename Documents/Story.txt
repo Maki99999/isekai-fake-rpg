@@ -1,0 +1,18 @@
+In-Game-Name: Connected Worlds, A Wizard and the two Worlds, A Wizard Connecting Worlds, The Wizard and the Danger of the Worlds
+
+Man sitzt am PC, schaut sich ein (vorgefertigt oder echtzeit) Video an, in dem alle Orte vom Spiel mit einem Kamerapfad gezeigt werden, am Ende fliegt ein Drache auf den Berg und schreit einmal, dann kommt das Logo zum Vorschein, dann kommt von irgendwo ein Kaufen-Knopf, auf den man drückt.
+
+Ein Moment später klingelt es, MC sagt, dass es das Spiel ist und dass man zur Haustür gehen sollte. Man steht auf. Spieler können dann das Haus erkunden und das (Paket? mit) Spiel holen. Dann sollte es sich an den PC setzen und ein Ladebalken soll aufploppen, der anzeigen soll, dass das Spiel installiert wird.
+
+Dann spielt man das Spiel.
+
+
+Food-Event:
+Man hat hunger und will sich Essen machen. 
+Man packt Essen in den Backofen.
+Man stellt einen Timer auf 12 "Minuten". -> Handy rausholen, einstellen, wegstecken; inPcMode zum timer schauen lassen; handy kann man per klick rausholen.
+Macht irgendwas.
+Nach 12 "Minuten" soll(?) man Handy rausholen und merken, dass handy stumm geschaltet(vibriert nur) ist und das essen schon längst fertig ist
+
+2tes Essen: anstatt handy und so schaut man auf die uhr -> uhr bleibt stehen
+3tes Essen: wieder handy, diesmal uhr anstatt timer; wenn man dann verkackt, stirbt man

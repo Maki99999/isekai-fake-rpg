@@ -97,7 +97,7 @@ namespace Footsteps
             {
                 float speed = (characterController ? characterController.velocity : characterRigidbody.velocity).magnitude;
 
-                if (isGrounded)
+                if (isGrounded && (characterController ? characterController.detectCollisions : true))
                 {
                     // Advance the step cycle only if the character is grounded.
                     AdvanceStepCycle(speed * Time.deltaTime);

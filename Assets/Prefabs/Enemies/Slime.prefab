@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 1583605718}
   - component: {fileID: 7838086660067869319}
   m_Layer: 0
-  m_Name: Slime1
+  m_Name: Slime
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0984b19d7deface499c40353ace1767d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 5
+  attackRange: 1.7
   detectionRange: 10
   damagePerAttack: 10
   attackOffset: 0.25
@@ -245,7 +245,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3385590242156018318}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1.15
   m_Speed: 1.5
   m_Acceleration: 5
   avoidancePriority: 50
@@ -290,7 +290,7 @@ MonoBehaviour:
   maxMp: -1
   level: 1
   isInvincible: 0
-  height: 1.3
+  height: 0.7
   mpGainLocked: 0
   statsUiPrefab: {fileID: 4203123843085276130, guid: c749b98027704c74e8b92f7cca7573af, type: 3}
 --- !u!82 &1583605718

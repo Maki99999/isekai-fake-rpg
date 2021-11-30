@@ -16,6 +16,7 @@ namespace Default
         [Space(10)]
         public MeshRenderer screenMesh;
         public Camera gameCamera;
+        public Camera eventCamera;
 
         [Space(10)]
         public Slider mainVolSlider;
@@ -27,9 +28,10 @@ namespace Default
         public Toggle fullscreenToggle;
         public Toggle vSyncToggle;
         public Dropdown pcResDropdown;
+        public Slider brightnessSlider;
 
         bool inMenu = false;
-        bool inSettings = false;
+        bool inSubMenu = false;
 
         bool pressedLastFrame = false;
 
@@ -47,12 +49,10 @@ namespace Default
             {
                 if (inMenu)
                 {
-                    if (inSettings)
-                        CloseSettings();
+                    if (inSubMenu)
+                        CloseSubMenu();
                     else
-                    {
                         CloseMenu();
-                    }
                 }
                 else
                 {
@@ -82,18 +82,32 @@ namespace Default
 
         public void OpenSettings()
         {
-            inSettings = true;
+            inSubMenu = true;
             animator.SetBool("SettingsIn", true);
         }
 
-        public void CloseSettings()
+        public void CloseSubMenu()
         {
-            inSettings = false;
+            inSubMenu = false;
             animator.SetBool("SettingsIn", false);
+            animator.SetBool("CreditsIn", false);
+        }
+
+        public void OpenCredits()
+        {
+            inSubMenu = true;
+            animator.SetBool("CreditsIn", true);
         }
 
         public void CloseGame()
         {
+            GameController.Instance.saveManager.SaveGameNextFrame();
+            StartCoroutine(QuitNextFrame());
+        }
+
+        private IEnumerator QuitNextFrame()
+        {
+            yield return null;
             Application.Quit();
         }
 
@@ -162,6 +176,10 @@ namespace Default
             int pcRes = PlayerPrefs.GetInt("pcRes", 1);
             pcResDropdown.value = pcRes;
             SetPcRes(pcRes, false);
+
+            float brightness = PlayerPrefs.GetFloat("brightness", 0.033f);
+            RenderSettings.ambientLight = new Color(brightness, brightness, brightness);
+            brightnessSlider.value = brightness;
         }
 
         public void SetMainVol(float vol)
@@ -254,18 +272,28 @@ namespace Default
             }
 
             if (gameCamera.targetTexture != null)
-            {
                 gameCamera.targetTexture.Release();
-            }
+
+            if (eventCamera != null && eventCamera.targetTexture != null)
+                eventCamera.targetTexture.Release();
 
             RenderTexture newText = new RenderTexture(w, h, 24);
 
             gameCamera.targetTexture = newText;
+            if (eventCamera != null)
+                eventCamera.targetTexture = newText;
+
             screenMesh.material.SetTexture("_MainTex", newText);
-            EntityStats.uiScaleFactor = scale;
+            GameController.uiScaleFactor = scale;
 
             if (withSave)
                 PlayerPrefs.SetInt("pcRes", step);
+        }
+
+        public void SetBrightness(float vol)
+        {
+            RenderSettings.ambientLight = new Color(vol, vol, vol);
+            PlayerPrefs.SetFloat("brightness", vol);
         }
     }
 }

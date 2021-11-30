@@ -1,0 +1,24 @@
+A game by Maki99999
+
+<i>Made with Unity</i>
+
+
+
+<align="center"><b>Assets used</b></align>
+
+<color=#9BBEFF><u>
+<link="https://opengameart.org/content/flare-npcs-animated-pack-1">Flare Npcs animated pack 1 | OpenGameArt.org</link>
+<link="https://opengameart.org/content/goblin-4">Goblin | OpenGameArt.org</link>
+<link="https://opengameart.org/content/gum-tree">Gum Tree | OpenGameArt.org</link>
+<link="https://opengameart.org/content/rope-fence">Rope Fence | OpenGameArt.org</link>
+<link="https://opengameart.org/content/spider-3d">Spider (3D) | OpenGameArt.org</link>
+
+<link="https://freesound.org/people/Metzik/sounds/371222/">Freesound - "Medieval market" by Metzik</link>
+<link="https://freesound.org/people/Juan_Merie_Venter/sounds/327668/">Freesound - "Breaking Plates.wav" by Juan_Merie_Venter</link>
+<link="https://richarrest.itch.io/classic-jrpg-music-pack-grand-pack">Ancient Dragon: Classic JRPG Music Pack</link>
+
+<link="https://managore.itch.io/m5x7">m5x7 by Daniel Linssen</link>
+
+<link="https://github.com/yahiaetman/URPCustomPostProcessingStack">Customizable Post-processing Stack for Universal Render Pipeline</link>
+</color></u>
+Plus many other free assets and unity packages

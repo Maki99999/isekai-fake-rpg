@@ -6,6 +6,7 @@ namespace Default
 {
     public class PlayerController : MonoBehaviour, EntityStatsObserver
     {
+        [HideInInspector] public Transform focusedObject;
         [Space(20)]
         public float mouseSensitivityX = 2f;
         public float mouseSensitivityY = 2f;
@@ -24,16 +25,16 @@ namespace Default
         public float camOffsetHeight = 0.2f;
         public float camOffsetX = 0f;
         public float camOffsetY = 0f;
-        public float fovNormal = 60f;
-        public float fovSprinting = 80f;
+        public FOVController fOVController;
         [Space(10), SerializeField]
-        private bool isFrozen = false;
+        private int frozenSem = 0;
         [HideInInspector] public bool canControl = true;
         public bool isSneaking = false;
         public bool isSprinting = false;
         [Space(10)]
         public Animator crossAnimator;
-        public Animator bloodyScreen;
+        public Animator damageAnimator;
+        public GameObject deathObject;
         [Space(10)]
         public AudioSource fxSource;
         public AudioClip hitFx;
@@ -43,17 +44,25 @@ namespace Default
         public PlayerStats stats;
         public Transform eyeHeightTransform;
         public Camera cam;
+        public UseController useController;
 
         public Transform itemTransform;
         private List<ItemHoldable> items = new List<ItemHoldable>();
         private ItemHoldable currentItem = null;
+
+        private LayerMask myLayerMask;
+
+        void Awake()
+        {
+            myLayerMask = 1 << gameObject.layer;
+        }
 
         void Start()
         {
             if (stats != null)
                 stats.entityStatsObservers.Add(this);
 
-            eyeHeightTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
+            eyeHeightTransform.localPosition = new Vector3(0f, heightNormal - camOffsetHeight, 0f);
 
             speedCurrent = speedNormal;
         }
@@ -64,7 +73,7 @@ namespace Default
             CameraEffects();
 
             //Do nothing when Player isn't allowed to move
-            if (isFrozen || PauseManager.isPaused().Value)
+            if (IsFrozen() || PauseManager.isPaused().Value)
                 return;
 
             MoveData inputs;
@@ -92,7 +101,10 @@ namespace Default
             if (currentItem != null)
                 currentItem.UseItem(inputs);
 
-            Rotate(inputs.xRot, inputs.yRot);
+            if (focusedObject == null)
+                Rotate(inputs.xRot, inputs.yRot);
+            else
+                FocusObject();
             Move(inputs);
         }
 
@@ -110,6 +122,17 @@ namespace Default
             eyeHeightTransform.localRotation = cameraTargetRot;
         }
 
+        void FocusObject()
+        {
+            Quaternion oldRot = Quaternion.Euler(eyeHeightTransform.localEulerAngles.x, transform.localEulerAngles.y, 0f);
+            Quaternion newRot = Quaternion.LookRotation(focusedObject.position - eyeHeightTransform.position);
+
+            Quaternion targetRot = Quaternion.Lerp(oldRot, newRot, 8f * Time.deltaTime);
+
+            transform.localEulerAngles = new Vector3(0, targetRot.eulerAngles.y, 0);
+            eyeHeightTransform.localEulerAngles = new Vector3(targetRot.eulerAngles.x, 0, 0);
+        }
+
         void Move(MoveData inputs)
         {
             //Changes camera height and speed while sneaking
@@ -119,23 +142,26 @@ namespace Default
                     StartCoroutine(Sneak(true));
 
                 if (isSprinting)
-                    StartCoroutine(Sprint(false));
+                    Sprint(false);
             }
             else
             {
                 if (isSneaking)
                     StartCoroutine(Sneak(false));
 
-                //Changes camera FOV and speed while sprinting
-                if (inputs.axisSprint > 0 && inputs.axisVertical > 0)
+                if (!isSneaking)
                 {
-                    if (!isSprinting)
-                        StartCoroutine(Sprint(true));
-                }
-                else
-                {
-                    if (isSprinting)
-                        StartCoroutine(Sprint(false));
+                    //Changes camera FOV and speed while sprinting
+                    if (inputs.axisSprint > 0 && inputs.axisVertical > 0)
+                    {
+                        if (!isSprinting)
+                            Sprint(true);
+                    }
+                    else
+                    {
+                        if (isSprinting)
+                            Sprint(false);
+                    }
                 }
             }
             speedCurrent = isSneaking ? speedSneaking : isSprinting ? speedSprinting : speedNormal;
@@ -175,11 +201,23 @@ namespace Default
 
         IEnumerator Sneak(bool willSneak)
         {
+            //First, check if he can unsneak
+            if (!willSneak)
+            {
+                Collider[] overlappingColldier = Physics.OverlapCapsule(transform.position + charController.radius * Vector3.up,
+                        transform.position + (heightNormal - charController.radius) * Vector3.up,
+                        charController.radius * 0.99f);
+                foreach (Collider collider in overlappingColldier)
+                    if (!collider.CompareTag("Player") && !collider.isTrigger)
+                        yield break;
+            }
+
             isSneaking = willSneak;
             charController.height = willSneak ? heightSneaking : heightNormal;
+            charController.center = Vector3.up * (charController.height / 2f);
 
             Vector3 oldCamPos = eyeHeightTransform.localPosition;
-            float newHeight = willSneak ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight;
+            float newHeight = willSneak ? heightSneaking - camOffsetHeight : heightNormal - camOffsetHeight;
 
             for (float i = 0; i < 1 && (isSneaking == willSneak); i += 0.2f)
             {
@@ -190,47 +228,62 @@ namespace Default
                 eyeHeightTransform.localPosition = new Vector3(0f, newHeight, 0f);
         }
 
-        IEnumerator Sprint(bool willSprint)
+        private void Sprint(bool willSprint)
         {
             isSprinting = willSprint;
-
-            float oldFov = willSprint ? fovNormal : fovSprinting;
-            float newFov = willSprint ? fovSprinting : fovNormal;
-
-            for (float i = 0; i < 1 && (isSprinting == willSprint); i = i + 0.2f)
-            {
-                cam.fieldOfView = Mathf.Lerp(oldFov, newFov, i);
-                yield return new WaitForSeconds(1f / 60f);
-            }
-            if (isSprinting == willSprint)
-                cam.fieldOfView = newFov;
+            fOVController.isSprinting = willSprint;
         }
 
-        public bool CanMove() { return !isFrozen; }
+        public bool IsFrozen() { return frozenSem <= 0; }
 
-        public void SetCanMove(bool canMove)
+        public void SetFrozen(bool frozen)
         {
-            isFrozen = !canMove;
-            charController.detectCollisions = canMove;
-            crossAnimator.SetBool("Activated", canMove);
+            frozenSem += frozen ? -1 : 1;
+
+            if (frozenSem > 1)
+            {
+                frozenSem = 1;
+                Debug.LogWarning(gameObject.name + " got unfrozen twice!");
+            }
+            else if (frozenSem == 1)
+            {
+                charController.detectCollisions = true;
+                crossAnimator.SetBool("Activated", true);
+                useController.enabled = true;
+
+                if (currentItem != null)
+                    currentItem.OnEquip();
+            }
+            else if (frozenSem == 0)
+            {
+                charController.detectCollisions = false;
+                crossAnimator.SetBool("Activated", false);
+                useController.enabled = false;
+
+                if (currentItem != null)
+                    currentItem.OnUnequip();
+
+                Sprint(false);
+                StartCoroutine(Sneak(false));
+            }
         }
 
         public void TeleportPlayer(Transform newPosition, bool cameraPerspective = false, Vector3 offset = new Vector3())
         {
             if (isSprinting)
-                StartCoroutine(Sprint(false));
+                Sprint(false);
             float heightOffset = 0f;
             if (isSneaking && cameraPerspective)
             {
                 isSneaking = false;
                 charController.height = heightNormal;
-                heightOffset = (heightNormal / 2) - camOffsetHeight - eyeHeightTransform.localPosition.y;
-                eyeHeightTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
+                heightOffset = heightNormal - camOffsetHeight - eyeHeightTransform.localPosition.y;
+                eyeHeightTransform.localPosition = new Vector3(0f, heightNormal - camOffsetHeight, 0f);
             }
 
             Vector3 positionNew = newPosition.position + offset;
             if (cameraPerspective)
-                positionNew -= (isSneaking ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight) * Vector3.up;
+                positionNew -= (isSneaking ? heightSneaking - camOffsetHeight : heightNormal - camOffsetHeight) * Vector3.up;
 
             bool oldCCState = charController.enabled;
             charController.enabled = false;
@@ -245,19 +298,19 @@ namespace Default
         public IEnumerator MoveRotatePlayer(Transform newPosition, float seconds = 2f, bool cameraPerspective = false, Vector3 offset = new Vector3())
         {
             if (isSprinting)
-                StartCoroutine(Sprint(false));
+                Sprint(false);
             float heightOffset = 0f;
             if (isSneaking && cameraPerspective)
             {
                 isSneaking = false;
                 charController.height = heightNormal;
-                heightOffset = (heightNormal / 2) - camOffsetHeight - eyeHeightTransform.localPosition.y;
-                eyeHeightTransform.localPosition = new Vector3(0f, (heightNormal / 2) - camOffsetHeight, 0f);
+                heightOffset = heightNormal - camOffsetHeight - eyeHeightTransform.localPosition.y;
+                eyeHeightTransform.localPosition = new Vector3(0f, heightNormal - camOffsetHeight, 0f);
             }
 
             Vector3 positionNew = newPosition.position + offset;
             if (cameraPerspective)
-                positionNew -= (isSneaking ? (heightSneaking / 2) - camOffsetHeight : (heightNormal / 2) - camOffsetHeight) * Vector3.up;
+                positionNew -= (isSneaking ? heightSneaking - camOffsetHeight : heightNormal - camOffsetHeight) * Vector3.up;
 
             var mov = StartCoroutine(MovePlayer(positionNew, seconds, cameraPerspective));
             var rot = StartCoroutine(RotatePlayer(newPosition.rotation, seconds));
@@ -269,7 +322,7 @@ namespace Default
         public IEnumerator MovePlayer(Vector3 newPosition, float seconds = 2f, bool ignoreSneak = false)
         {
             if (isSprinting)
-                StartCoroutine(Sprint(false));
+                Sprint(false);
             if (isSneaking && !ignoreSneak)
                 StartCoroutine(Sneak(false));
 
@@ -291,7 +344,7 @@ namespace Default
         public IEnumerator RotatePlayer(Quaternion newRotation, float seconds = 2f)
         {
             if (isSprinting)
-                StartCoroutine(Sprint(false));
+                Sprint(false);
 
             Quaternion rotationPlayerOld = transform.rotation;
             Quaternion rotationCameraOld = eyeHeightTransform.localRotation;
@@ -314,9 +367,9 @@ namespace Default
             transform.rotation = rotationPlayerNew;
         }
 
-        public IEnumerator ForceLookPlayer(Transform lookAt, float seconds = 2f)
+        public IEnumerator LookAt(Vector3 lookAtPos, float seconds = 2f)
         {
-            yield return RotatePlayer(Quaternion.LookRotation(lookAt.position - eyeHeightTransform.position), seconds);
+            yield return RotatePlayer(Quaternion.LookRotation(lookAtPos - eyeHeightTransform.position), seconds);
         }
 
         public void SetRotationLerp(Vector3 a, Vector3 b, float t)
@@ -351,18 +404,20 @@ namespace Default
 
         void EntityStatsObserver.ChangedHp(int value)
         {
+            if (value == 0)
+                return;
             if (stats.hp <= 0)
             {
-                //TODO: Dead
                 fxSource.pitch = 0.2f;
                 fxSource.PlayOneShot(hitFx);
-                bloodyScreen.SetTrigger("Dead");
+                damageAnimator.SetTrigger("Dead");
+                deathObject.SetActive(true);
             }
             else if (value < 0)
             {
                 fxSource.pitch = 1f;
                 fxSource.PlayOneShot(hitFx);
-                bloodyScreen.SetTrigger("Hit");
+                damageAnimator.SetTrigger("Hit");
             }
         }
 
@@ -373,15 +428,72 @@ namespace Default
             fxSource.PlayOneShot(noFx);
         }
 
-        public void AddHoldableItem(ItemHoldable item, bool directlyEquip)
+        public void AddItem(ItemHoldable item, bool directlyEquip, bool smooth = false)
         {
+            if (item == null)
+            {
+                if (directlyEquip)
+                {
+                    if (currentItem != null)
+                        currentItem.OnUnequip();
+                    currentItem = null;
+                }
+                return;
+            }
+
             item.transform.parent = itemTransform;
+
+            if (smooth)
+                StartCoroutine(SmoothPickup(item, directlyEquip, 1f));
+            else
+            {
+                item.transform.localPosition = item.positionWhenHeld.position;
+                item.transform.localRotation = Quaternion.Euler(item.positionWhenHeld.rotation);
+                item.transform.localScale = item.positionWhenHeld.scale;
+
+                items.Add(item);
+
+                item.OnPickup();
+                if (directlyEquip)
+                {
+                    if (currentItem != null)
+                        currentItem.OnUnequip();
+                    currentItem = item;
+                    currentItem.OnEquip();
+                }
+            }
+        }
+
+        private IEnumerator SmoothPickup(ItemHoldable item, bool directlyEquip, float seconds = 1f)
+        {
+            useController.enabled = false;
+
+            Vector3 oldPos = item.transform.localPosition;
+            Quaternion oldRot = item.transform.localRotation;
+            Quaternion newRot = Quaternion.Euler(item.positionWhenHeld.rotation);
+            Vector3 oldScale = item.transform.localScale;
+
+            float rate = 1f / seconds;
+            float fSmooth;
+            for (float f = 0f; f <= 1f; f += rate * Time.deltaTime)
+            {
+                fSmooth = Mathf.SmoothStep(0f, 1f, f);
+
+                item.transform.localPosition = Vector3.Lerp(oldPos, item.positionWhenHeld.position, fSmooth);
+                item.transform.localRotation = Quaternion.Lerp(oldRot, newRot, fSmooth);
+                item.transform.localScale = Vector3.Lerp(oldScale, item.positionWhenHeld.scale, fSmooth);
+
+                yield return null;
+            }
+
             item.transform.localPosition = item.positionWhenHeld.position;
-            item.transform.localRotation = item.positionWhenHeld.rotation;
+            item.transform.localRotation = Quaternion.Euler(item.positionWhenHeld.rotation);
             item.transform.localScale = item.positionWhenHeld.scale;
 
             items.Add(item);
+            useController.enabled = true;
 
+            item.OnPickup();
             if (directlyEquip)
             {
                 if (currentItem != null)
@@ -389,6 +501,49 @@ namespace Default
                 currentItem = item;
                 currentItem.OnEquip();
             }
+        }
+
+        public bool HasItem(string itemName)
+        {
+            foreach (ItemHoldable item in items)
+                if (item.itemName.Equals(itemName))
+                    return true;
+            return false;
+        }
+
+        public ItemHoldable GetItem(string itemName)
+        {
+            foreach (ItemHoldable item in items)
+                if (item.itemName.Equals(itemName))
+                    return item;
+            return null;
+        }
+
+        public void RemoveItem(ItemHoldable item)
+        {
+            item.OnUnequip();
+            if (currentItem == item)
+                currentItem = null;
+            items.Remove(item);
+        }
+
+        public void RemoveItem(string itemName)
+        {
+            ItemHoldable item = null;
+            foreach (ItemHoldable itemHoldable in items)
+                if (itemHoldable.itemName.Equals(itemName))
+                {
+                    item = itemHoldable;
+                    break;
+                }
+            RemoveItem(item);
+        }
+
+        public void UnequipCurrentItem()
+        {
+            if (currentItem != null)
+                currentItem.OnUnequip();
+            currentItem = null;
         }
     }
 }

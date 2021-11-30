@@ -6,15 +6,35 @@ namespace Default
 {
     public class GameController : MonoBehaviour
     {
+        public static float uiScaleFactor = 1f;
+
         public PlayerController gamePlayer;
         public PlayerController metaPlayer;
+
+        [Space(10)]
         public DialogueManager dialogue;
-        public EventManager eventManager;
-        public Transform entityStats;
+        public DialogueBubble dialogueBubble;
+
+        [Space(10)]
+        public PlayerEventManager playerEventManager;
+        public HorrorEventManager horrorEventManager;
+        public QuestManager questManager;
+        public StoryManager storyManager;
+        public MusicManager musicManager;
+        public SaveManager saveManager;
+
+        [Space(10)]
         public Transform meta3dAudio;
         [Range(-1f, 1f)] public float gameAudioPan;
         [Range(0f, 1f)] public float gameAudioFxStrength;
+
+        [Space(10)]
+        public MetaHouseController metaHouseController;
+        public Transform entityStats;
+        public OverallStats overallStats;
         public bool inPcMode;
+        public Animator gameGuiFxAnimator;
+        public Animator fadingAnimator;
 
         private int mouseSemaphore = 1;
 
@@ -36,11 +56,7 @@ namespace Default
         private void Start()
         {
             LockMouse();
-        }
-
-        public void PlayMeta3dSound(AudioSource audio)
-        {
-            //TODO: Make empty; copy audioSource component to it; set parent to; destroy(audioClipLength)
+            saveManager.LoadGame();
         }
 
         public void LockMouse()

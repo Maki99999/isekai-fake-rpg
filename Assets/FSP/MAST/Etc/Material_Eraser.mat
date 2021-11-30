@@ -8,9 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Material_Eraser
-  m_Shader: {fileID: 4800000, guid: f1af3901da96c65459fa8c56f9e4d1cd, type: 3}
+  m_Shader: {fileID: 4800000, guid: 785f66d338b0b344ea2b793cd343b5c7, type: 3}
   m_ShaderKeywords: _ALPHABLEND_ON _EMISSION _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-  m_LightmapFlags: 0
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -78,3 +78,4 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 0, b: 0, a: 0.22352941}
     - _EmissionColor: {r: 1024, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []

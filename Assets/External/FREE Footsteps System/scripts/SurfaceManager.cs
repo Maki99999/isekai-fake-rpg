@@ -78,6 +78,11 @@ public class SurfaceManager : MonoBehaviour {
 			}
 		}
 
+		//Default
+		for(int i = 0; i < definedSurfaces.Length; i++)
+			if (definedSurfaces[i].name == "default")
+				return i;
+
 		return -1;
 	}
 
@@ -105,6 +110,11 @@ public class SurfaceManager : MonoBehaviour {
 			}
 		}
 
+		//Default
+		for(int i = 0; i < definedSurfaces.Length; i++)
+			if (definedSurfaces[i].name == "default")
+				return i;
+
 		return -1;
 	}
 
@@ -122,7 +132,7 @@ public class SurfaceManager : MonoBehaviour {
 		Renderer r = hit.collider.GetComponent<Renderer>();
 		MeshCollider mc = hit.collider as MeshCollider;
 
-		if (r == null || r.sharedMaterial == null || r.sharedMaterial.mainTexture == null || r == null) {
+		if (r == null || r.sharedMaterial == null || !r.sharedMaterial.HasProperty("_MainText") || r.sharedMaterial.mainTexture == null || r == null) {
 			return "";
 		}
 		else if(!mc || mc.convex) {

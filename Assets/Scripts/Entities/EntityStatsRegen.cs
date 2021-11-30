@@ -22,7 +22,7 @@ namespace Default
 
         private float mpRemains = 0f;
 
-        void Start()
+        void OnEnable()
         {
             stats = GetComponent<EntityStats>();
             StartCoroutine(HpRegen());

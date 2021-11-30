@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Useable
   - MAST_Holder
+  - Projectile
+  - LookAtTrigger
   layers:
   - Default
   - TransparentFX
@@ -23,10 +25,10 @@ TagManager:
   - MetaLayer
   - Useable
   - Cave
-  - 
-  - 
-  - 
-  - 
+  - Ghost
+  - MetaLayer_HideObject
+  - MetaLayer_HideMask
+  - MetaLayer_Always On Top
   - 
   - 
   - 

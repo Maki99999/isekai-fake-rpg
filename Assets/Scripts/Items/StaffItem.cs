@@ -33,7 +33,7 @@ namespace Default
             player = GameController.Instance.gamePlayer;
             if (transform.parent.name == "ItemPos")
             {
-                player.AddHoldableItem(this, true);
+                player.AddItem(this, true);
             }
         }
 

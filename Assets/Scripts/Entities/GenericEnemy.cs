@@ -29,6 +29,7 @@ namespace Default
 
         private bool inCooldown = false;
         private bool gotAttacked = false;
+        private bool gotAttackedDuringAttack = false;
         private bool isDead = false;
         private Vector3 originalPosition;
 
@@ -72,7 +73,7 @@ namespace Default
             {
                 WalkToTarget();
 
-                if (distance <= agent.stoppingDistance + 0.15f)
+                if (distance <= attackRange)
                 {
                     if (!inCooldown)
                         StartCoroutine(AttackTarget());
@@ -114,6 +115,8 @@ namespace Default
 
                 StartCoroutine(IdleSoundAfter(Random.value * wanderCooldown));
                 yield return new WaitForSeconds(wanderCooldown);
+                if (isDead)
+                    break;
             }
         }
 
@@ -134,10 +137,15 @@ namespace Default
             animator.SetTrigger("Attack");
             fxAudioSource.PlayOneShot(attackFx);
 
-            yield return new WaitForSeconds(attackOffset);
-            float distance = Vector3.Distance(player.transform.position, transform.position);
-            if (distance <= attackRange)
-                player.GetComponent<PlayerController>().stats.ChangeHp(-damagePerAttack);
+            gotAttackedDuringAttack = false;
+            yield return new WaitForSeconds(attackOffset * 0.8f);
+            if (!gotAttackedDuringAttack)
+            {
+                yield return new WaitForSeconds(attackOffset * 0.2f);
+                float distance = Vector3.Distance(player.transform.position, transform.position);
+                if (distance <= attackRange && !isDead)
+                    player.GetComponent<PlayerController>().stats.ChangeHp(-damagePerAttack);
+            }
 
             yield return new WaitForSeconds(attackCooldown);
             inCooldown = false;
@@ -145,21 +153,24 @@ namespace Default
 
         public void ChangedHp(int value)
         {
-            if (value < 0)
+            if (value < 0 && entityStats.hp > 0)
             {
                 gotAttacked = true;
+                gotAttackedDuringAttack = true;
                 entityStats.SetHideUi(false);
                 animator.SetTrigger("Hit");
                 fxAudioSource.PlayOneShot(hitFx);
             }
-
-            if (entityStats.hp <= 0)
+            else if (entityStats.hp <= 0)
                 Die();
         }
 
         private void Die()
         {
+            GameController.Instance.overallStats.AddToStat(1, "Kill_" + entityStats.displayName);
+
             isDead = true;
+            entityStats.SetHideUi(false);
             player.stats.ChangeCoins(coinReward);
             player.stats.AddXp(xpReward);
 

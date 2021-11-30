@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Material_Grid
-  m_Shader: {fileID: 4800000, guid: 3d1c62079968a424ab03e8ea2cb3190a, type: 3}
+  m_Shader: {fileID: 4800000, guid: 3af7ea25fb7f9b647ad4bf51f4e7ed6c, type: 3}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -103,3 +103,4 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainTint: {r: 1, g: 1, b: 1, a: 0.5882353}
     - _Tint: {r: 0.23834105, g: 0.389676, b: 0.49056602, a: 0.15686275}
+  m_BuildTextureStacks: []

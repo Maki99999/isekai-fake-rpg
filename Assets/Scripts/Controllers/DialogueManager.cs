@@ -32,6 +32,20 @@ namespace Default
                     audioSourceOriginal.transform.rotation, transform).GetComponent<AudioSource>());
         }
 
+        public void StartDialogueWithFreeze(List<string> texts)
+        {
+            StartCoroutine(DialogueWithFreeze(texts));
+        }
+
+        IEnumerator DialogueWithFreeze(List<string> texts)
+        {
+            GameController.Instance.playerEventManager.FreezePlayers(true);
+            yield return new WaitForSeconds(.2f);
+            yield return StartDialogue(texts);
+            yield return new WaitForSeconds(.2f);
+            GameController.Instance.playerEventManager.FreezePlayers(false);
+        }
+
         public IEnumerator StartDialogue(List<string> texts, bool creepy = false)
         {
             if (!isInDialogue)
@@ -68,12 +82,6 @@ namespace Default
             {
                 if (PauseManager.isPaused().Value)
                     yield return new WaitWhile(() => PauseManager.isPaused().Value);
-
-                if (sentence[i] == '§' && i + 1 < sentence.Length && TextCode(sentence[i + 1]))
-                {
-                    i++;
-                    continue;
-                }
 
                 text.text += sentence[i];
 
@@ -117,24 +125,6 @@ namespace Default
             if (creepy)
                 return audioClipsCreepy;
             return audioClipsNormal;
-        }
-
-        bool TextCode(char code)
-        {
-            switch (code)
-            {
-                case 'i':
-                    text.fontStyle = FontStyle.Italic;
-                    return true;
-                case 'n':
-                    text.fontStyle = FontStyle.Normal;
-                    return true;
-                case 'b':
-                    text.fontStyle = FontStyle.Bold;
-                    return true;
-                default:
-                    return false;
-            }
         }
 
         void Reset()
