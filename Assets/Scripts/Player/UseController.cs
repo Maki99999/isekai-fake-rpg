@@ -34,7 +34,10 @@ namespace Default
                         useable.LookingAt();
 
                         if (useKey && !lastPress)
+                        {
+                            Debug.Log("Used " + hitObject.name);
                             useable.Use();
+                        }
                     }
                 }
             }

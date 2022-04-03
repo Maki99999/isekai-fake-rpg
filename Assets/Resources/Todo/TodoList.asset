@@ -42,9 +42,9 @@ MonoBehaviour:
     task: add fake other players (manu and fish)
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: main menu
     isComplete: 0
   - owner:
@@ -64,12 +64,6 @@ MonoBehaviour:
       color: {r: 0.7, g: 0.7, b: 1, a: 1}
       index: 3
     task: Wall Texture (Tapete oder so)
-    isComplete: 0
-  - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
-    task: improve lighting to stop the console spam
     isComplete: 0
   - owner:
       name: QOL
@@ -117,9 +111,9 @@ MonoBehaviour:
     task: more quests
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
     task: always show current possible controls
     isComplete: 0
   - owner:

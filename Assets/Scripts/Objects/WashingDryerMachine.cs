@@ -69,6 +69,7 @@ namespace Default
 
         IEnumerator PutClothesIn()
         {
+            GameController.Instance.playerEventManager.FreezePlayers(true);
             if (!open)
             {
                 open = true;
@@ -80,10 +81,10 @@ namespace Default
             if (!GameController.Instance.metaPlayer.HasItem("Laundry Basket"))
             {
                 GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "The laundry basket is upstairs in the bathroom." });
+                GameController.Instance.playerEventManager.FreezePlayers(false);
             }
             else
             {
-                GameController.Instance.playerEventManager.FreezePlayers(true);
                 GameController.Instance.fadingAnimator.SetBool("Black", true);
                 yield return new WaitForSeconds(2f);
 
