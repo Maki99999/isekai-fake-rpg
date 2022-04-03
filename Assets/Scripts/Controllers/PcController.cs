@@ -254,6 +254,7 @@ namespace Default
 
             StartCoroutine(Immerse(true, 2f));
 
+            GameController.Instance.gamePlayer.stats.ShowLevelMenu(false);
             phone.Hide(false);
             yield return GameController.Instance.metaPlayer.MoveRotatePlayer(standUpTransform, 2f);
 
@@ -284,7 +285,6 @@ namespace Default
 
         public void SetPower(bool powerOn)
         {
-            //TODO: GameAudio
             this.powerOn = powerOn;
             screen.SetActive(powerOn);
             pcAudio1.enabled = powerOn;

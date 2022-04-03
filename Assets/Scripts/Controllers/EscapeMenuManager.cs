@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Default
@@ -14,6 +15,7 @@ namespace Default
         public Animator animator;
 
         [Space(10)]
+        public bool isMainMenu = false;
         public MeshRenderer screenMesh;
         public Camera gameCamera;
         public Camera eventCamera;
@@ -37,10 +39,13 @@ namespace Default
 
         Resolution[] resolutions;
 
-        void Start()
+        IEnumerator Start()
         {
             InitDropdowns();
             SetPrefValues();
+            yield return new WaitForSeconds(2f);
+            if (isMainMenu)
+                OpenMenu();
         }
 
         void Update()
@@ -64,19 +69,36 @@ namespace Default
 
         public void CloseMenu()
         {
-            PauseManager.Unpause();
+            if (isMainMenu)
+                return;
             animator.SetBool("EscIn", false);
             animator.SetBool("SettingsIn", false);
+            PauseManager.Unpause();
             GameController.Instance.LockMouse();
             inMenu = false;
         }
 
+        public void Resume()
+        {
+            if (!isMainMenu)
+            {
+                CloseMenu();
+            }
+            else
+            {
+                SceneManager.LoadScene("Scene01");
+            }
+        }
+
         public void OpenMenu()
         {
-            PauseManager.Pause();
             animator.SetBool("SettingsIn", false);
             animator.SetBool("EscIn", true);
-            GameController.Instance.UnlockMouse();
+            if (!isMainMenu)
+            {
+                PauseManager.Pause();
+                GameController.Instance.UnlockMouse();
+            }
             inMenu = true;
         }
 
@@ -101,7 +123,8 @@ namespace Default
 
         public void CloseGame()
         {
-            GameController.Instance.saveManager.SaveGameNextFrame();
+            if (!isMainMenu)
+                GameController.Instance.saveManager.SaveGameNextFrame();
             StartCoroutine(QuitNextFrame());
         }
 
@@ -271,7 +294,7 @@ namespace Default
                     break;
             }
 
-            if (gameCamera.targetTexture != null)
+            if (gameCamera != null && gameCamera.targetTexture != null)
                 gameCamera.targetTexture.Release();
 
             if (eventCamera != null && eventCamera.targetTexture != null)
@@ -279,11 +302,13 @@ namespace Default
 
             RenderTexture newText = new RenderTexture(w, h, 24);
 
-            gameCamera.targetTexture = newText;
+            if (gameCamera != null)
+                gameCamera.targetTexture = newText;
             if (eventCamera != null)
                 eventCamera.targetTexture = newText;
 
-            screenMesh.material.SetTexture("_MainTex", newText);
+            if (screenMesh != null)
+                screenMesh.material.SetTexture("_MainTex", newText);
             GameController.uiScaleFactor = scale;
 
             if (withSave)

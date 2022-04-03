@@ -59,14 +59,21 @@ namespace Default
         {
             if (GameController.Instance.inPcMode && !PauseManager.isPaused().Value && InputSettings.PressingLevel() && !pressingButton)
             {
-                toggleLevelMenu();
+                ToggleLevelMenu();
             }
             pressingButton = InputSettings.PressingLevel();
         }
 
-        public void toggleLevelMenu()
+        public void ToggleLevelMenu()
         {
-            inLevelMenu = !inLevelMenu;
+            ShowLevelMenu(!inLevelMenu);
+        }
+
+        public void ShowLevelMenu(bool show)
+        {
+            if (show == inLevelMenu)
+                return;
+            inLevelMenu = show;
             if (inLevelMenu)
                 GameController.Instance.UnlockMouse();
             else

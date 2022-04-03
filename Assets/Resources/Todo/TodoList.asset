@@ -42,12 +42,6 @@ MonoBehaviour:
     task: add fake other players (manu and fish)
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: main menu
-    isComplete: 0
-  - owner:
       name: QOL
       color: {r: 0.7, g: 0.7, b: 1, a: 1}
       index: 3
@@ -218,4 +212,10 @@ MonoBehaviour:
       color: {r: 0.7, g: 0.7, b: 1, a: 1}
       index: 3
     task: charging staff + freeze -> stop charging
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: main menu - delete file button
     isComplete: 0

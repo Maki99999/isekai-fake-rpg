@@ -51,7 +51,7 @@ namespace Default
 
         public void OkButton()
         {
-            playerStats.toggleLevelMenu();
+            playerStats.ToggleLevelMenu();
         }
 
         public void SetVisibility(bool visible)
