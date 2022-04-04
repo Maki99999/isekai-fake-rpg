@@ -21,13 +21,14 @@ namespace Default
 
         public void PlayAudio()
         {
-            audioSource.Play();
+            if (audioSource.isActiveAndEnabled)
+                audioSource.Play();
         }
 
         public SaveDataEntry Save()
         {
             SaveDataEntry entry = new SaveDataEntry();
-            entry.Add("triggered", triggered ? "true" : "false");
+            entry.Add("triggered", triggered);
             return entry;
         }
 
@@ -35,8 +36,11 @@ namespace Default
         {
             if (dictEntry == null)
                 return;
-            if (dictEntry.GetString("triggered", "false") == "true")
+            if (dictEntry.GetBool("triggered", false))
+            {
+                audioSource.enabled = false;
                 Triggered();
+            }
         }
     }
 }

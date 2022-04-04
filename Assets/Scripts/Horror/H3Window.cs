@@ -20,7 +20,7 @@ namespace Default
         {
             if (dictEntry == null)
                 return;
-            if (dictEntry.GetString("triggered", "false") == "true")
+            if (dictEntry.GetBool("triggered", false))
             {
                 triggered = true;
                 normalWindow.SetActive(false);
@@ -31,7 +31,7 @@ namespace Default
         public SaveDataEntry Save()
         {
             SaveDataEntry entry = new SaveDataEntry();
-            entry.Add("triggered", triggered ? "true" : "false");
+            entry.Add("triggered", triggered);
             return entry;
         }
 

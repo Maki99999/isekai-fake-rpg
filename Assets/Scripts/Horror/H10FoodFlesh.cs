@@ -13,6 +13,7 @@ namespace Default
         public GameObject flesh;
         public GameObject food;
         public AudioSource sound;
+        public AudioSource soundBrokenPlate;
 
         [Space(10)]
         public GameObject[] objectsToHide;
@@ -119,6 +120,9 @@ namespace Default
                 fleshOn = true;
                 flesh.SetActive(true);
                 food.SetActive(false);
+
+                if (soundBrokenPlate != null)
+                    soundBrokenPlate.gameObject.SetActive(false);
 
                 if (fakeFood != null && plateFallAnim != null)
                 {

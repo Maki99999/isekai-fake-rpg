@@ -123,9 +123,13 @@ namespace Default
 
         public void CloseGame()
         {
-            if (!isMainMenu)
-                GameController.Instance.saveManager.SaveGameNextFrame();
             StartCoroutine(QuitNextFrame());
+        }
+
+        public void NewGame()
+        {
+            SaveManager.DeleteSaveFile();
+            Resume();
         }
 
         private IEnumerator QuitNextFrame()
