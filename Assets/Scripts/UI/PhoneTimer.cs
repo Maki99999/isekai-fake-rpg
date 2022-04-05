@@ -49,7 +49,7 @@ public class PhoneTimer : MonoBehaviour
             int minutes = Mathf.FloorToInt(visibleTimeLeft / 60f);
             int seconds = Mathf.FloorToInt(visibleTimeLeft % 60f);
             text.text = string.Format("{0:D2}:{1:D2}", minutes, seconds);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f / timeMultiplier);
         }
         OnDisable();
     }

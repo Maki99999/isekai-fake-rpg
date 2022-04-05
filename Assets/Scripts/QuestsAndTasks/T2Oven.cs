@@ -17,8 +17,7 @@ namespace Default
         public Transform lookAtPos;
         [SerializeField] private FoodObject[] foodObjects;
         public int foodTimeMinutes = 10;
-        public float foodSkippedSecondsPcMode = 222f;
-        public float foodTimeMinutesMultiplier = 2f;
+        public float foodTimeMinutesMultiplier = 3f;
 
         [Space(10)]
         public PhoneHolding phone;
@@ -119,7 +118,7 @@ namespace Default
             GameController.Instance.playerEventManager.FreezePlayers(true);
             GameController.Instance.metaPlayer.AddItem(phone, true, false);
             float endTime = Time.time + (foodTimeMinutes / foodTimeMinutesMultiplier) * 60f;
-            phone.PrepareTimer(endTime, 2f);
+            phone.PrepareTimer(endTime, foodTimeMinutesMultiplier);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Time to play some more." });
             GameController.Instance.playerEventManager.FreezePlayers(false);
             yield return new WaitForSeconds(2.1f);
@@ -127,23 +126,14 @@ namespace Default
             phone.StartTime();
             endTime = Time.time + (foodTimeMinutes / foodTimeMinutesMultiplier) * 60f;
             phone.SetTime(endTime);
-            bool skippedTime = false;
-            while (Time.time < endTime)
-            {
-                yield return new WaitForSeconds(1f);
-                if (!skippedTime && GameController.Instance.inPcMode)
-                {
-                    skippedTime = true;
-                    endTime -= foodSkippedSecondsPcMode;
-                }
-                phone.SetTime(endTime);
-            }
+            yield return new WaitWhile(() => Time.time < endTime);
 
             phone.StopTime();
             foodObjects[currentFood].foodOnTrayRaw?.SetActive(false);
             foodObjects[currentFood].foodOnTrayBurned?.SetActive(true);
             ovenState = OvenState.FOOD_BURNED;
 
+            GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "What does my timer say?" });
             while (ovenState == OvenState.FOOD_BURNED)
             {
                 if (phone.IsLookingAtPhone())
