@@ -31,7 +31,7 @@ namespace Default
             if (isSprinting)
                 desiredFoV = sprintingFoV;
 
-            currentFoV = Mathf.Lerp(currentFoV, desiredFoV, 0.3f);
+            currentFoV = Mathf.Lerp(currentFoV, desiredFoV, 0.2f);
             if (desiredFoV - 0.1f < currentFoV && currentFoV < desiredFoV + 0.1f)
                 currentFoV = desiredFoV;
 
