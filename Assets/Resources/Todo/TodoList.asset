@@ -99,15 +99,16 @@ MonoBehaviour:
       nerven, dann t\xF6ten)"
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
-    task: more quests
-    isComplete: 0
-  - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
+    task: more quests (reach level 20, kill 5 spiders,  buy another staff and armor,
+      duel with fake player to death)
+    isComplete: 0
+  - owner:
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
     task: always show current possible controls
     isComplete: 0
   - owner:
@@ -169,12 +170,6 @@ MonoBehaviour:
       name: QOL
       color: {r: 0.7, g: 0.7, b: 1, a: 1}
       index: 3
-    task: somehow mute sounds when loading and skip all animations
-    isComplete: 0
-  - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
     task: hide phone before last quest
     isComplete: 0
   - owner:
@@ -214,12 +209,6 @@ MonoBehaviour:
     task: charging staff + freeze -> stop charging
     isComplete: 0
   - owner:
-      name: QOL
-      color: {r: 0.7, g: 0.7, b: 1, a: 1}
-      index: 3
-    task: main menu - delete file button
-    isComplete: 0
-  - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
@@ -242,4 +231,56 @@ MonoBehaviour:
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
     task: outline um pc
+    isComplete: 0
+  - owner:
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: put minigames here and there, e.g. a gameboy with tetris
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: ?? TankBattlePremium Experimental 2 Ending instead of/after current ending
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: instead of forcing the player to do all tasks sequentially, give him a
+      list of things to do (maybe event do it so that the player isn't blocked from
+      playing)
+    isComplete: 0
+  - owner:
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
+    task: fix ending (see the video for reference; black spider, prevent standing
+      up)
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: washing machine beep -> hear it inGame; don't block player from playing
+      while waiting, maybe increase time
+    isComplete: 0
+  - owner:
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
+    task: crosshair transparency
+    isComplete: 0
+  - owner:
+      name: Normal
+      color: {r: 1, g: 1, b: 1, a: 1}
+      index: 0
+    task: option to remove broken glass
+    isComplete: 0
+  - owner:
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: things in the exel file
     isComplete: 0
