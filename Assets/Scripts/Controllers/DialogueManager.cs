@@ -14,14 +14,14 @@ namespace Default
         [Space(10)]
         public AudioClip[] audioClipsNormal;
         public AudioClip[] audioClipsCreepy;
-        AudioClip[] currentAudioClips;
+        private AudioClip[] currentAudioClips;
 
-        int every4thLetter = -1;
-        int currentAudioSource = -1;
-        List<AudioSource> audioSources;
+        private int every4thLetter = -1;
+        private int currentAudioSource = -1;
+        private List<AudioSource> audioSources;
 
-        bool isPressing = false;
-        bool isInDialogue = false;
+        private bool isPressing = false;
+        public bool isInDialogue { get; private set; } = false;
 
         void Start()
         {

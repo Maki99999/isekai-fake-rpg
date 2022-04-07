@@ -106,12 +106,6 @@ MonoBehaviour:
       duel with fake player to death)
     isComplete: 0
   - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
-    task: always show current possible controls
-    isComplete: 0
-  - owner:
       name: QOL
       color: {r: 0.7, g: 0.7, b: 1, a: 1}
       index: 3
@@ -221,18 +215,6 @@ MonoBehaviour:
     task: nicer main menu
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: 'paper: "beware of The Glitch"'
-    isComplete: 0
-  - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
-    task: outline um pc
-    isComplete: 0
-  - owner:
       name: QOL
       color: {r: 0.7, g: 0.7, b: 1, a: 1}
       index: 3
@@ -267,12 +249,6 @@ MonoBehaviour:
       while waiting, maybe increase time
     isComplete: 0
   - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
-    task: crosshair transparency
-    isComplete: 0
-  - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
@@ -283,4 +259,17 @@ MonoBehaviour:
       color: {r: 0.7, g: 0.7, b: 1, a: 1}
       index: 3
     task: things in the exel file
+    isComplete: 0
+  - owner:
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: 'quest: find the ultimate spell (a scroll) -> spell is a epic spell that
+      kills everything (player too)'
+    isComplete: 0
+  - owner:
+      name: QOL
+      color: {r: 0.7, g: 0.7, b: 1, a: 1}
+      index: 3
+    task: somehow smoothly ground player during freeze (manually enable gravitiy?)
     isComplete: 0

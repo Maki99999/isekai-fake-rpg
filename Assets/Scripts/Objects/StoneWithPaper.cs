@@ -54,6 +54,7 @@ namespace Default
             yield return TransformOperations.MoveTo(paperTransform, player.eyeHeightTransform.position + player.eyeHeightTransform.forward * 0.24f,
                         Quaternion.LookRotation(-player.eyeHeightTransform.forward, player.eyeHeightTransform.up), 1.5f);
 
+            yield return new WaitForSeconds(0.5f);
             for (float f = 0f; f <= 1f; f += 0.5f * Time.deltaTime)
             {
                 canvasGroup.alpha = Mathf.SmoothStep(0f, 1f, f);

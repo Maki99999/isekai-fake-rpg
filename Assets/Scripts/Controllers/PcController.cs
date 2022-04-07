@@ -7,7 +7,9 @@ namespace Default
 {
     public class PcController : MonoBehaviour, Useable, UsesPower
     {
-        [SerializeField, Range(0.0f, 1.0f)]
+        public List<Outline> outlines;
+
+        [Space(10), SerializeField, Range(0.0f, 1.0f)]
         private float _immersedValue;
         public float maxImmersionTime = 10f;
 
@@ -53,7 +55,11 @@ namespace Default
                 StartCoroutine(ToPcMode());
         }
 
-        void Useable.LookingAt() { }
+        void Useable.LookingAt()
+        {
+            foreach (Outline outline in outlines)
+                outline.enabled = true;
+        }
 
         private void Start()
         {
@@ -62,6 +68,8 @@ namespace Default
 
         private void Update()
         {
+            foreach (Outline outline in outlines)
+                outline.enabled = false;
             if (PauseManager.isPaused().Value || !GameController.Instance.inPcMode)
             {
                 if (!FakePause.activeSelf)
