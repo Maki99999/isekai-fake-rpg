@@ -46,6 +46,7 @@ namespace Default
             metaPlayer.transform.SetParent(metaPlayerWrap);
             metaPlayer.transform.localPosition = Vector3.zero;
             metaPlayer.transform.localEulerAngles = Vector3.zero;
+            metaPlayer.eyeHeightTransform.localEulerAngles = Vector3.zero;
             loudStartSFX.Play();
 
             //player looks around

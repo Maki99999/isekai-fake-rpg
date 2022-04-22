@@ -99,9 +99,9 @@ MonoBehaviour:
       nerven, dann t\xF6ten)"
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
     task: more quests (reach level 20, kill 5 spiders,  buy another staff and armor,
       duel with fake player to death)
     isComplete: 0
@@ -203,9 +203,9 @@ MonoBehaviour:
     task: charging staff + freeze -> stop charging
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
     task: better audio slider
     isComplete: 0
   - owner:
@@ -235,13 +235,6 @@ MonoBehaviour:
       playing)
     isComplete: 0
   - owner:
-      name: Urgent
-      color: {r: 1, g: 0, b: 0, a: 1}
-      index: 1
-    task: fix ending (see the video for reference; black spider, prevent standing
-      up)
-    isComplete: 0
-  - owner:
       name: Normal
       color: {r: 1, g: 1, b: 1, a: 1}
       index: 0
@@ -249,9 +242,9 @@ MonoBehaviour:
       while waiting, maybe increase time
     isComplete: 0
   - owner:
-      name: Normal
-      color: {r: 1, g: 1, b: 1, a: 1}
-      index: 0
+      name: Urgent
+      color: {r: 1, g: 0, b: 0, a: 1}
+      index: 1
     task: option to remove broken glass
     isComplete: 0
   - owner:

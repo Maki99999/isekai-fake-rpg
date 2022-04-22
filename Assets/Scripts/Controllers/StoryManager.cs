@@ -140,6 +140,7 @@ namespace Default
                 yield return new WaitUntil(() => GameController.Instance.questManager.IsQuestDone(questToWaitFor));
             yield return new WaitUntil(() => GameController.Instance.inPcMode);
             yield return new WaitForSeconds(25f);
+            yield return new WaitUntil(() => GameController.Instance.inPcMode);
             taskOnDelay = "";
             taskOnDelayWaitQuest = "";
             StartTask(nextTaskId);

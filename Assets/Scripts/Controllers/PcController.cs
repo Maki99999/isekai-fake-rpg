@@ -138,6 +138,8 @@ namespace Default
             if (breakOn)
             {
                 StopAllCoroutines();
+                phone.ShowScreen(false);
+                phone.CustomPos(phonePos);
                 ImmersedValue = 0f;
             }
             else if (ImmersedValue != 1f)
