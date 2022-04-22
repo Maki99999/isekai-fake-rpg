@@ -39,11 +39,10 @@ namespace Default
 
         Resolution[] resolutions;
 
-        IEnumerator Start()
+        void Start()
         {
             InitDropdowns();
             SetPrefValues();
-            yield return new WaitForSeconds(2f);
             if (isMainMenu)
                 OpenMenu();
         }
@@ -153,18 +152,18 @@ namespace Default
         {
             float mainVol = PlayerPrefs.GetFloat("mainVol", 0f);
             audioMixer.SetFloat("mainVol", mainVol);
-            mainVolSlider.value = mainVol;
+            mainVolSlider.value = DecibelToLinear(mainVol);
 
             float fxVol = PlayerPrefs.GetFloat("fxVol", 0f);
             audioMixer.SetFloat("metaFxVol", fxVol);
             audioMixer.SetFloat("gameFxVol", fxVol);
             audioMixer.SetFloat("uiVol", fxVol);
-            fxVolSlider.value = fxVol;
+            fxVolSlider.value = DecibelToLinear(fxVol);
 
             float musicVol = PlayerPrefs.GetFloat("musicVol", 0f);
             audioMixer.SetFloat("metaMusicVol", musicVol);
             audioMixer.SetFloat("gameMusicVol", musicVol);
-            musicVolSlider.value = musicVol;
+            musicVolSlider.value = DecibelToLinear(musicVol);
 
 
             int prefQualityLevel = PlayerPrefs.GetInt("QualityLevel", 0);
@@ -209,22 +208,25 @@ namespace Default
             brightnessSlider.value = brightness;
         }
 
-        public void SetMainVol(float vol)
+        public void SetMainVol(float vol0to1)
         {
+            float vol = LinearToDecibel(vol0to1);
             audioMixer.SetFloat("mainVol", vol);
             PlayerPrefs.SetFloat("mainVol", vol);
         }
 
-        public void SetFxVol(float vol)
+        public void SetFxVol(float vol0to1)
         {
+            float vol = LinearToDecibel(vol0to1);
             audioMixer.SetFloat("metaFxVol", vol);
             audioMixer.SetFloat("gameFxVol", vol);
             audioMixer.SetFloat("uiVol", vol);
             PlayerPrefs.SetFloat("fxVol", vol);
         }
 
-        public void SetMusicVol(float vol)
+        public void SetMusicVol(float vol0to1)
         {
+            float vol = LinearToDecibel(vol0to1);
             audioMixer.SetFloat("metaMusicVol", vol);
             audioMixer.SetFloat("gameMusicVol", vol);
             PlayerPrefs.SetFloat("musicVol", vol);
@@ -234,6 +236,23 @@ namespace Default
         {
             QualitySettings.SetQualityLevel(val);
             PlayerPrefs.SetInt("QualityLevel", val);
+        }
+
+        private float LinearToDecibel(float linear)
+        {
+            float dB;
+
+            if (linear != 0)
+                dB = 20.0f * Mathf.Log10(linear);
+            else
+                dB = -144.0f;
+
+            return dB;
+        }
+
+        private float DecibelToLinear(float dB)
+        {
+            return Mathf.Pow(10.0f, dB / 20.0f);
         }
 
         public void SetResolution(int val)
