@@ -7,28 +7,53 @@ namespace Default
     public class H11Glass : MonoBehaviour, ISaveDataObject
     {
         public Animator animator;
-        public AudioSource audioSource;
+        public AudioSource clashSound;
+        public AudioSource cleanUpSound;
 
-        private bool triggered = false;
+        public GameObject shards;
+
+        private State state = State.NOT_TRIGGERED;
 
         public string saveDataId => "H11Glass";
 
         public void Triggered()
         {
-            triggered = true;
+            state = State.TRIGGERED;
             animator.SetTrigger("Fall");
         }
 
         public void PlayAudio()
         {
-            if (audioSource.isActiveAndEnabled)
-                audioSource.Play();
+            if (clashSound.isActiveAndEnabled)
+                clashSound.Play();
+        }
+
+        public void StartCleanUp()
+        {
+            StartCoroutine(CleanUp());
+        }
+
+        private IEnumerator CleanUp()
+        {
+            GameController.Instance.playerEventManager.FreezePlayers(true);
+            GameController.Instance.fadingAnimator.SetBool("Black", true);
+            yield return new WaitForSeconds(1.5f);
+
+            animator.enabled = false;
+            shards.SetActive(false);
+            cleanUpSound.Play();
+            yield return new WaitForSeconds(2.5f);
+
+            GameController.Instance.fadingAnimator.SetBool("Black", false);
+            yield return new WaitForSeconds(0.75f);
+            GameController.Instance.playerEventManager.FreezePlayers(false);
+            gameObject.SetActive(false);
         }
 
         public SaveDataEntry Save()
         {
             SaveDataEntry entry = new SaveDataEntry();
-            entry.Add("triggered", triggered);
+            entry.Add("triggered", (int)state);
             return entry;
         }
 
@@ -36,11 +61,24 @@ namespace Default
         {
             if (dictEntry == null)
                 return;
-            if (dictEntry.GetBool("triggered", false))
+
+            state = (State)dictEntry.GetInt("triggered", (int)State.NOT_TRIGGERED);
+            if (state == State.TRIGGERED)
             {
-                audioSource.enabled = false;
+                clashSound.enabled = false;
                 Triggered();
             }
+            else if (state == State.CLEANED_UP)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
+        private enum State
+        {
+            NOT_TRIGGERED,
+            TRIGGERED,
+            CLEANED_UP
         }
     }
 }

@@ -1,16 +1,16 @@
 Shader "Custom/HideMask"
 {
-
-    Properties{}
-
-    SubShader{
-
-        Tags { 
-            "RenderType" = "Opaque" 
-        }
+    SubShader
+    {
+        Tags {"Queue" = "Geometry-1" }
         
-        Pass{
+        Lighting Off
+        
+        Pass
+        
+        {
             ZWrite Off
+            ColorMask 0    
         }
     }
 }

@@ -11,8 +11,12 @@ namespace Default
 
         public AudioSource audio1;
         public AudioSource audio2;
+        public AudioSource cleanUpSound;
 
-        bool triggered = false;
+        public GameObject[] shards;
+        public GameObject cardboard;
+
+        private State state = State.NOT_TRIGGERED;
 
         public string saveDataId => "H3Window";
 
@@ -20,26 +24,36 @@ namespace Default
         {
             if (dictEntry == null)
                 return;
-            if (dictEntry.GetBool("triggered", false))
+
+            state = (State)dictEntry.GetInt("triggered", (int)State.NOT_TRIGGERED);
+            if (state == State.TRIGGERED)
             {
-                triggered = true;
                 normalWindow.SetActive(false);
                 brokenWindow.SetActive(true);
+            }
+            else if (state == State.CLEANED_UP)
+            {
+                normalWindow.SetActive(false);
+                brokenWindow.SetActive(true);
+
+                foreach (GameObject shard in shards)
+                    shard.SetActive(false);
+                cardboard.SetActive(true);
             }
         }
 
         public SaveDataEntry Save()
         {
             SaveDataEntry entry = new SaveDataEntry();
-            entry.Add("triggered", triggered);
+            entry.Add("triggered", (int)state);
             return entry;
         }
 
         public void Trigger()
         {
-            if (triggered)
+            if (state != State.NOT_TRIGGERED)
                 return;
-            triggered = true;
+            state = State.TRIGGERED;
 
             GameController.Instance.horrorEventManager.StartEvent("H12");
 
@@ -48,6 +62,35 @@ namespace Default
             brokenWindow.SetActive(true);
             audio1.PlayDelayed(0.25f);
             audio2.PlayDelayed(0.65f);
+        }
+
+        public void StartCleanUp()
+        {
+            StartCoroutine(CleanUp());
+        }
+
+        private IEnumerator CleanUp()
+        {
+            GameController.Instance.playerEventManager.FreezePlayers(true);
+            GameController.Instance.fadingAnimator.SetBool("Black", true);
+            yield return new WaitForSeconds(1.5f);
+
+            foreach (GameObject shard in shards)
+                shard.SetActive(false);
+            cardboard.SetActive(true);
+            cleanUpSound.Play();
+            yield return new WaitForSeconds(2.5f);
+
+            GameController.Instance.fadingAnimator.SetBool("Black", false);
+            yield return new WaitForSeconds(0.75f);
+            GameController.Instance.playerEventManager.FreezePlayers(false);
+        }
+
+        private enum State
+        {
+            NOT_TRIGGERED,
+            TRIGGERED,
+            CLEANED_UP
         }
     }
 }
