@@ -31,7 +31,7 @@ namespace Default
         public void PowerOff()
         {
             GameController.Instance.metaHouseController.SetPower(false);
-            GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() {"Has the fuse blown?", "Back to the basement..."});
+            GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "Has the fuse blown?", "Back to the basement..." });
             powerOff = true;
             animator.SetBool("FuseBlown", true);
             audioPower.clip = fxPowerOff;
@@ -91,6 +91,7 @@ namespace Default
 
             basementLamp.TurnOn();
             GameController.Instance.metaHouseController.SetPower(true);
+            phone.playerHasPhone = false;
             phone.DeactivateFlashlight();
             GameController.Instance.metaPlayer.RemoveItem(phone);
 

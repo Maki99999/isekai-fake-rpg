@@ -29,6 +29,8 @@ namespace Default
         private Coroutine showHideRoutine = null;
         private bool currentlyLookingAtInPcMode = false;
 
+        public bool playerHasPhone = true;
+
         public string saveDataId => "H1Call";
 
         public void H1Call()
@@ -99,8 +101,8 @@ namespace Default
             currentState = State.FLASHLIGHT_ON;
             flashlightScreen.SetActive(true);
             flashlight.SetActive(true);
-        }        
-        
+        }
+
         public void DeactivateFlashlight()
         {
             currentState = State.EQUIPPED_VISIBLE;

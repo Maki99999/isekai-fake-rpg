@@ -150,7 +150,8 @@ namespace Default
 
         IEnumerator LookAtTransition(bool reversed)
         {
-            if (lookAtPhone || GameController.Instance.metaHouseController.brokenWallClocksAcknowledged)
+            bool willLookAtPhone = phone.playerHasPhone && (lookAtPhone || GameController.Instance.metaHouseController.brokenWallClocksAcknowledged);
+            if (willLookAtPhone)
             {
                 phone.ShowScreen(!reversed);
                 if (!reversed)
@@ -166,7 +167,7 @@ namespace Default
             float newImmValNormal = Mathf.Min(ImmersedValue, 0.5f);
 
             ImmersedValue = newImmValNormal;
-            Vector3 currentLookAtPos = (lookAtPhone || GameController.Instance.metaHouseController.brokenWallClocksAcknowledged ? phonePos : lookAt).position;
+            Vector3 currentLookAtPos = (willLookAtPhone ? phonePos : lookAt).position;
             Vector3 oldRot = GameController.Instance.metaPlayer.GetRotation();
             Vector3 newRot;
             if (reversed)
@@ -227,7 +228,8 @@ namespace Default
             GameController.Instance.inPcMode = true;
             GameController.Instance.playerEventManager.FreezePlayer(false, true);
 
-            phone.CustomPos(phonePos);
+            if (phone.playerHasPhone)
+                phone.CustomPos(phonePos);
             yield return GameController.Instance.metaPlayer.MoveRotatePlayer(pcLookTransform, 2f, true, maxPcLookDistance * Vector3.forward);
 
             GameController.Instance.playerEventManager.FreezePlayer(true, false);
@@ -242,7 +244,8 @@ namespace Default
             GameController.Instance.inPcMode = true;
             GameController.Instance.playerEventManager.FreezePlayer(false, true);
 
-            phone.CustomPos(phonePos, true);
+            if (phone.playerHasPhone)
+                phone.CustomPos(phonePos, true);
             GameController.Instance.metaPlayer.TeleportPlayer(pcLookTransform, true, maxPcLookDistance * Vector3.forward);
 
             GameController.Instance.playerEventManager.FreezePlayer(true, false);
