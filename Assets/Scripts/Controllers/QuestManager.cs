@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace Default
 {
@@ -12,70 +13,70 @@ namespace Default
         public Text progressText;
         public Animator completedAnim;
 
-        [Space(20)]
-        public GameObject q2Obj;
-        public GameObject q3Obj;
-        public GameObject q4Obj;
+        [SerializeField] private QuestAndEvent[] questStartEvents;
+        private Dictionary<string, UnityEvent> questStartEventsDict;
+
+        private string startQuestId = "Q1";
+        public string currentQuestId { get; private set; } = "Q1";
+        public QuestState currentQuestState { get; private set; } = QuestState.PRE_ACCEPTED;
+
+        public GameObject fakeHero;
 
         public string saveDataId => "questManager";
 
-        private HashSet<string> finishedQuests = new HashSet<string>();
-        private string currentQuestId = "";
+        private void Awake()
+        {
+            questStartEventsDict = new Dictionary<string, UnityEvent>();
+            foreach (QuestAndEvent qae in questStartEvents)
+                questStartEventsDict.Add(qae.questId, qae.unityEvent);
+        }
 
         public bool IsQuestDone(string id)
         {
-            return finishedQuests.Contains(id);
+            return System.Array.IndexOf(questOrder, id) < System.Array.IndexOf(questOrder, currentQuestId) - 1;
         }
 
-        public void StartQuest(string id)
+        public bool IsQuestActiveAndAccepted(string id)
         {
-            if (currentQuestId != "")
-                EndQuest(currentQuestId);
+            return currentQuestId == id && currentQuestState == QuestState.PRE_ACCOMPLISHED;
+        }
 
-            if (id == "")
-                return;
+        private void InitQuest(string id)
+        {
+            currentQuestId = id;
+            currentQuestState = QuestState.PRE_ACCEPTED;
+        }
+
+        public void QuestAccepted()
+        {
+            currentQuestState = QuestState.PRE_ACCOMPLISHED;
+
+            if (questStartEventsDict.ContainsKey(currentQuestId))
+                questStartEventsDict[currentQuestId].Invoke();
 
             completedAnim.SetTrigger("NewQuest");
             completedAnim.SetBool("Completed", false);
-            currentQuestId = id;
-            (string, string) questTexts = questDescriptions[id];
+            (string, string) questTexts = questDescriptions[currentQuestId];
             titleText.text = questTexts.Item1;
             descriptionText.text = questTexts.Item2;
             progressText.text = "";
+        }
 
-            switch (id)
+        public void QuestAccomplished()
+        {
+            currentQuestState = QuestState.PRE_CONFIRMED;
+            completedAnim.SetBool("Completed", true);
+
+            if (currentQuestId == "Q4")
             {
-                case "Q1":
-                    break;
-                case "Q2":
-                    q2Obj.SetActive(true);
-                    break;
-                case "Q3":
-                    q3Obj.SetActive(true);
-                    break;
-                case "Q4":
-                    q4Obj.SetActive(true);
-                    break;
-                default:
-                    break;
+                GameController.Instance.horrorEventManager.StartEvent("H13");
+                fakeHero.SetActive(true);
             }
         }
 
-        public void EndQuest(string id)
+        public void QuestConfirmed()
         {
-            if (currentQuestId == id)
-                currentQuestId = "";
-            finishedQuests.Add(id);
-            completedAnim.SetBool("Completed", true);
-
-            switch (id)
-            {
-                case "Q4":
-                    GameController.Instance.horrorEventManager.StartEvent("H13");
-                    break;
-                default:
-                    break;
-            }
+            InitQuest(questOrder[System.Array.IndexOf(questOrder, currentQuestId) + 1]);
         }
 
         public void SetProgressText(string text)
@@ -86,8 +87,8 @@ namespace Default
         public SaveDataEntry Save()
         {
             SaveDataEntry entry = new SaveDataEntry();
-            entry.Add("finishedQuests", new List<string>(finishedQuests));
             entry.Add("currentQuestId", currentQuestId);
+            entry.Add("currentQuestState", (int)currentQuestState);
             return entry;
         }
 
@@ -95,33 +96,59 @@ namespace Default
         {
             if (dictEntry == null)
             {
-                StartQuest("Q1");
+                if (startQuestId == questOrder[0])
+                {
+                    InitQuest(startQuestId);
+                    QuestAccepted();
+                }
+                else
+                {
+                    InitQuest(questOrder[System.Array.IndexOf(questOrder, currentQuestId) - 1]);
+                    QuestAccepted();
+                    QuestAccomplished();
+                }
                 return;
             }
-            finishedQuests = new HashSet<string>(dictEntry.GetList("finishedQuests", new List<string>()));
-            string quest = dictEntry.GetString("currentQuestId", "");
-            if (quest == "" && finishedQuests.Count < questDescriptions.Count)
-            {
-                string lastQuest = "Q1";
-                foreach (string finishedQuest in finishedQuests)
-                    if (string.Compare(finishedQuest, lastQuest) > 0)
-                        lastQuest = finishedQuest;
-
-                (string, string) questTexts = questDescriptions[lastQuest];
-                titleText.text = questTexts.Item1;
-                descriptionText.text = questTexts.Item2;
-                progressText.text = "";
-                completedAnim.SetBool("Completed", true);
-            }
-            StartQuest(quest);
+            string quest = dictEntry.GetString("currentQuestId", startQuestId);
+            currentQuestState = (QuestState)dictEntry.GetInt("currentQuestState", (int)currentQuestState);
+            InitQuest(quest);
+            if (currentQuestState == QuestState.PRE_ACCOMPLISHED || currentQuestState == QuestState.PRE_CONFIRMED)
+                QuestAccepted();
+            if (currentQuestState == QuestState.PRE_CONFIRMED)
+                QuestAccomplished();
         }
+
+        public enum QuestState
+        {
+            PRE_ACCEPTED,
+            PRE_ACCOMPLISHED,
+            PRE_CONFIRMED
+        }
+
+        [System.Serializable]
+        private class QuestAndEvent
+        {
+            public string questId;
+            public UnityEvent unityEvent;
+        }
+
+        private string[] questOrder = new string[] { "Q1", "Q2", "Q3", "Q6", "Q7", "Q8", "Q9", "Q10", "Q11", "Q5", "Q4", "Q12", "Q13", "QEnd" };
 
         private Dictionary<string, (string, string)> questDescriptions = new Dictionary<string, (string, string)> {
             {"Q1", ("The Beginning", "Speak with the king.")},
             {"Q2", ("Show Your Skills", "Kill 10 Slimy Slimes.")},
-            {"Q3", ("A better weapon", "Buy a new staff.")},
-            {"Q4", ("First Step", "Kill the boss in the cave.")},
-            {"QEnd", ("Level Up", "Reach level 2147483648.")},
+            {"Q3", ("Shopping", "Buy a new staff.")},
+            {"Q4", ("Be A Hero", "Kill the boss in the cave.")},
+            {"Q5", ("Too Weak", "Level up 10 times.")},
+            {"Q6", ("Pest Control", "Kill 5 Spiders and 5 Rats.")},
+            {"Q7", ("Errands", "Find out what exactly is blocking the bridge.")},
+            {"Q8", ("Broken Cart", "Find someone who can fix the cart.")},
+            {"Q9", ("Bad News", "Report back to the king that a goblin was sighted.")},
+            {"Q10", ("Scouting", "Find out if there really are goblins in the cave.")},
+            {"Q11", ("Shopping", "Buy a second tier staff and second tier armor.")},
+            {"Q12", ("Who Is The Real Deal?", "Duel with the fake hero.")},
+            {"Q13", ("The Ultimate Scroll", "Find the first clue to locate the scroll.")},
+            {"QEnd", ("Still Too Weak", "Reach level 2147483648.")},
         };
     }
 }

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Newtonsoft.Json;
-using System;
 
 namespace Default
 {
@@ -64,7 +62,7 @@ namespace Default
             foreach (ISaveDataObject saveObject in saveObjects)
                 saveDict.Add(saveObject.saveDataId, saveObject.Save());
 
-            string jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(saveDict);
+            string jsonString = JsonUtility.ToJson(saveDict);
 
             StreamWriter writer = new StreamWriter(path);
             writer.WriteLine(jsonString);
@@ -79,7 +77,7 @@ namespace Default
             string path = Application.persistentDataPath + pathSuffix;
             Dictionary<string, SaveDataEntry> saveDict = null;
             if (debugGame >= 0 && debugGame < debugGameFiles.Length)
-                saveDict = JsonConvert.DeserializeObject<Dictionary<string, SaveDataEntry>>(debugGameFiles[debugGame]);
+                saveDict = JsonUtility.FromJson<Dictionary<string, SaveDataEntry>>(debugGameFiles[debugGame]);
             else if (!File.Exists(path))
             {
                 Debug.Log("New Save.");
@@ -90,7 +88,7 @@ namespace Default
                 string jsonString = reader.ReadLine();
                 reader.Close();
 
-                saveDict = JsonConvert.DeserializeObject<Dictionary<string, SaveDataEntry>>(jsonString);
+                saveDict = JsonUtility.FromJson<Dictionary<string, SaveDataEntry>>(jsonString);
 
                 SaveDataEntry info = saveDict["info"];
                 Debug.Log("Loaded save file for version " + info.GetString("version", "null"));
@@ -159,8 +157,8 @@ namespace Default
     [System.Serializable]
     public class SaveDataEntry
     {
-        [JsonProperty] private Dictionary<string, string> dictString { get; set; }
-        [JsonProperty] private Dictionary<string, List<string>> dictList { get; set; }
+        private Dictionary<string, string> dictString { get; set; }
+        private Dictionary<string, List<string>> dictList { get; set; }
 
         public SaveDataEntry()
         {

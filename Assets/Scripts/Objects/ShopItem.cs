@@ -67,6 +67,7 @@ namespace Default
                 {
                     player.stats.AddOrReplaceStatItem(items[currentItem].theObject.GetComponent<Armor>());
                     Destroy(items[currentItem].theObject);
+                    GameController.Instance.overallStats.AddToStat(1, "Bought_Armor");
                 }
 
                 List<Outline> outlinesToDelete = new List<Outline>(items[currentItem].theObject.GetComponents<Outline>());

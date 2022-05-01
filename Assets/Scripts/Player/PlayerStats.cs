@@ -53,6 +53,8 @@ namespace Default
             entityStatsUi.zValue = Mathf.NegativeInfinity;
 
             levelUpUi.SetValues(statPoints);
+
+            GameController.Instance.overallStats.SetStat(levelInt, "PlayerLevel");
         }
 
         void Update()
@@ -113,6 +115,7 @@ namespace Default
 
                 statPoints.freePoints++;
             }
+            GameController.Instance.overallStats.SetStat(levelInt, "PlayerLevel");
 
             levelUpUi.PlayAnim();
             levelUpUi.SetValues(statPoints);
@@ -163,12 +166,8 @@ namespace Default
 
         private static int NextLevelRequirement(int currlevel)
         {
-            return Mathf.RoundToInt(3.9391f * Mathf.Exp(0.6967f * currlevel));
-        }
-
-        private static int NextLevelRequirementInversed(int xp)
-        {
-            return Mathf.FloorToInt(Mathf.Log(xp / 3.9391f) / (0.6967f));
+            //1 -> 8, 6 -> 30, 40 -> 300
+            return Mathf.RoundToInt((293.371f * Mathf.Exp(0.0729913f * currlevel)) - 307.585f);
         }
 
         public bool ChangeCoins(int changeValue)

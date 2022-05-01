@@ -4,28 +4,35 @@ using UnityEngine;
 
 namespace Default
 {
-    public class OverallStats : MonoBehaviour
+    public class OverallStats : MonoBehaviour, ISaveDataObject
     {
-        private Dictionary<string, float> stats = new Dictionary<string, float>() { };
+        private Dictionary<string, int> stats = new Dictionary<string, int>() { };
 
         private Dictionary<string, List<OverallStatsObserver>> statsObservers = new Dictionary<string, List<OverallStatsObserver>>();
 
+        public string saveDataId => "OverallStats";
+
         public void AddToStat(int value, string category)
+        {
+            if (stats.ContainsKey(category))
+                SetStat(stats[category] + value, category);
+            else
+                SetStat(value, category);
+        }
+
+        public void SetStat(int value, string category)
         {
             if (!stats.ContainsKey(category))
                 stats.Add(category, 0);
 
-            stats[category] += value;
-
-            string[] keys = new string[statsObservers.Keys.Count];
-            statsObservers.Keys.CopyTo(keys, 0);
+            stats[category] = value;
 
             if (statsObservers.ContainsKey(category))
                 foreach (OverallStatsObserver observer in statsObservers[category])
-                    observer.OnStatsUpdated();
+                    observer.OnStatsUpdated(category);
         }
 
-        public float GetStat(string category)
+        public int GetStat(string category)
         {
             if (!stats.ContainsKey(category))
                 return 0;
@@ -42,13 +49,31 @@ namespace Default
 
         public void RemoveObserver(OverallStatsObserver observer, string category)
         {
-            if (!statsObservers.ContainsKey(category))
+            if (statsObservers.ContainsKey(category))
                 statsObservers[category].Remove(observer);
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry entry = new SaveDataEntry();
+            entry.Add("StatIdList", new List<string>(stats.Keys));
+            foreach (var item in stats)
+                entry.Add(item.Key, item.Value);
+            return entry;
+        }
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry == null)
+                return;
+
+            foreach (var statId in dictEntry.GetList("StatIdList", new List<string>()))
+                stats.Add(statId, dictEntry.GetInt(statId, 0));
         }
     }
 
     public interface OverallStatsObserver
     {
-        void OnStatsUpdated();
+        void OnStatsUpdated(string category);
     }
 }

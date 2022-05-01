@@ -133,8 +133,8 @@ MonoBehaviour:
   damagePerAttack: 33
   attackOffset: 0.25
   attackCooldown: 2
-  xpReward: 22
-  coinReward: 24
+  xpReward: 30
+  coinReward: 32
   wanderCooldown: 10
   wanderRange: 10
   fxAudioSource: {fileID: 6548657732737288371}
