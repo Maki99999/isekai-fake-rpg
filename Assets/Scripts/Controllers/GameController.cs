@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Default
 {
@@ -33,8 +34,11 @@ namespace Default
         public Transform entityStats;
         public OverallStats overallStats;
         public bool inPcMode;
+
+        [Space(10)]
         public Animator gameGuiFxAnimator;
         public Animator fadingAnimator;
+        public Slider chargeSlider;
 
         private int mouseSemaphore = 1;
 

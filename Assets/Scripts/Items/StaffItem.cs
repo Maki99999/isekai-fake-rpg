@@ -16,6 +16,7 @@ namespace Default
         public GameObject projectilePrefab;
         public AudioSource chargeFx;
         public Animator anim;
+        public Animator magicCircleAnim;
 
         Projectile attackProjectile;
         bool isCharging = false;
@@ -35,6 +36,7 @@ namespace Default
             {
                 player.AddItem(this, true);
             }
+            GameController.Instance.chargeSlider.value = 0;
         }
 
         public override MoveData UseItem(MoveData inputData)
@@ -43,9 +45,10 @@ namespace Default
 
             if (isCharging)
             {
-                float currentValue = Mathf.Clamp((Time.time - chargeStartTime) / chargeTime, 0f, 1f);
+                float currentValue = Mathf.Clamp01((Time.time - chargeStartTime) / chargeTime);
                 chargeFx.pitch = currentValue * 0.5f + 0.7f;
                 chargeFx.volume = currentValue;
+                GameController.Instance.chargeSlider.value = currentValue;
             }
 
             if (inputData.axisPrimary > 0f && !isCharging)
@@ -60,6 +63,7 @@ namespace Default
 
                 isCharging = true;
                 anim.SetBool("isCharging", true);
+                magicCircleAnim.SetBool("Active", true);
 
                 chargeFx.pitch = 0.2f;
                 chargeFx.volume = 0f;
@@ -83,7 +87,7 @@ namespace Default
                     times[i] = chargeStartTime + costTime * (i + 1);
                 }
             }
-            else if (inputData.axisPrimary <= 0f && isCharging)
+            else if (inputData.axisPrimary <= 0f && isCharging && Time.time > chargeStartTime + 0.35f)
             {
                 Shoot();
             }
@@ -112,9 +116,11 @@ namespace Default
         private void Shoot()
         {
             chargeFx.Stop();
+            GameController.Instance.chargeSlider.value = 0;
             isCharging = false;
             player.stats.mpGainLocked = false;
             anim.SetBool("isCharging", false);
+            magicCircleAnim.SetBool("Active", false);
 
             float chargedPercent = Mathf.Clamp((Time.time - chargeStartTime) / chargeTime, 0f, 1f);
             int damage = minDamage + Mathf.RoundToInt(chargedPercent * (maxDamage - minDamage));

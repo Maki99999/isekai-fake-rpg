@@ -90,8 +90,15 @@ namespace Default
 
                 saveDict = JsonUtility.FromJson<Dictionary<string, SaveDataEntry>>(jsonString);
 
-                SaveDataEntry info = saveDict["info"];
-                Debug.Log("Loaded save file for version " + info.GetString("version", "null"));
+                if (!saveDict.ContainsKey("info"))
+                {
+                    Debug.Log("Save file is outdated or corrupted. Creating a new save file.");
+                }
+                else
+                {
+                    SaveDataEntry info = saveDict["info"];
+                    Debug.Log("Loaded save file for version " + info.GetString("version", "null"));
+                }
             }
 
             foreach (ISaveDataObject saveObject in saveObjects)
