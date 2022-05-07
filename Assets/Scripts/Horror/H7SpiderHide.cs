@@ -68,7 +68,7 @@ namespace Default
         public SaveDataEntry Save()
         {
             SaveDataEntry entry = new SaveDataEntry();
-            entry.Add("active", active ? "true" : "false");
+            entry.Add("active", active);
             return entry;
         }
 
@@ -79,7 +79,7 @@ namespace Default
                 Hide2();
                 return;
             }
-            if (dictEntry.GetString("active", "false") == "true")
+            if (dictEntry.GetBool("active", false))
                 Show();
             else
                 Hide2();

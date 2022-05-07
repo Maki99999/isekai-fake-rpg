@@ -58,6 +58,7 @@ namespace Default
 
         public void Load(SaveDataEntry dictEntry)
         {
+            return;
             if (dictEntry == null)
             {
                 trailer.StartTrailer();
