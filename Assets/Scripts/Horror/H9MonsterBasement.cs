@@ -20,7 +20,7 @@ namespace Default
         IEnumerator MonsterAnim()
         {
             door.Close();
-            door.locked = true;
+            door.lockedMode = OpenableDoor.State.LOCKED;
             GameController.Instance.playerEventManager.FreezePlayer(false, true);
             yield return GameController.Instance.playerEventManager.LookAt(false, monsterAnim.transform.position + Vector3.up, 1f);
             monsterAnim.gameObject.SetActive(true);
@@ -32,7 +32,7 @@ namespace Default
 
             yield return new WaitForSeconds(26f);
             door.Open();
-            door.locked = false;
+            door.lockedMode = OpenableDoor.State.UNLOCKED;
             doorCollider.enabled = false;
             monsterAnim.gameObject.SetActive(false);
 

@@ -15,7 +15,8 @@ namespace Default
         public bool currentlyOpen = false;
         public bool openFurther = false;
 
-        public bool locked = false;
+        public State lockedMode = State.UNLOCKED;
+        public List<string> notOpeningText;
 
         protected override void Start()
         {
@@ -36,17 +37,47 @@ namespace Default
 
         void Useable.Use()
         {
-            if (locked)
+            if (lockedMode != State.UNLOCKED)
             {
-                doorAnim.SetTrigger("Rattle");
-                doorAudio.clip = sfxRattle;
-                doorAudio.Play();
+                StartCoroutine(LockedDialogue(lockedMode));
                 return;
             }
             else if (currentlyOpen)
                 Close();
             else
                 Open();
+        }
+
+        private IEnumerator LockedDialogue(State lockedMode)
+        {
+            if (lockedMode == State.LOCKED)
+            {
+                Debug.Log("rattle");
+                doorAnim.SetTrigger("Rattle");
+                doorAudio.clip = sfxRattle;
+                doorAudio.Play();
+            }
+            else if (lockedMode == State.UNINTERESTING)
+            {
+                Debug.Log("Peek");
+                doorAnim.SetBool("Peek", true);
+                doorAudio.clip = sfxOpen;
+                doorAudio.Play();
+            }
+
+            if (notOpeningText.Count > 0)
+            {
+                GameController.Instance.playerEventManager.FreezePlayer(false, true);
+                yield return GameController.Instance.dialogue.StartDialogue(notOpeningText);
+                GameController.Instance.playerEventManager.FreezePlayer(false, false);
+            }
+
+            if (lockedMode == State.UNINTERESTING)
+            {
+                doorAnim.SetBool("Peek", false);
+                doorAudio.clip = sfxClose;
+                doorAudio.PlayDelayed(0.2f);
+            }
         }
 
         void Useable.LookingAt()
@@ -77,6 +108,14 @@ namespace Default
 
             doorAudio.clip = sfxClose;
             doorAudio.PlayDelayed(0.5f);
+        }
+
+        [System.Serializable]
+        public enum State
+        {
+            UNLOCKED,
+            LOCKED,
+            UNINTERESTING
         }
     }
 }
