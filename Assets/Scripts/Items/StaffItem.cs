@@ -160,6 +160,8 @@ namespace Default
 
         public override void OnUnequip()
         {
+            if (player.IsFrozen())
+                Shoot();
             anim.SetBool("Hidden", true);
         }
     }
