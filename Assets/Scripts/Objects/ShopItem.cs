@@ -55,7 +55,11 @@ namespace Default
             if (currentItem < items.Length && (silentAndFree || player.stats.ChangeCoins(-items[currentItem].price)))
             {
                 if (!silentAndFree)
+                {
                     boughtSfx.Play();
+                    GameController.Instance.overallStats.AddToStat(1, "ItemsBought");
+                }
+
                 if (isItem)
                 {
                     player.AddItem(items[currentItem].theObject.GetComponent<ItemHoldable>(), true);

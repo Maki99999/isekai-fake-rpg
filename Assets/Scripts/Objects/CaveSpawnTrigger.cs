@@ -2,45 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CaveSpawnTrigger : MonoBehaviour
+namespace Default
 {
-    public bool on;
-    public SpawnerConditional[] spawners;
-    public SpawnerConditional[] goblinSpawnersWave1;
-    public SpawnerConditional[] goblinSpawnersWave2;
-    public SpawnerConditional bossSpawner;
-
-    private int goblinWave;
-
-    public void SetGoblinWave(int count)
+    public class CaveSpawnTrigger : MonoBehaviour
     {
-        goblinWave = count;
-    }
+        public bool on;
+        public SpawnerConditional[] spawners;
+        public SpawnerConditional[] goblinSpawnersWave1;
+        public SpawnerConditional[] goblinSpawnersWave2;
+        public SpawnerConditional bossSpawner;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        private int goblinWave;
+        private bool firstTime = true;
+
+        public void SetGoblinWave(int count)
         {
-            foreach (SpawnerConditional spawner in spawners)
-            {
-                if (on) spawner.SpawnObjects();
-                else spawner.ResetObjects();
-            }
+            goblinWave = count;
+        }
 
-            foreach (SpawnerConditional spawner in goblinSpawnersWave1)
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player"))
             {
-                if (on && goblinWave >= 1) spawner.SpawnObjects();
-                else spawner.ResetObjects();
-            }
+                if (on && firstTime)
+                {
+                    GameController.Instance.controlsHelper.ShowControl(ControlsHelper.Control.JUMP_GAME);
+                    GameController.Instance.controlsHelper.ShowControl(ControlsHelper.Control.SNEAK_GAME);
+                    firstTime = false;
+                }
 
-            foreach (SpawnerConditional spawner in goblinSpawnersWave2)
-            {
-                if (on && goblinWave >= 2) spawner.SpawnObjects();
-                else spawner.ResetObjects();
-            }
+                foreach (SpawnerConditional spawner in spawners)
+                {
+                    if (on) spawner.SpawnObjects();
+                    else spawner.ResetObjects();
+                }
 
-            if (on && goblinWave >= 3) bossSpawner.SpawnObjects();
-            else bossSpawner.ResetObjects();
+                foreach (SpawnerConditional spawner in goblinSpawnersWave1)
+                {
+                    if (on && goblinWave >= 1) spawner.SpawnObjects();
+                    else spawner.ResetObjects();
+                }
+
+                foreach (SpawnerConditional spawner in goblinSpawnersWave2)
+                {
+                    if (on && goblinWave >= 2) spawner.SpawnObjects();
+                    else spawner.ResetObjects();
+                }
+
+                if (on && goblinWave >= 3) bossSpawner.SpawnObjects();
+                else bossSpawner.ResetObjects();
+            }
         }
     }
 }

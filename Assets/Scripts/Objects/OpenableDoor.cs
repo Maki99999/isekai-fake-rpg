@@ -52,14 +52,12 @@ namespace Default
         {
             if (lockedMode == State.LOCKED)
             {
-                Debug.Log("rattle");
                 doorAnim.SetTrigger("Rattle");
                 doorAudio.clip = sfxRattle;
                 doorAudio.Play();
             }
             else if (lockedMode == State.UNINTERESTING)
             {
-                Debug.Log("Peek");
                 doorAnim.SetBool("Peek", true);
                 doorAudio.clip = sfxOpen;
                 doorAudio.Play();

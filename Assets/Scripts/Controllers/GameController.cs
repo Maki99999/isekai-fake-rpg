@@ -33,6 +33,7 @@ namespace Default
         public MetaHouseController metaHouseController;
         public Transform entityStats;
         public OverallStats overallStats;
+        public ControlsHelper controlsHelper;
         public bool inPcMode;
 
         [Space(10)]

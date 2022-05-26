@@ -8,6 +8,7 @@ namespace Default
     {
         public float range = 2.5f;
         public LayerMask mask;
+        public bool trackStat = false;
 
         bool lastPress = false;
 
@@ -37,6 +38,8 @@ namespace Default
                         {
                             Debug.Log("Used " + hitObject.name);
                             useable.Use();
+                            if (trackStat)
+                                GameController.Instance.overallStats.AddToStat(1, "ObjectsUsed");
                         }
                     }
                 }

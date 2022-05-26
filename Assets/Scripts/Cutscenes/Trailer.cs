@@ -100,6 +100,10 @@ namespace Default
             yield return new WaitForSeconds(0.5f);
             GameController.Instance.playerEventManager.FreezePlayers(false);
 
+            //Controls
+            GameController.Instance.controlsHelper.ShowControl(ControlsHelper.Control.MOVE_GAME);
+            GameController.Instance.controlsHelper.ShowControl(ControlsHelper.Control.RUN_GAME);
+
             yield return new WaitForSeconds(9f);
             GameController.Instance.playerEventManager.FreezePlayers(true);
             yield return GameController.Instance.dialogue.StartDialogue(dCannotRelax1);
@@ -113,6 +117,10 @@ namespace Default
             yield return new WaitForSeconds(0.5f);
             GameController.Instance.playerEventManager.FreezePlayers(false);
             GameController.Instance.storyManager.StartTask("T4");
+            
+            //Controls Again
+            GameController.Instance.controlsHelper.ShowControl(ControlsHelper.Control.MOVE_META);
+            GameController.Instance.controlsHelper.ShowControl(ControlsHelper.Control.INTERACT_META);
         }
 
         public void ResetTrailerStuff()

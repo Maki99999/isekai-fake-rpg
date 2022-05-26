@@ -38,6 +38,7 @@ namespace Default
             audioPower.Play();
             GameController.Instance.metaPlayer.AddItem(phone, true);
             phone.ActivateFlashlight();
+            GameController.Instance.controlsHelper.ShowControl(ControlsHelper.Control.TOGGLE_LIGHT);
         }
 
         void Update()

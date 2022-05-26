@@ -135,6 +135,9 @@ namespace Default
             attackProjectile.transform.parent = null;
             attackProjectile.SpawnPrefab();
 
+            if (chargedPercent >= 0.5)
+                GameController.Instance.overallStats.AddToStat(1, "HalfChargedShot");
+
             Vector3 direction;
 
             RaycastHit hit;
@@ -160,7 +163,7 @@ namespace Default
 
         public override void OnUnequip()
         {
-            if (player.IsFrozen())
+            if (player.IsFrozen() && isCharging)
                 Shoot();
             anim.SetBool("Hidden", true);
         }

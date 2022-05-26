@@ -158,12 +158,14 @@ namespace Default
                     tapSound.Play();
                     currentState = currentState == State.FLASHLIGHT_ON ? State.FLASHLIGHT_OFF : State.FLASHLIGHT_ON;
                     flashlight.SetActive(currentState == State.FLASHLIGHT_ON);
+                    GameController.Instance.overallStats.AddToStat(1, "LightToggled");
                 }
             }
             else if (currentState == State.EQUIPPED_VISIBLE || currentState == State.EQUIPPED_HIDDEN)
             {
                 if (pressedThisFrame)
                 {
+                    GameController.Instance.overallStats.AddToStat(1, "PhoneToggled");
                     Hide(currentState == State.EQUIPPED_HIDDEN);
                 }
             }

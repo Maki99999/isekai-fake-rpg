@@ -190,6 +190,8 @@ namespace Default
             }
             if (reversed)
                 immersedValueIsRegular = true;
+            else
+                GameController.Instance.overallStats.AddToStat(1, "LookedAtTime");
         }
 
         public float ImmersedValue
@@ -264,6 +266,8 @@ namespace Default
             transitionsToPcMode = false;
             GameController.Instance.inPcMode = false;
             GameController.Instance.playerEventManager.FreezePlayer(true, true);
+
+            GameController.Instance.overallStats.AddToStat(1, "GotUp");
 
             StartCoroutine(Immerse(true, 2f));
 

@@ -126,7 +126,18 @@ namespace Default
             phone.StartTime();
             endTime = Time.time + (foodTimeMinutes / foodTimeMinutesMultiplier) * 60f;
             phone.SetTime(endTime);
-            yield return new WaitWhile(() => Time.time < endTime);
+            GameController.Instance.controlsHelper.ShowControl(ControlsHelper.Control.TOGGLE_PHONE);
+            bool showedControls = false;
+            while (Time.time < endTime)
+            {
+                if (GameController.Instance.inPcMode && !showedControls)
+                {
+                    GameController.Instance.controlsHelper.ShowControl(ControlsHelper.Control.LOOK_AT_TIME);
+                    GameController.Instance.controlsHelper.ShowControl(ControlsHelper.Control.GET_UP);
+                    showedControls = true;
+                }
+                yield return null;
+            }
 
             phone.StopTime();
             foodObjects[currentFood].foodOnTrayRaw?.SetActive(false);
