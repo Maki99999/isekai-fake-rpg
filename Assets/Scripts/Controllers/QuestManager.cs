@@ -45,6 +45,9 @@ namespace Default
         {
             currentQuestId = id;
             currentQuestState = QuestState.PRE_ACCEPTED;
+
+            if (id == "Q4")
+                GameController.Instance.horrorEventManager.StartEvent("H21");
         }
 
         public void QuestAccepted()

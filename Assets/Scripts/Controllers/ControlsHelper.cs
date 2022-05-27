@@ -21,7 +21,7 @@ namespace Default
 
             {Control.MOVE_GAME,     new ControlInfo("[WASD]  Move", "DistanceMovedSqrGame", 10, true)},     //Trailer
             {Control.RUN_GAME,      new ControlInfo("[Shift] Run", "DistanceRanSqrGame", 3, true)},         //Trailer
-            {Control.SNEAK_GAME,    new ControlInfo("[Ctrl]  Sneak", "DistanceSneakedSqrGame", 2, true)},   //CaveSpawnTrigger
+            {Control.SNEAK_GAME,    new ControlInfo("[Ctrl]  Sneak", "DistanceSneakedSqrGame", 1, true)},   //CaveSpawnTrigger
             {Control.JUMP_GAME,     new ControlInfo("[Space] Jump", "Jumped", 1, true)},                    //CaveSpawnTrigger
             {Control.BUY_ITEM,      new ControlInfo("[E]     Buy item", "ItemsBought", 1, true)},           //Q3
             {Control.CHARGE_ATTACK, new ControlInfo("[LMB]   Charge Attack", "HalfChargedShot", 2, true)},  //Q2

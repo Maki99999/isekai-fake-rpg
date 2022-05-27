@@ -17,6 +17,7 @@ namespace Default
         public GameObject eventH13JumpingSpider;
         public GameObject eventH14Microwave;
         public H16Puppet eventH16Puppet;
+        public GameObject eventH21CaveGlitch;
 
         public string saveDataId => "horrorEventManager";
         private string delayedEvent = "";
@@ -42,6 +43,7 @@ namespace Default
                 //H15: with H14
                 "H16" => EventH16(),
                 //H17-H20: completely random
+                "H21" => EventH21(),
 
                 //DebugEvents
                 "H908" => EventH908(),
@@ -148,6 +150,12 @@ namespace Default
         private bool EventH16()
         {
             eventH16Puppet.enabled = true;
+            return true;
+        }
+
+        private bool EventH21()
+        {
+            eventH21CaveGlitch.SetActive(true);
             return true;
         }
 
