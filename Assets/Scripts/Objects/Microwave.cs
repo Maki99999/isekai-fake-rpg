@@ -57,6 +57,9 @@ namespace Default
         {
             yield return new WaitForSeconds(15f);
             GameController.Instance.storyManager.StartTask("T12");
+            yield return new WaitForSeconds(15f);
+            if (turnedOn)
+                TurnOff();
         }
 
         public void H15Event()
