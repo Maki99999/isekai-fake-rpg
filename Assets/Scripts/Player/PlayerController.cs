@@ -204,9 +204,11 @@ namespace Default
             //First, check if he can unsneak
             if (!willSneak)
             {
+                LayerMask layerMask = PhysicsCollisionMatrixLayerMasks.MaskForLayer(gameObject.layer);
                 Collider[] overlappingColldier = Physics.OverlapCapsule(transform.position + charController.radius * Vector3.up,
                         transform.position + (heightNormal - charController.radius) * Vector3.up,
-                        charController.radius * 0.99f);
+                        charController.radius * 0.99f,
+                        layerMask);
                 foreach (Collider collider in overlappingColldier)
                     if (!collider.CompareTag("Player") && !collider.isTrigger)
                         yield break;
@@ -291,6 +293,18 @@ namespace Default
             transform.position = positionNew;
             transform.rotation = Quaternion.Euler(0f, newPosition.rotation.eulerAngles.y, 0f);
             eyeHeightTransform.localRotation = Quaternion.Euler(newPosition.rotation.eulerAngles.x, 0f, 0f);
+
+            //ground player
+            LayerMask layerMask = PhysicsCollisionMatrixLayerMasks.MaskForLayer(gameObject.layer);
+            RaycastHit hitInfo;
+            Physics.Raycast(
+                transform.position + 0.2f * transform.up,
+                -transform.up,
+                out hitInfo,
+                2.2f);
+            if (hitInfo.collider != null)
+                transform.position = hitInfo.point + charController.skinWidth * transform.up;
+
 
             charController.enabled = oldCCState;
         }
