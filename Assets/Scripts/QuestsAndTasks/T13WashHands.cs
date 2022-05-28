@@ -7,10 +7,16 @@ namespace Default
     public class T13WashHands : MonoBehaviour, Useable, Task
     {
         public Outline outline;
-
-        new public AudioSource audio;
+        public GameObject noSoapDownstairsObject;
+        public Sink sink;
 
         private bool inUse = false;
+
+        private void Start()
+        {
+            sink.enabled = false;
+            noSoapDownstairsObject.SetActive(true);
+        }
 
         void Update()
         {
@@ -38,27 +44,11 @@ namespace Default
 
         IEnumerator WashHandsAnim()
         {
-            inUse = true;
-            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
+            yield return sink.WashHandsAnim(true);
 
-            GameController.Instance.fadingAnimator.SetBool("Black", true);
-            yield return new WaitForSeconds(1.5f);
-
-            audio.Play();
-
-            if (GameController.Instance.storyManager.currentTaskId.Equals("T13"))
-            {
-                GameController.Instance.storyManager.TaskFinished();
-                GameController.Instance.horrorEventManager.StartEvent("H8");
-            }
-
-            yield return new WaitForSeconds(1.5f);
-            GameController.Instance.fadingAnimator.SetBool("Black", false);
-            yield return new WaitForSeconds(1.5f);
-
-
-            inUse = false;
-            GameController.Instance.playerEventManager.FreezePlayer(false, false);
+            noSoapDownstairsObject.SetActive(false);
+            GameController.Instance.storyManager.TaskFinished();
+            sink.enabled = true;
         }
 
         public void SkipTask() { }
