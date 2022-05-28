@@ -75,7 +75,7 @@ namespace Default
         IEnumerator Fuse()
         {
             inAnimation = true;
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
             StartCoroutine(GameController.Instance.playerEventManager.LookAt(false, transform.position - 0.15f * Vector3.up, 1f));
 
             if (!open)

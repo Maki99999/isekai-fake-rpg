@@ -37,7 +37,7 @@ namespace Default
             looking = true;
 
             PlayerController player = GameController.Instance.metaPlayer;
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
             StartCoroutine(GameController.Instance.playerEventManager.LookAt(false, transform.position, 1f));
 
             yield return new WaitUntil(() => !InputSettings.PressingUse());

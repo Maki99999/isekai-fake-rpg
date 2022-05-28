@@ -30,7 +30,7 @@ namespace Default
 
         private IEnumerator Start()
         {
-            GameController.Instance.playerEventManager.FreezePlayers(true);
+            GameController.Instance.playerEventManager.FreezePlayers(true, true);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "I'm hungry." });
             if (GameController.Instance.inPcMode)
                 yield return pcController.ToNonPcMode();
@@ -75,7 +75,7 @@ namespace Default
 
         IEnumerator TeleportAndPutInAnim()
         {
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
             GameController.Instance.fadingAnimator.SetBool("Black", true);
             yield return new WaitForSeconds(1.5f);
 
@@ -97,7 +97,7 @@ namespace Default
 
         IEnumerator PutInFood()
         {
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
             ovenAnim.SetBool("PutIn", true);
             audioSource.Play();
             yield return new WaitForSeconds(5f);
@@ -115,7 +115,7 @@ namespace Default
 
         IEnumerator BakeWithTimer()
         {
-            GameController.Instance.playerEventManager.FreezePlayers(true);
+            GameController.Instance.playerEventManager.FreezePlayers(true, true);
             GameController.Instance.metaPlayer.AddItem(phone, true, false);
             float endTime = Time.time + (foodTimeMinutes / foodTimeMinutesMultiplier) * 60f;
             phone.PrepareTimer(endTime, foodTimeMinutesMultiplier);
@@ -158,7 +158,7 @@ namespace Default
 
         IEnumerator BakeWithClock()
         {
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
             GameController.Instance.metaHouseController.SetFixedTime(22, 48);
             GameController.Instance.metaHouseController.LetTimeAdvance(true, foodTimeMinutesMultiplier);
             float overallTime = (foodTimeMinutes / foodTimeMinutesMultiplier) * 60f;
@@ -204,7 +204,7 @@ namespace Default
 
         IEnumerator TakeOutFood()
         {
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
             if (currentFood == 0 || currentFood == 2)
                 GameController.Instance.metaPlayer.RemoveItem(phone);
             else if (currentFood == 1)

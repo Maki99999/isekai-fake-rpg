@@ -39,7 +39,7 @@ namespace Default
         IEnumerator WashHandsAnim()
         {
             inUse = true;
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
 
             GameController.Instance.fadingAnimator.SetBool("Black", true);
             yield return new WaitForSeconds(1.5f);

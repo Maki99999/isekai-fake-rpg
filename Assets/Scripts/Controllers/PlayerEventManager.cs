@@ -17,18 +17,32 @@ namespace Default
                 metaPlayer = GameController.Instance.metaPlayer;
         }
 
-        public void FreezePlayer(bool inGame, bool freeze)
+        public void FreezePlayer(bool inGame, bool freeze, bool freezeWithGrounding = false)
         {
             if (inGame)
+            {
                 gamePlayer.SetFrozen(freeze);
+                if (freeze && freezeWithGrounding)
+                    gamePlayer.ApplyGravityUntilGroundedOrUnfrozen();
+            }
             else
+            {
                 metaPlayer.SetFrozen(freeze);
+                if (freeze && freezeWithGrounding)
+                    metaPlayer.ApplyGravityUntilGroundedOrUnfrozen();
+            }
         }
 
-        public void FreezePlayers(bool freeze)
+        public void FreezePlayers(bool freeze, bool freezeWithGrounding = false)
         {
             gamePlayer.SetFrozen(freeze);
             metaPlayer.SetFrozen(freeze);
+
+            if (freeze && freezeWithGrounding)
+            {
+                gamePlayer.ApplyGravityUntilGroundedOrUnfrozen();
+                metaPlayer.ApplyGravityUntilGroundedOrUnfrozen();
+            }
         }
 
         public IEnumerator MoveRotatePlayer(bool inGame, Transform newPosition, float seconds = 2f, bool cameraPerspective = false, Vector3 offset = default)

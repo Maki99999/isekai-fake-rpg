@@ -184,13 +184,23 @@ namespace Default
                 moveDirection = transform.forward * input.y + transform.right * input.x + transform.up * moveDirection.y;
             }
 
-            moveDirection.y -= gravity * (Time.deltaTime / 2);
-
-            Vector3 oldPos = transform.position;
+            moveDirection.y -= gravity * Time.deltaTime;
             charController.Move(moveDirection * Time.deltaTime);
-            Vector3 newPos = transform.position;
+        }
 
-            moveDirection.y -= gravity * (Time.deltaTime / 2);
+        public void ApplyGravityUntilGroundedOrUnfrozen()
+        {
+            StartCoroutine(ApplyGravityUntilGroundedOrUnfrozenLoop());
+        }
+
+        IEnumerator ApplyGravityUntilGroundedOrUnfrozenLoop()
+        {
+            while (!charController.isGrounded && IsFrozen())
+            {
+                moveDirection = transform.up * moveDirection.y + Vector3.down * gravity * Time.deltaTime;
+                charController.Move(moveDirection * Time.deltaTime);
+                yield return null;
+            }
         }
 
         void CameraEffects()

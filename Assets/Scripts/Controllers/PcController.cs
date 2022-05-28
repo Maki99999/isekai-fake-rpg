@@ -265,7 +265,7 @@ namespace Default
             inTransition = true;
             transitionsToPcMode = false;
             GameController.Instance.inPcMode = false;
-            GameController.Instance.playerEventManager.FreezePlayer(true, true);
+            GameController.Instance.playerEventManager.FreezePlayer(true, true, true);
 
             GameController.Instance.overallStats.AddToStat(1, "GotUp");
 
@@ -318,7 +318,7 @@ namespace Default
             }
             else
             {
-                GameController.Instance.playerEventManager.FreezePlayer(true, true);
+                GameController.Instance.playerEventManager.FreezePlayer(true, true, true);
                 ImmersedValue = 0f;
                 immersedValueRegular = 0f;
                 gameAudio.SetFloat("gameVolume", -80f);

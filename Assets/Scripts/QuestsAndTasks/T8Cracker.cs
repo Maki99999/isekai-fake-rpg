@@ -13,7 +13,7 @@ namespace Default
 
         private IEnumerator Start()
         {
-            GameController.Instance.playerEventManager.FreezePlayers(true);
+            GameController.Instance.playerEventManager.FreezePlayers(true, true);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "I'm hungry again.", "I'll get some crackers from the basement and maybe a bottle of cola." });
             if (GameController.Instance.inPcMode)
                 yield return pcController.ToNonPcMode();

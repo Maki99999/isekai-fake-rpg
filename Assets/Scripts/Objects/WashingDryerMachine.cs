@@ -69,7 +69,7 @@ namespace Default
 
         IEnumerator PutClothesIn()
         {
-            GameController.Instance.playerEventManager.FreezePlayers(true);
+            GameController.Instance.playerEventManager.FreezePlayers(true, true);
             if (!open)
             {
                 open = true;
@@ -120,7 +120,7 @@ namespace Default
             doorSFX.Play();
             yield return new WaitForSeconds(1f);
 
-            GameController.Instance.playerEventManager.FreezePlayers(true);
+            GameController.Instance.playerEventManager.FreezePlayers(true, true);
             GameController.Instance.fadingAnimator.SetBool("Black", true);
             yield return new WaitForSeconds(2f);
 

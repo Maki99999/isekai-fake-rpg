@@ -71,7 +71,7 @@ namespace Default
 
         private IEnumerator CleanUp()
         {
-            GameController.Instance.playerEventManager.FreezePlayers(true);
+            GameController.Instance.playerEventManager.FreezePlayers(true, true);
             GameController.Instance.fadingAnimator.SetBool("Black", true);
             yield return new WaitForSeconds(1.5f);
 

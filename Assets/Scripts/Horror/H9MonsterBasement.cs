@@ -21,7 +21,7 @@ namespace Default
         {
             door.Close();
             door.lockedMode = OpenableDoor.State.LOCKED;
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
             yield return GameController.Instance.playerEventManager.LookAt(false, monsterAnim.transform.position + Vector3.up, 1f);
             monsterAnim.gameObject.SetActive(true);
             monsterAnim.SetBool("Show", true);

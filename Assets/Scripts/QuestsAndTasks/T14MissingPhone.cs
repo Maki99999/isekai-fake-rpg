@@ -10,7 +10,7 @@ namespace Default
 
         IEnumerator Start()
         {
-            GameController.Instance.playerEventManager.FreezePlayers(true);
+            GameController.Instance.playerEventManager.FreezePlayers(true, true);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Time...", "Where's my phone?"});
             StartCoroutine(pcController.ToNonPcMode());
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "I'll look for it." });

@@ -17,7 +17,7 @@ namespace Default
         }
 
         private IEnumerator TeleportEvent() {
-            GameController.Instance.playerEventManager.FreezePlayer(true, true);
+            GameController.Instance.playerEventManager.FreezePlayer(true, true, true);
             if (audioFx != null)
                 audioFx.Play();
 

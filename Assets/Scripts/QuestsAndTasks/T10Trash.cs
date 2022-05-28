@@ -16,7 +16,7 @@ namespace Default
 
         private IEnumerator Start()
         {
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "I still have trash in the kitchen to bring outside." });
             GameController.Instance.playerEventManager.FreezePlayer(false, false);
 
@@ -50,7 +50,7 @@ namespace Default
             foreach (Outline outline in outlines)
                 outline.enabled = false;
 
-            GameController.Instance.playerEventManager.FreezePlayers(true);
+            GameController.Instance.playerEventManager.FreezePlayers(true, true);
             GameController.Instance.fadingAnimator.SetBool("Black", true);
             yield return new WaitForSeconds(1.5f);
 

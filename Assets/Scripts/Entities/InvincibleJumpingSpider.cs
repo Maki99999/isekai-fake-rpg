@@ -192,7 +192,7 @@ namespace Default
             doubleAnimator.SetTrigger("Attack");
             fxAudioSource.PlayOneShot(attackFx);
 
-            GameController.Instance.playerEventManager.FreezePlayer(true, true);//TODO: PlayerLockOn here...
+            GameController.Instance.playerEventManager.FreezePlayer(true, true, true);//TODO: PlayerLockOn here...
             StartCoroutine(GameController.Instance.playerEventManager.LookAt(true, transform.position - 0.15f * Vector3.up, 1f));
             float startTime = Time.time;
             while (Time.time < startTime + 0.833f)

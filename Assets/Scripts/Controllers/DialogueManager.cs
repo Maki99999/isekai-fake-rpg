@@ -39,7 +39,7 @@ namespace Default
 
         IEnumerator DialogueWithFreeze(List<string> texts)
         {
-            GameController.Instance.playerEventManager.FreezePlayers(true);
+            GameController.Instance.playerEventManager.FreezePlayers(true, true);
             yield return new WaitForSeconds(.2f);
             yield return StartDialogue(texts);
             yield return new WaitForSeconds(.2f);

@@ -50,7 +50,7 @@ namespace Default
             GameController.Instance.metaPlayer.AddItem(this, true, true);
             collider.enabled = false;
             MoveToLayer(transform, LayerMask.NameToLayer("MetaLayer_Always On Top"));
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Let's eat in the dining room." });
             GameController.Instance.playerEventManager.FreezePlayer(false, false);
 
@@ -58,7 +58,7 @@ namespace Default
             ShowFlesh(true);
 
             yield return new WaitForSeconds(1.5f);
-            GameController.Instance.playerEventManager.FreezePlayer(false, true);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Ew!" });
 
             GameController.Instance.metaPlayer.RemoveItem(this);

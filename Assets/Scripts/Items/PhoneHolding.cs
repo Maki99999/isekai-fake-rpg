@@ -50,12 +50,12 @@ namespace Default
 
             if (GameController.Instance.inPcMode)
             {
-                GameController.Instance.playerEventManager.FreezePlayer(true, true);
+                GameController.Instance.playerEventManager.FreezePlayer(true, true, true);
                 pcController.ImmerseBreak(true);
                 Hide();
             }
             else
-                GameController.Instance.playerEventManager.FreezePlayer(false, true);
+                GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
 
             yield return TransformOperations.MoveToLocal(phoneChild, Vector3.up * 0.3f, 1f);
             yield return new WaitForSeconds(2f);

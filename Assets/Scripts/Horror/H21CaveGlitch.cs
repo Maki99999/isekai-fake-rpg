@@ -42,7 +42,7 @@ namespace Default
             glitchEffectReceiver.enabled = false;
             glitchMonster.SetBool("Show", false);
             yield return new WaitForSeconds(1f);
-            GameController.Instance.playerEventManager.FreezePlayer(true, true);
+            GameController.Instance.playerEventManager.FreezePlayer(true, true, true);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Weird Glitch..." });
             GameController.Instance.playerEventManager.FreezePlayer(true, false);
             gameObject.SetActive(false);

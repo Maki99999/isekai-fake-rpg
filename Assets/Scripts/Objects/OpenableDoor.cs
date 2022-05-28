@@ -65,7 +65,7 @@ namespace Default
 
             if (notOpeningText.Count > 0)
             {
-                GameController.Instance.playerEventManager.FreezePlayer(false, true);
+                GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
                 yield return GameController.Instance.dialogue.StartDialogue(notOpeningText);
                 GameController.Instance.playerEventManager.FreezePlayer(false, false);
             }
