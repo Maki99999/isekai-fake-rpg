@@ -13,12 +13,16 @@ namespace Default
         public GameObject flesh;
         public GameObject food;
         public AudioSource sound;
+        public AudioSource soundFlesh;
         public AudioSource soundBrokenPlate;
 
         [Space(10)]
         public GameObject[] objectsToHide;
         public Animator plateFallAnim;
         public Transform fakeFood;
+
+        [Space(10)]
+        public MonsterGlitchEffectReceiver glitchEffectReceiver;
 
         bool pickedUp = false;
         bool fleshOn = false;
@@ -62,16 +66,20 @@ namespace Default
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Ew!" });
 
             GameController.Instance.metaPlayer.RemoveItem(this);
-            plateFallAnim.transform.position = GameController.Instance.metaPlayer.transform.position +
+            Vector3 plateFallPos = GameController.Instance.metaPlayer.transform.position +
                     GameController.Instance.metaPlayer.transform.forward * 0.5f;
+            plateFallPos.y = -1;
+            plateFallAnim.transform.position = plateFallPos;
             fakeFood.gameObject.SetActive(true);
             fakeFood.position = transform.position;
             fakeFood.rotation = transform.rotation;
             foreach (GameObject obj in objectsToHide)
                 obj.SetActive(false);
 
+            fakeFood.parent = plateFallAnim.transform;
             transform.parent = fakeFood;
             plateFallAnim.enabled = true;
+            plateFallAnim.Rebind();
             plateFallAnim.SetTrigger("Fall");
 
             yield return GameController.Instance.playerEventManager.LookAt(false, plateFallAnim.transform.position, 2f);
@@ -95,6 +103,22 @@ namespace Default
             flesh.SetActive(show);
             food.SetActive(!show);
             sound.Play();
+            if (show)
+                soundFlesh.Play();
+            else
+                soundFlesh.Stop();
+            StartCoroutine(ShortCameraEffect());
+        }
+
+        private IEnumerator ShortCameraEffect()
+        {
+            if (glitchEffectReceiver == null)
+                yield break;
+            glitchEffectReceiver.enabled = true;
+            glitchEffectReceiver.desiredPercent = 1;
+            yield return new WaitForSeconds(0.5f);
+            glitchEffectReceiver.desiredPercent = 0;
+            glitchEffectReceiver.enabled = false;
         }
 
         public SaveDataEntry Save()
