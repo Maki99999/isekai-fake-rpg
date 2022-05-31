@@ -25,8 +25,17 @@ namespace Default
         [Space(10)]
         public AudioSource audioSource;
 
+        [Space(10)]
+        public Animator lastFoodHorrorEvent;
+        public Transform ovenCamPos;
+        public Transform facePos;
+        public Transform origPosHelper;
+        public Animator eyesAnim;
+        public Animator fadeAnim;
+        public AudioSource fireAudio;
+
         private OvenState ovenState = OvenState.IDLE;
-        private int currentFood = 0;
+        private int currentFood = 2;//0
 
         private IEnumerator Start()
         {
@@ -192,14 +201,11 @@ namespace Default
             foodObjects[currentFood].foodOnTrayDone?.SetActive(true);
             ovenState = OvenState.FOOD_DONE;
 
-            if (false)  //Bypassing Softlock. TODO: see lower todo
-            {
-                yield return new WaitForSeconds(overallTime / 2f);
-                GameController.Instance.metaHouseController.LetTimeAdvance(false);
-                foodObjects[currentFood].foodOnTrayRaw?.SetActive(false);
-                foodObjects[currentFood].foodOnTrayBurned?.SetActive(true);
-                ovenState = OvenState.FOOD_BURNED;
-            }
+            yield return new WaitForSeconds(overallTime / 2f);
+            GameController.Instance.metaHouseController.LetTimeAdvance(false);
+            foodObjects[currentFood].foodOnTrayRaw?.SetActive(false);
+            foodObjects[currentFood].foodOnTrayBurned?.SetActive(true);
+            ovenState = OvenState.FOOD_BURNED;
         }
 
         IEnumerator TakeOutFood()
@@ -221,8 +227,17 @@ namespace Default
             {
                 if (currentFood == 0)
                     yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Burned..." });
-                else
+                else if (currentFood == 1)
                     yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Burned... The clocks stopped working." });
+                else
+                {
+                    yield return LastFoodHorrorEvent();
+                    ovenState = OvenState.DONE;
+                    fridgeTrigger.enabled = false;
+                    GameController.Instance.playerEventManager.FreezePlayer(false, false);
+                    gameObject.SetActive(false);
+                    yield break;
+                }
             }
 
             GameController.Instance.fadingAnimator.SetBool("Black", true);
@@ -257,10 +272,50 @@ namespace Default
             }
             else
             {
-                //TODO: maybe: jumpscare, then just load the game.
-                Debug.Log("Boo!");
                 GameController.Instance.playerEventManager.FreezePlayer(false, false);
             }
+        }
+
+        private IEnumerator LastFoodHorrorEvent()
+        {
+            lastFoodHorrorEvent.gameObject.SetActive(true);
+            yield return GameController.Instance.playerEventManager.LookAt(false, facePos.position, 0.8f);
+
+            yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Isn't that too much smoke?" });
+
+            lastFoodHorrorEvent.SetTrigger("Play");
+            yield return new WaitForSeconds(1.2f);
+
+            eyesAnim.SetFloat("Speed", 2.5f);
+            eyesAnim.SetTrigger("Close");
+            yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "It stings my eyes." });
+
+            origPosHelper.position = GameController.Instance.metaPlayer.transform.position;
+            origPosHelper.rotation = GameController.Instance.metaPlayer.transform.rotation;
+            GameController.Instance.playerEventManager.TeleportPlayer(false, ovenCamPos, true);
+            eyesAnim.SetFloat("Speed", 1 / 4f);
+            eyesAnim.SetTrigger("Open");
+            yield return new WaitForSeconds(6f);
+
+            fadeAnim.SetBool("Red", true);
+            fireAudio.Play();
+            yield return new WaitForSeconds(7f);
+
+            eyesAnim.SetFloat("Speed", 1f);
+            eyesAnim.SetTrigger("Close");
+            yield return new WaitForSeconds(1f);
+
+            lastFoodHorrorEvent.gameObject.SetActive(false);
+            GameController.Instance.playerEventManager.TeleportPlayer(false, origPosHelper, false);
+            foodObjects[currentFood].foodOnTrayDone?.SetActive(false);
+            foodObjects[currentFood].foodOnTrayBurned?.SetActive(false);
+            foodObjects[currentFood].foodOnTrayRaw?.SetActive(false);
+            foodObjects?[currentFood].foodWithPlate?.SetActive(true);
+            fadeAnim.SetBool("Red", false);
+            eyesAnim.SetFloat("Speed", 10f);
+            eyesAnim.SetTrigger("Open");
+            yield return new WaitForSeconds(0.2f);
+            yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Weird ... daydream?" });
         }
 
         public void SkipTask()
