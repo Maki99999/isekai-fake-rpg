@@ -18,7 +18,7 @@ namespace Default
         public Transform standUpTransform;
         public AudioMixer gameAudio;
 
-        public GameObject FakePause;
+        public GameObject fakePause;
 
         [Space(10)]
         public Transform lookAt;
@@ -72,11 +72,11 @@ namespace Default
                 outline.enabled = false;
             if (PauseManager.isPaused().Value || !GameController.Instance.inPcMode)
             {
-                if (!FakePause.activeSelf)
-                    FakePause.SetActive(true);
+                if (!fakePause.activeSelf)
+                    fakePause.SetActive(true);
             }
-            else if (FakePause.activeSelf)
-                FakePause.SetActive(false);
+            else if (fakePause.activeSelf)
+                fakePause.SetActive(false);
 
             if (!GameController.Instance.inPcMode)
             {

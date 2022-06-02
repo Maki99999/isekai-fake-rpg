@@ -38,6 +38,7 @@ namespace Default
         public Transform spiderDouble;
         public Animator doubleAnimator;
         public Transform ScreenPos;
+        public PcController pcController;
 
         private void Start()
         {
@@ -55,9 +56,7 @@ namespace Default
         private void Update()
         {
             if (isJumping)
-            {
                 return;
-            }
 
             float distance = Vector3.Distance(player.transform.position, transform.position);
             if (distance <= attackRange)
@@ -192,7 +191,7 @@ namespace Default
             doubleAnimator.SetTrigger("Attack");
             fxAudioSource.PlayOneShot(attackFx);
 
-            GameController.Instance.playerEventManager.FreezePlayer(true, true, true);//TODO: PlayerLockOn here...
+            GameController.Instance.playerEventManager.FreezePlayer(true, true, true);
             StartCoroutine(GameController.Instance.playerEventManager.LookAt(true, transform.position - 0.15f * Vector3.up, 1f));
             float startTime = Time.time;
             while (Time.time < startTime + 0.833f)
@@ -204,13 +203,13 @@ namespace Default
             }
             agent.enabled = false;
 
-            //TODO: ... PlayerFreeze here
             Vector3 oldPos = transform.position;
             float rate = 1f / 0.25f;
             float fSmooth;
             for (float f = 0f; f <= 1f; f += rate * Time.deltaTime)
             {
                 fSmooth = Mathf.Pow(f, 2);
+                pcController.ImmersedValue = 1 - fSmooth;
                 transform.localPosition = Vector3.Lerp(oldPos,
                     player.cam.transform.position - 0.12f * player.cam.transform.up - 0.05f * player.cam.transform.forward,
                     fSmooth);
@@ -228,9 +227,12 @@ namespace Default
                 yield return null;
             }
 
+            pcController.StartCoroutine(pcController.Immerse(false, 0.6f));
+            spiderDouble.gameObject.SetActive(false);
+            yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "...", "Felt like it jumped right through the screen." });
+
             GameController.Instance.playerEventManager.FreezePlayer(true, false);
             gameObject.SetActive(false);
-            spiderDouble.gameObject.SetActive(false);
         }
     }
 }
