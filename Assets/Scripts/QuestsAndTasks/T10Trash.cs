@@ -11,6 +11,7 @@ namespace Default
         public ItemHoldable trashItem;
         public GameObject entrance;
         public T4WashingMachine t4;
+        public AudioSource trashSfx;
 
         private bool locked;
 
@@ -55,6 +56,7 @@ namespace Default
             yield return new WaitForSeconds(1.5f);
 
             trashItem.gameObject.SetActive(true);
+            trashSfx.Play();
             GameController.Instance.metaPlayer.AddItem(trashItem, true);
             yield return new WaitForSeconds(2f);
 

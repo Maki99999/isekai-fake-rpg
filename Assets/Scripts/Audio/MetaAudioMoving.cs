@@ -17,6 +17,8 @@ namespace Default
 
         void Update()
         {
+            if (parent == null)
+                Destroy(gameObject);
             transform.SetParent(GameController.Instance.meta3dAudio);
             transform.localPosition = parent.position + offset;
         }
