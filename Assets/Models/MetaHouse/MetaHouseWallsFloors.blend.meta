@@ -12,18 +12,38 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Ceiling
+    second: {fileID: 2100000, guid: a1b39e505f67aab4e981e67d380e758a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Dark_Wood
     second: {fileID: 2100000, guid: f46265c17317a804d9e87314676c3b9b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Exterior_Wall
-    second: {fileID: 2100000, guid: a58e9c1f4f994ce4eabdd1085a00dcb3, type: 2}
+    second: {fileID: 2100000, guid: 8ea10f16b41b6104594c89492e6da491, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Floor
+    second: {fileID: 2100000, guid: 94922994076ddb14cab377e0e3c02fed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Walls
+    second: {fileID: 2100000, guid: 8e72a68c85f15d341a19e3331bed426e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: White
     second: {fileID: 2100000, guid: 8b5d267480988f44bbe2c22026a41171, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wood
+    second: {fileID: 2100000, guid: 9f6755f0f1da1e64cbbe16476a7e435c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
