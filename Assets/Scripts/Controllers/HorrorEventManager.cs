@@ -18,6 +18,7 @@ namespace Default
         public GameObject eventH14Microwave;
         public H16Puppet eventH16Puppet;
         public GameObject eventH21CaveGlitch;
+        public GameObject eventH23WrongEnv;
 
         public string saveDataId => "horrorEventManager";
         private string delayedEvent = "";
@@ -44,6 +45,8 @@ namespace Default
                 "H16" => EventH16(),
                 //H17-H20: completely random
                 "H21" => EventH21(),
+                //H22: in ending cutscene
+                "H23" => EventH23(),
 
                 //DebugEvents
                 "H908" => EventH908(),
@@ -156,6 +159,12 @@ namespace Default
         private bool EventH21()
         {
             eventH21CaveGlitch.SetActive(true);
+            return true;
+        }
+
+        private bool EventH23()
+        {
+            eventH23WrongEnv.SetActive(true);
             return true;
         }
 
