@@ -38,7 +38,7 @@ namespace Default
             StartCoroutine(H1CallAnim());
         }
 
-        public IEnumerator H1CallAnim()
+        private IEnumerator H1CallAnim()
         {
             State prevState = currentState;
             currentState = State.CALL;
@@ -58,7 +58,12 @@ namespace Default
                 GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
 
             yield return TransformOperations.MoveToLocal(phoneChild, Vector3.up * 0.3f, 1f);
-            yield return new WaitForSeconds(2f);
+
+            yield return new WaitForSeconds(1f);
+            if (nextCallClip == 2)
+                yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Another one?" });
+            yield return new WaitForSeconds(1f);
+
             StartCoroutine(TransformOperations.MoveToLocal(phoneChild, Vector3.left * 0.3f + Vector3.up * 0.3f, 1f));
 
             yield return new WaitForSeconds(0.1f);
@@ -69,10 +74,17 @@ namespace Default
             callAudio.clip = sfxCalls[nextCallClip];
             callAudio.loop = true;
             callAudio.Play();
-            nextCallClip = (nextCallClip + 1) % sfxCalls.Length;
 
-            yield return new WaitUntil(() => InputSettings.PressingConfirm());
-            yield return new WaitWhile(() => InputSettings.PressingConfirm());
+            if (nextCallClip == 0)
+            {
+                float endTime = Time.time + 10f;
+                yield return new WaitUntil(() => InputSettings.PressingConfirm() || Time.time > endTime);
+                yield return new WaitWhile(() => InputSettings.PressingConfirm() && Time.time < endTime);
+            }
+            else if (nextCallClip == 1)
+                yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Hello?", "...", "...", "Who's there?", "..." });
+            else if (nextCallClip == 2)
+                yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "...", "...", "..." });
 
             callAudio.clip = sfxDisconnected;
             callAudio.Play();
@@ -84,6 +96,9 @@ namespace Default
             yield return new WaitForSeconds(0.6f);
             yield return TransformOperations.MoveToLocal(phoneChild, Vector3.zero, 1f);
 
+            if (nextCallClip == 0)
+                yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Probably a bad connection or something like that." });
+
             if (GameController.Instance.inPcMode)
             {
                 GameController.Instance.playerEventManager.FreezePlayer(true, false);
@@ -93,6 +108,7 @@ namespace Default
             else
                 GameController.Instance.playerEventManager.FreezePlayer(false, false);
 
+            nextCallClip = (nextCallClip + 1) % sfxCalls.Length;
             currentState = prevState;
         }
 
