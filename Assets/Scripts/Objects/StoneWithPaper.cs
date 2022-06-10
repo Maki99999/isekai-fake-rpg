@@ -12,7 +12,11 @@ namespace Default
         public AudioSource audio2;
         public CanvasGroup canvasGroup;
 
+        public PhoneHolding phone;
+        public Transform window;
+
         bool looking = false;
+        bool firstLook = true;
 
         protected override void Start()
         {
@@ -61,7 +65,14 @@ namespace Default
                 yield return null;
             }
 
-            yield return new WaitUntil(() => InputSettings.PressingUse());
+            yield return new WaitForSeconds(2f);
+            if (firstLook)
+            {
+                yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Creepy...", "I think I'll call the police." });
+                yield return new WaitWhile(() => InputSettings.PressingConfirm());
+            }
+            yield return new WaitUntil(() => InputSettings.PressingConfirm());
+            yield return new WaitWhile(() => InputSettings.PressingConfirm());
 
             for (float f = 0f; f <= 1f; f += 2f * Time.deltaTime)
             {
@@ -73,9 +84,17 @@ namespace Default
             audio2.Play();
             StartCoroutine(PlayAudio2Delayed(0.5f));
             yield return TransformOperations.MoveTo(paperTransform, pos1, origRot, 1.5f);
-            GameController.Instance.playerEventManager.FreezePlayer(false, false);
             audio1.Play();
-            yield return TransformOperations.MoveTo(paperTransform, origPos, origRot, 0.5f);
+            StartCoroutine(TransformOperations.MoveTo(paperTransform, origPos, origRot, 0.5f));
+
+            if (firstLook)
+            {
+                StartCoroutine(GameController.Instance.playerEventManager.LookAt(false, window.position, 5f));
+                yield return phone.H3Call();
+            }
+
+            GameController.Instance.playerEventManager.FreezePlayer(false, false);
+            firstLook = false;
             looking = false;
         }
 

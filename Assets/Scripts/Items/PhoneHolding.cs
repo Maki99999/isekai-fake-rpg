@@ -24,11 +24,16 @@ namespace Default
         public AudioClip sfxDisconnected;
         public AudioClip sfxAcceptCall;
 
+        [Header("H3")]
+        public AudioClip sfxH3Call;
+        public GameObject phoneDialCanvasObj;
+
         private State currentState = State.UNEQUIPPED;
         private bool pressedLastFrame = false;
         private Coroutine showHideRoutine = null;
         private bool currentlyLookingAtInPcMode = false;
 
+        [HideInInspector]
         public bool playerHasPhone = true;
 
         public string saveDataId => "H1Call";
@@ -109,6 +114,59 @@ namespace Default
                 GameController.Instance.playerEventManager.FreezePlayer(false, false);
 
             nextCallClip = (nextCallClip + 1) % sfxCalls.Length;
+            currentState = prevState;
+        }
+
+        public IEnumerator H3Call()
+        {
+            State prevState = currentState;
+            currentState = State.CALL;
+
+            if (GameController.Instance.inPcMode)
+            {
+                GameController.Instance.playerEventManager.FreezePlayer(true, true, true);
+                pcController.ImmerseBreak(true);
+                Hide();
+            }
+            else
+                GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
+
+            yield return TransformOperations.MoveToLocal(phoneChild, Vector3.up * 0.3f, 1f);
+
+            phoneDialCanvasObj.SetActive(true);
+            callAudio.clip = sfxH3Call;
+            callAudio.loop = false;
+            callAudio.Play();
+
+            yield return new WaitForSeconds(2f);
+
+            StartCoroutine(TransformOperations.MoveToLocal(phoneChild, Vector3.left * 0.3f + Vector3.up * 0.3f, 1f));
+
+            yield return new WaitForSeconds(3f);
+            GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "H-" });
+
+            yield return new WaitForSeconds(14f);
+            callAudio.clip = sfxDisconnected;
+            callAudio.Play();
+            phoneDialCanvasObj.SetActive(false);
+
+            StartCoroutine(TransformOperations.MoveToLocal(phoneChild, Vector3.up * 0.3f, 1f));
+            yield return new WaitForSeconds(0.7f);
+            callAudio.Stop();
+            GameController.Instance.dialogue.StopDialogue();
+            yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Not good..." });
+            yield return new WaitForSeconds(0.6f);
+            yield return TransformOperations.MoveToLocal(phoneChild, Vector3.zero, 1f);
+
+            if (GameController.Instance.inPcMode)
+            {
+                GameController.Instance.playerEventManager.FreezePlayer(true, false);
+                pcController.ImmerseBreak(false);
+                CustomPos(pcController.phonePos);
+            }
+            else
+                GameController.Instance.playerEventManager.FreezePlayer(false, false);
+
             currentState = prevState;
         }
 

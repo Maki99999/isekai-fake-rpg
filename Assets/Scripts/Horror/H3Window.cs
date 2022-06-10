@@ -62,6 +62,15 @@ namespace Default
             brokenWindow.SetActive(true);
             audio1.PlayDelayed(0.25f);
             audio2.PlayDelayed(0.65f);
+            StartCoroutine(Dialogue());
+        }
+
+        private IEnumerator Dialogue()
+        {
+            yield return new WaitForSeconds(3f);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
+            yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "What the..." });
+            GameController.Instance.playerEventManager.FreezePlayer(false, false);
         }
 
         public void StartCleanUp()

@@ -46,6 +46,12 @@ namespace Default
             GameController.Instance.playerEventManager.FreezePlayers(false);
         }
 
+        public void StopDialogue()
+        {
+            anim.SetBool("Activated", false);
+            isInDialogue = false;
+        }
+
         public IEnumerator StartDialogue(List<string> texts, bool creepy = false)
         {
             if (!isInDialogue)
