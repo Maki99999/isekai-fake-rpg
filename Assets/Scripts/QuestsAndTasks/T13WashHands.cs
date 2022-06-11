@@ -7,6 +7,7 @@ namespace Default
     public class T13WashHands : MonoBehaviour, Useable, Task
     {
         public Outline outline;
+        private OutlineHelper outlineHelper;
         public GameObject noSoapDownstairsObject;
         public Sink sink;
 
@@ -14,18 +15,20 @@ namespace Default
 
         private void Start()
         {
+            outlineHelper = new OutlineHelper(this, outline);
+
             sink.enabled = false;
             noSoapDownstairsObject.SetActive(true);
         }
 
         void Update()
         {
-            outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         public void LookingAt()
         {
-            outline.enabled = true;
+            outlineHelper.ShowOutline();
         }
 
         public void Use()

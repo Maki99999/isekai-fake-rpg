@@ -7,15 +7,21 @@ namespace Default
     public class T13NoSoapHere : MonoBehaviour, Useable
     {
         public Outline outline;
+        private OutlineHelper outlineHelper;
+
+        private void Awake()
+        {
+            outlineHelper = new OutlineHelper(this, outline);
+        }
 
         void Update()
         {
-            outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         public void LookingAt()
         {
-            outline.enabled = true;
+            outlineHelper.ShowOutline();
         }
 
         public void Use()

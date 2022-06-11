@@ -7,6 +7,7 @@ namespace Default
     public class WashingDryerMachine : MonoBehaviour, Useable
     {
         public Outline outline;
+        private OutlineHelper outlineHelper;
         public Animator animator;
         public GameObject inside;
         public GameObject basket;
@@ -23,14 +24,19 @@ namespace Default
         private bool finished = false;
         private bool beeping = false;
 
+        private void Awake()
+        {
+            outlineHelper = new OutlineHelper(this, outline);
+        }
+
         void Update()
         {
-            outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         public void LookingAt()
         {
-            outline.enabled = true;
+            outlineHelper.ShowOutline();
         }
 
         public void Use()

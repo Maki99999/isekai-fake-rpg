@@ -510,7 +510,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -9183343155678760200, guid: b9b0e6e8c9b53ad44956f4a4b237be46, type: 3}
   m_PrefabInstance: {fileID: 4673432405761283366}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &1481322922911767846
+--- !u!65 &1330297865138121441
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

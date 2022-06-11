@@ -7,17 +7,23 @@ namespace Default
     public class EntranceDoor : MonoBehaviour, Useable
     {
         public Outline outline;
+        private OutlineHelper outlineHelper;
         public T10Trash t10;
         public AudioSource trashSfx;
 
+        private void Awake()
+        {
+            outlineHelper = new OutlineHelper(this, outline);
+        }
+
         void Update()
         {
-            outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         public void LookingAt()
         {
-            outline.enabled = true;
+            outlineHelper.ShowOutline();
         }
 
         public void Use()

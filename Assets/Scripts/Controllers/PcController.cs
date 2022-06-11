@@ -7,7 +7,8 @@ namespace Default
 {
     public class PcController : MonoBehaviour, Useable, UsesPower
     {
-        public List<Outline> outlines;
+        public Outline[] outlines;
+        private OutlineHelper outlineHelper;
 
         [Space(10), SerializeField, Range(0.0f, 1.0f)]
         private float _immersedValue;
@@ -57,19 +58,20 @@ namespace Default
 
         void Useable.LookingAt()
         {
-            foreach (Outline outline in outlines)
-                outline.enabled = true;
+            outlineHelper.ShowOutline();
         }
 
         private void Start()
         {
             immersedValueRegular = GameController.Instance.inPcMode ? 1 : 0;
+
+            outlineHelper = new OutlineHelper(this, outlines);
         }
 
         private void Update()
         {
-            foreach (Outline outline in outlines)
-                outline.enabled = false;
+            outlineHelper.UpdateOutline();
+
             if (PauseManager.isPaused().Value || !GameController.Instance.inPcMode)
             {
                 if (!fakePause.activeSelf)

@@ -7,6 +7,7 @@ namespace Default
     public class T2Oven : MonoBehaviour, Useable, Task
     {
         public Outline outline;
+        private OutlineHelper outlineHelper;
         public Animator ovenAnim;
         public PcController pcController;
 
@@ -39,6 +40,8 @@ namespace Default
 
         private IEnumerator Start()
         {
+            outlineHelper = new OutlineHelper(this, outline);
+
             GameController.Instance.playerEventManager.FreezePlayers(true, true);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "I'm hungry." });
             if (GameController.Instance.inPcMode)
@@ -49,12 +52,12 @@ namespace Default
 
         void Update()
         {
-            outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         public void LookingAt()
         {
-            outline.enabled = true;
+            outlineHelper.ShowOutline();
         }
 
         public void Use()

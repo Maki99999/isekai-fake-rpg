@@ -9,6 +9,8 @@ namespace Default
         public Animator monsterBasementAnim;
         public Animator monsterAnim;
 
+        public AudioSource knifeAbsorpSfx;
+
         public OpenableDoor door;
         public Collider doorCollider;
 
@@ -28,9 +30,10 @@ namespace Default
             yield return new WaitForSeconds(1.2f);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "What the..." });
             monsterBasementAnim.SetTrigger("Go");
+            yield return GameController.Instance.playerEventManager.LookAt(false, door.transform.position, 1f);
             GameController.Instance.playerEventManager.FreezePlayer(false, false);
 
-            yield return new WaitForSeconds(26f);
+            yield return new WaitForSeconds(20f);
             door.Open();
             door.lockedMode = OpenableDoor.State.UNLOCKED;
             doorCollider.enabled = false;
@@ -40,6 +43,12 @@ namespace Default
             doorCollider.enabled = true;
             GameController.Instance.horrorEventManager.StartEvent("H916");
             GameController.Instance.storyManager.TaskFinished();
+            monsterAnim.SetBool("Show", false);
+
+            yield return new WaitForSeconds(1.75f);
+            GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
+            yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "What was that?!" });
+            GameController.Instance.playerEventManager.FreezePlayer(false, false);
             gameObject.SetActive(false);
         }
 
@@ -52,7 +61,7 @@ namespace Default
             knife.transform.parent = monsterAnim.transform;
             MoveToLayer(knife.transform, LayerMask.NameToLayer("MetaLayer"));
             StartCoroutine(TransformOperations.MoveToLocal(knife.transform, Vector3.up, 3f));
-            //SFX?
+            knifeAbsorpSfx.Play();
         }
 
         void MoveToLayer(Transform root, int layer)

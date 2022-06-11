@@ -7,11 +7,14 @@ namespace Default
     public class SimplePickup : ItemHoldable, Useable
     {
         public Outline outline;
+        private OutlineHelper outlineHelper;
         [SerializeField] private bool inGame;
         private PlayerController player;
 
         private void Start()
         {
+            outlineHelper = new OutlineHelper(this, outline);
+
             if (inGame)
                 player = GameController.Instance.gamePlayer;
             else
@@ -20,14 +23,12 @@ namespace Default
 
         private void Update()
         {
-            if (enabled)
-                outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         public void LookingAt()
         {
-            if (enabled)
-                outline.enabled = true;
+            outlineHelper.ShowOutline();
         }
 
         public void Use()

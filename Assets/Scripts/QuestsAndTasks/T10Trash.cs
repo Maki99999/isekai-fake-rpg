@@ -7,6 +7,7 @@ namespace Default
     public class T10Trash : MonoBehaviour, Useable
     {
         public Outline[] outlines;
+        private OutlineHelper outlineHelper;
         public Collider useableCollider;
         public ItemHoldable trashItem;
         public GameObject entrance;
@@ -17,6 +18,8 @@ namespace Default
 
         private IEnumerator Start()
         {
+            outlineHelper = new OutlineHelper(this, outlines);
+
             GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "I still have trash in the kitchen to bring outside." });
             GameController.Instance.playerEventManager.FreezePlayer(false, false);
@@ -27,16 +30,13 @@ namespace Default
 
         void Update()
         {
-            if (!locked)
-                foreach (Outline outline in outlines)
-                    outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         public void LookingAt()
         {
             if (!locked)
-                foreach (Outline outline in outlines)
-                    outline.enabled = true;
+                outlineHelper.ShowOutline();
         }
 
         public void Use()
@@ -48,8 +48,7 @@ namespace Default
         IEnumerator Pickup()
         {
             locked = true;
-            foreach (Outline outline in outlines)
-                outline.enabled = false;
+            outlineHelper.DestroyOutlines();
 
             GameController.Instance.playerEventManager.FreezePlayers(true, true);
             GameController.Instance.fadingAnimator.SetBool("Black", true);

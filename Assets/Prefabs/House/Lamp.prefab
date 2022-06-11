@@ -536,6 +536,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOnAtStart: 0
+  materials:
+  - renderer: {fileID: 6759725888671228768}
+    materialSlot: 1
+    offMaterial: {fileID: 2100000, guid: a1b39e505f67aab4e981e67d380e758a, type: 2}
+    onMaterial: {fileID: 2100000, guid: 7434d5a8ed6b5c344abf953be3cf41b2, type: 2}
   eyes: {fileID: 0}
   randomOffSound: {fileID: 3036017091332045080}
 --- !u!1001 &5460410945546479629
@@ -606,5 +611,10 @@ PrefabInstance:
 --- !u!4 &5498331844729278438 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 58e5f9ce859cd4542b1357e99cd63b6a, type: 3}
+  m_PrefabInstance: {fileID: 5460410945546479629}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6759725888671228768 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7635826562936255635, guid: 58e5f9ce859cd4542b1357e99cd63b6a, type: 3}
   m_PrefabInstance: {fileID: 5460410945546479629}
   m_PrefabAsset: {fileID: 0}

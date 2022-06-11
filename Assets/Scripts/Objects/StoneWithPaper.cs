@@ -25,8 +25,7 @@ namespace Default
 
         void Update()
         {
-            foreach (Outline outline in outlines)
-                outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         void Use()
@@ -106,8 +105,7 @@ namespace Default
 
         void LookingAt()
         {
-            foreach (Outline outline in outlines)
-                outline.enabled = true;
+            outlineHelper.ShowOutline();
         }
     }
 }

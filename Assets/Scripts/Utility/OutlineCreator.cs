@@ -2,23 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class OutlineCreator : MonoBehaviour
+namespace Default
 {
-    public GameObject outlinesGameObjectParent = null;
-    protected List<Outline> outlines;
-
-    protected virtual void Start()
+    public abstract class OutlineCreator : MonoBehaviour
     {
-        if (outlinesGameObjectParent == null)
-            outlinesGameObjectParent = gameObject;
+        public GameObject outlinesGameObjectParent = null;
+        private List<Outline> outlines;
 
-        outlines = new List<Outline>();
-        MeshRenderer[] renderers = outlinesGameObjectParent.GetComponentsInChildren<MeshRenderer>();
-        foreach (MeshRenderer renderer in renderers)
+        protected OutlineHelper outlineHelper;
+
+        protected virtual void Start()
         {
-            Outline newOutline = renderer.gameObject.AddComponent<Outline>();
-            newOutline.enabled = false;
-            outlines.Add(newOutline);
+            if (outlinesGameObjectParent == null)
+                outlinesGameObjectParent = gameObject;
+
+            outlines = new List<Outline>();
+            MeshRenderer[] renderers = outlinesGameObjectParent.GetComponentsInChildren<MeshRenderer>();
+            foreach (MeshRenderer renderer in renderers)
+            {
+                Outline newOutline = renderer.gameObject.AddComponent<Outline>();
+                newOutline.enabled = false;
+                outlines.Add(newOutline);
+            }
+
+            outlineHelper = new OutlineHelper(this, outlines.ToArray());
         }
     }
 }

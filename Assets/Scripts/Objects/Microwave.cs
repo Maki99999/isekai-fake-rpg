@@ -7,6 +7,7 @@ namespace Default
     public class Microwave : MonoBehaviour, Useable
     {
         public Outline outline;
+        private OutlineHelper outlineHelper;
         public Animator anim;
         new public Light light;
 
@@ -25,9 +26,14 @@ namespace Default
         bool turnedOn;
         bool locked = true;
 
+        private void Awake()
+        {
+            outlineHelper = new OutlineHelper(this, outline);
+        }
+
         void Update()
         {
-            outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         public void Use()
@@ -105,8 +111,7 @@ namespace Default
 
         public void LookingAt()
         {
-            if (enabled && !locked)
-                outline.enabled = true;
+            outlineHelper.ShowOutline();
         }
 
         public void TurnOn()

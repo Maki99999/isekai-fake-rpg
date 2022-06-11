@@ -7,6 +7,7 @@ namespace Default
     public class H10FoodFlesh : ItemHoldable, Useable, ISaveDataObject
     {
         public Outline outline;
+        private OutlineHelper outlineHelper;
         new public Collider collider;
 
         [Space(10)]
@@ -29,15 +30,20 @@ namespace Default
 
         public string saveDataId => "H10" + gameObject.name;
 
+        private void Awake()
+        {
+            outlineHelper = new OutlineHelper(this, outline);
+        }
+
         void Update()
         {
-            outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         public void LookingAt()
         {
             if (!pickedUp)
-                outline.enabled = true;
+                outlineHelper.ShowOutline();
         }
 
         public void Use()
@@ -83,7 +89,11 @@ namespace Default
             plateFallAnim.SetTrigger("Fall");
 
             yield return GameController.Instance.playerEventManager.LookAt(false, plateFallAnim.transform.position, 2f);
-            yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "What the hell is that?", "...", "My appetite is gone now..." });
+            yield return GameController.Instance.dialogue.StartDialogue(new List<string>() {
+                    "What the hell is that?",
+                    "...",
+                    "I think I got something on my hands. Smells rotten.",
+                    "My appetite is definitely gone now..."});
 
             GameController.Instance.storyManager.TaskFinished();
             GameController.Instance.storyManager.StartTask("T13");

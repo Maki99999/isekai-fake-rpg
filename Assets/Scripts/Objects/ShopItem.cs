@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Default
 {
-    public class ShopItem : MonoBehaviour, Useable, ISaveDataObject
+    public class ShopItem : OutlineCreator, Useable, ISaveDataObject
     {
         public Text priceText;
         public bool isItem;     //Maybe replace this with an enum
@@ -14,21 +14,11 @@ namespace Default
 
         int currentItem = 0;
 
-        List<Outline> outlines;
-
         public string saveDataId => "ShopItem" + gameObject.name;
 
-        void Start()
+        protected override void Start()
         {
-            outlines = new List<Outline>();
-
-            MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>();
-            foreach (MeshRenderer renderer in renderers)
-            {
-                Outline newOutline = renderer.gameObject.AddComponent<Outline>();
-                newOutline.enabled = false;
-                outlines.Add(newOutline);
-            }
+            base.Start();
 
             foreach (BuyableItem item in items)
                 item.theObject.SetActive(false);
@@ -39,8 +29,7 @@ namespace Default
 
         void Update()
         {
-            foreach (Outline outline in outlines)
-                outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         void Useable.Use()
@@ -78,8 +67,7 @@ namespace Default
                 outlinesToDelete.AddRange(items[currentItem].theObject.GetComponentsInChildren<Outline>());
                 foreach (Outline outline in outlinesToDelete)
                 {
-                    outlines.Remove(outline);
-                    Destroy(outline);
+                    outlineHelper.DestroyOutline(outline);
                 }
 
                 currentItem++;
@@ -95,8 +83,7 @@ namespace Default
 
         void Useable.LookingAt()
         {
-            foreach (Outline outline in outlines)
-                outline.enabled = true;
+            outlineHelper.ShowOutline();
         }
 
         public SaveDataEntry Save()

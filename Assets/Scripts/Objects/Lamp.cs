@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Default
 {
@@ -8,6 +9,7 @@ namespace Default
     {
         private Light[] lights;
         public bool isOnAtStart = false;
+        [SerializeField] private LightMaterial[] materials;
 
         [Space(10)]
         public GameObject eyes;
@@ -26,11 +28,16 @@ namespace Default
             Lamp[] lamps = GetComponentsInChildren<Lamp>(false);
             foreach (Lamp lamp in lamps)
                 if (lamp != this)
+                {
                     lamp.enabled = false;
+                    materials = materials.Concat(lamp.materials).ToArray();
+                }
 
             lights = GetComponentsInChildren<Light>(false);
             foreach (Light light in lights)
                 light.enabled = on;
+
+            SetMaterials(on);
         }
 
         void Start()
@@ -43,14 +50,20 @@ namespace Default
         {
             this.powerOn = powerOn;
             if (powerOn)
+            {
                 foreach (Light light in lights)
                     light.enabled = on;
+
+                SetMaterials(on);
+            }
             else
             {
                 foreach (Light light in lights)
                     light.enabled = false;
                 if (eyes != null)
                     eyes.SetActive(false);
+
+                SetMaterials(false);
             }
         }
 
@@ -59,8 +72,12 @@ namespace Default
             on = true;
 
             if (powerOn)
+            {
                 foreach (Light light in lights)
                     light.enabled = on;
+
+                SetMaterials(on);
+            }
 
             if (eyes != null)
                 eyes.SetActive(false);
@@ -74,8 +91,12 @@ namespace Default
             on = false;
 
             if (powerOn)
+            {
                 foreach (Light light in lights)
                     light.enabled = on;
+
+                SetMaterials(on);
+            }
 
             if (eyes != null && Random.value < randomChance)
                 eyes.SetActive(true);
@@ -100,6 +121,16 @@ namespace Default
             }
         }
 
+        private void SetMaterials(bool onMat)
+        {
+            foreach (LightMaterial material in materials)
+            {
+                Material[] sharedMaterialsCopy = material.renderer.sharedMaterials;
+                sharedMaterialsCopy[material.materialSlot] = onMat ? material.onMaterial : material.offMaterial;
+                material.renderer.sharedMaterials = sharedMaterialsCopy;
+            }
+        }
+
         public SaveDataEntry Save()
         {
             SaveDataEntry entry = new SaveDataEntry();
@@ -115,6 +146,15 @@ namespace Default
             if (powerOn)
                 foreach (Light light in lights)
                     light.enabled = on;
+        }
+
+        [System.Serializable]
+        private class LightMaterial
+        {
+            public MeshRenderer renderer;
+            public int materialSlot;
+            public Material offMaterial;
+            public Material onMaterial;
         }
     }
 }

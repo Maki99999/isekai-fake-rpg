@@ -7,17 +7,23 @@ namespace Default
     public class Sink : MonoBehaviour, Useable
     {
         public Outline outline;
+        private OutlineHelper outlineHelper;
         new public AudioSource audio;
         private bool inUse = false;
 
+        private void Awake()
+        {
+            outlineHelper = new OutlineHelper(this, outline);
+        }
+
         void Update()
         {
-            outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         public void LookingAt()
         {
-            outline.enabled = true;
+            outlineHelper.ShowOutline();
         }
 
         public void Use()

@@ -11,23 +11,27 @@ namespace Default
         [SerializeField] private Outline[] outlines;
         [SerializeField] private bool disableAfterTriggering;
 
+        private OutlineHelper outlineHelper;
+
+        private void Awake()
+        {
+            outlineHelper = new OutlineHelper(this, outlines);
+        }
+
         private void Update()
         {
-            foreach (Outline outline in outlines)
-                outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         private void OnDisable()
         {
-            foreach (Outline outline in outlines)
-                outline.enabled = false;
+            outlineHelper.DisableOutlineDirectly();
         }
 
         public void LookingAt()
         {
             if (enabled)
-                foreach (Outline outline in outlines)
-                    outline.enabled = true;
+                outlineHelper.ShowOutline();
         }
 
         public void Use()

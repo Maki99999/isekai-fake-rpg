@@ -7,6 +7,7 @@ namespace Default
     public class T11Dishes : MonoBehaviour, Useable
     {
         public Outline outline;
+        private OutlineHelper outlineHelper;
         public GameObject dishes;
         public AudioSource waterSfx;
         public T4WashingMachine t4;
@@ -15,18 +16,20 @@ namespace Default
 
         private void Start()
         {
+            outlineHelper = new OutlineHelper(this, outline);
+
             GameController.Instance.dialogue.StartDialogueWithFreeze(new List<string>() { "The dishes are next." });
             GameController.Instance.horrorEventManager.StartEvent("H11");
         }
 
         void Update()
         {
-            outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         public void LookingAt()
         {
-            outline.enabled = true;
+            outlineHelper.ShowOutline();
         }
 
         public void Use()

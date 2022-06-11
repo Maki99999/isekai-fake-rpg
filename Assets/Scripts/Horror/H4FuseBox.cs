@@ -43,8 +43,7 @@ namespace Default
 
         void Update()
         {
-            foreach (Outline outline in outlines)
-                outline.enabled = false;
+            outlineHelper.UpdateOutline();
         }
 
         void Useable.Use()
@@ -111,8 +110,7 @@ namespace Default
 
         void Useable.LookingAt()
         {
-            foreach (Outline outline in outlines)
-                outline.enabled = true;
+            outlineHelper.ShowOutline();
         }
     }
 }
