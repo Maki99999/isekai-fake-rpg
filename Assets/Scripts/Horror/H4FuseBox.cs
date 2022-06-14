@@ -9,6 +9,8 @@ namespace Default
         public Animator animator;
         public Lamp basementLamp;
 
+        public AudioSource anixterySfx;
+
         public AudioSource audioPower;
         public AudioClip fxPowerOn;
         public AudioClip fxPowerOff;
@@ -39,6 +41,7 @@ namespace Default
             GameController.Instance.metaPlayer.AddItem(phone, true);
             phone.ActivateFlashlight();
             GameController.Instance.controlsHelper.ShowControl(ControlsHelper.Control.TOGGLE_LIGHT);
+            anixterySfx.Play();
         }
 
         void Update()
@@ -104,6 +107,7 @@ namespace Default
             open = false;
             powerOff = false;
             inAnimation = false;
+            anixterySfx.Stop();
             GameController.Instance.playerEventManager.FreezePlayer(false, false);
             GameController.Instance.horrorEventManager.StartEvent("H14");
         }

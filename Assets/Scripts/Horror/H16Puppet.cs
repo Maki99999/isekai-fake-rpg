@@ -22,9 +22,14 @@ namespace Default
             transform.LookAt(new Vector3(playerPos.x, transform.position.y, playerPos.z));
         }
 
-        public void OnEnable()
+        private void OnEnable()
         {
             StartCoroutine(BreakRandomly());
+        }
+
+        private void OnDisable()
+        {
+            StopAllCoroutines();
         }
 
         IEnumerator BreakRandomly()

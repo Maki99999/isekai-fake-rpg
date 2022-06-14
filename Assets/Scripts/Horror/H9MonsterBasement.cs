@@ -10,9 +10,12 @@ namespace Default
         public Animator monsterAnim;
 
         public AudioSource knifeAbsorpSfx;
+        public AudioSource t14BassSfx;
+        public AudioSource noiseIncreasingVolumeSfx;
 
         public OpenableDoor door;
         public Collider doorCollider;
+        public Collider doorUseableCollider;
 
         public void SpawnMonster()
         {
@@ -29,27 +32,47 @@ namespace Default
             monsterAnim.SetBool("Show", true);
             yield return new WaitForSeconds(1.2f);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "What the..." });
+
             monsterBasementAnim.SetTrigger("Go");
+            StartCoroutine(NoiseIncreaseVolume(20f));
             yield return GameController.Instance.playerEventManager.LookAt(false, door.transform.position, 1f);
             GameController.Instance.playerEventManager.FreezePlayer(false, false);
 
-            yield return new WaitForSeconds(20f);
-            door.Open();
+            yield return new WaitForSeconds(19f);
             door.lockedMode = OpenableDoor.State.UNLOCKED;
             doorCollider.enabled = false;
-            monsterAnim.gameObject.SetActive(false);
-
-            yield return new WaitForSeconds(2f);
-            doorCollider.enabled = true;
+            doorUseableCollider.enabled = false;
+            door.Open();
             GameController.Instance.horrorEventManager.StartEvent("H916");
-            GameController.Instance.storyManager.TaskFinished();
-            monsterAnim.SetBool("Show", false);
+            monsterAnim.gameObject.SetActive(false);
+            t14BassSfx.Stop();
+            noiseIncreasingVolumeSfx.Stop();
 
-            yield return new WaitForSeconds(1.75f);
+            yield return new WaitForSeconds(1.7f);
+            GameController.Instance.storyManager.TaskFinished();
             GameController.Instance.playerEventManager.FreezePlayer(false, true, true);
             yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "What was that?!" });
             GameController.Instance.playerEventManager.FreezePlayer(false, false);
+            doorCollider.enabled = true;
+            doorUseableCollider.enabled = true;
             gameObject.SetActive(false);
+        }
+
+        public IEnumerator NoiseIncreaseVolume(float seconds)
+        {
+            noiseIncreasingVolumeSfx.volume = 0;
+            noiseIncreasingVolumeSfx.Play();
+
+            float fromVol = 0;
+            float toVol = 1f;
+            float rate = 1f / seconds;
+            float fSmooth;
+            for (float f = 0f; f <= 1f; f += rate * Time.deltaTime)
+            {
+                fSmooth = Mathf.SmoothStep(0f, 1f, f);
+                noiseIncreasingVolumeSfx.volume = Mathf.Lerp(fromVol, toVol, fSmooth);
+                yield return null;
+            }
         }
 
         public void StealKnife()

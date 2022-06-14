@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Default
 {
-    public class T2Oven : MonoBehaviour, Useable, Task
+    public class T2Oven : MonoBehaviour, Useable, Task, ISaveDataObject
     {
         public Outline outline;
         private OutlineHelper outlineHelper;
@@ -36,7 +36,9 @@ namespace Default
         public AudioSource fireAudio;
 
         private OvenState ovenState = OvenState.IDLE;
-        private int currentFood = 2;//0
+        private int currentFood = 0;
+
+        public string saveDataId => "T2Oven";
 
         private IEnumerator Start()
         {
@@ -95,10 +97,7 @@ namespace Default
             foodObjects[currentFood].foodOnTrayRaw?.SetActive(true);
             fridgeTrigger.enabled = false;
             if (ovenState == OvenState.IDLE)
-            {
-                ovenState = OvenState.TRAY;
                 tray.SetActive(true);
-            }
 
             GameController.Instance.fadingAnimator.SetBool("Black", false);
             yield return new WaitForSeconds(2f);
@@ -229,7 +228,10 @@ namespace Default
             if (ovenState == OvenState.FOOD_BURNED)
             {
                 if (currentFood == 0)
+                {
                     yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Burned..." });
+                    GameController.Instance.horrorEventManager.StartEvent("H24");
+                }
                 else if (currentFood == 1)
                     yield return GameController.Instance.dialogue.StartDialogue(new List<string>() { "Burned... The clocks stopped working." });
                 else
@@ -328,6 +330,53 @@ namespace Default
             GameController.Instance.metaHouseController.StopWallClocks();
             phone.ActivateClockApp();
             gameObject.SetActive(false);
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry dictEntry = new SaveDataEntry();
+
+            dictEntry.Add("isActive", gameObject.activeSelf);
+            dictEntry.Add("currentFood", currentFood);
+            dictEntry.Add("ovenState", (int)ovenState);
+
+            return dictEntry;
+        }
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry == null || dictEntry.GetBool("isActive", true))
+                return;
+
+            currentFood = dictEntry.GetInt("currentFood", currentFood);
+            ovenState = (OvenState)dictEntry.GetInt("ovenState", (int)ovenState);
+
+            if (ovenState == OvenState.TRAY || ovenState == OvenState.FOOD_NOT_DONE || ovenState == OvenState.FOOD_DONE)
+            {
+                //state from before gettig food out
+                fridgeTrigger.enabled = true;
+                if (currentFood == 0)
+                {
+                    ovenState = OvenState.IDLE;
+                }
+                else
+                {
+                    ovenState = OvenState.TRAY;
+                    tray.SetActive(true);
+                }
+            }
+            else if (ovenState == OvenState.FOOD_BURNED)
+            {
+                //food burned
+                tray.SetActive(true);
+                foodObjects[currentFood].foodOnTrayBurned?.SetActive(true);
+                ovenAnim.SetBool("PutIn", true);
+            }
+            else if (ovenState == OvenState.DONE)
+            {
+                //done
+                SkipTask();
+            }
         }
 
         private enum OvenState

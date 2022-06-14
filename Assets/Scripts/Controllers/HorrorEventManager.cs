@@ -19,6 +19,7 @@ namespace Default
         public H16Puppet eventH16Puppet;
         public GameObject eventH21CaveGlitch;
         public GameObject eventH23WrongEnv;
+        public GameObject eventH24Stalkers;
 
         public string saveDataId => "horrorEventManager";
         private string delayedEvent = "";
@@ -47,9 +48,11 @@ namespace Default
                 "H21" => EventH21(),
                 //H22: in ending cutscene
                 "H23" => EventH23(),
+                "H24" => EventH24(),
 
-                //DebugEvents
+                //Reset events
                 "H908" => EventH908(),
+                "H916" => EventH916(),
                 "H919" => EventH919(),
                 _ => false
             };
@@ -168,7 +171,13 @@ namespace Default
             return true;
         }
 
-        //Stop / Restart Events
+        private bool EventH24()
+        {
+            eventH24Stalkers.SetActive(true);
+            return true;
+        }
+
+        //Reset Events
 
         private bool EventH908()
         {

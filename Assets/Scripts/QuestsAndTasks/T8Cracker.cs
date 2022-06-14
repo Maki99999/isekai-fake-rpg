@@ -4,12 +4,14 @@ using UnityEngine;
 
 namespace Default
 {
-    public class T8Cracker : MonoBehaviour, Task
+    public class T8Cracker : MonoBehaviour, Task, ISaveDataObject
     {
         public PcController pcController;
 
         public Collider colaCollider;
         public Collider crackerCollider;
+
+        public string saveDataId => "T8Cracker";
 
         private IEnumerator Start()
         {
@@ -45,10 +47,29 @@ namespace Default
 
         public void SkipTask()
         {
-            GameController.Instance.metaPlayer.AddItem(colaCollider.GetComponent<ItemHoldable>(), false, false);
             GameController.Instance.metaPlayer.AddItem(crackerCollider.GetComponent<ItemHoldable>(), false, false);
-            colaCollider.gameObject.SetActive(false);
             crackerCollider.gameObject.SetActive(false);
+        }
+
+        public SaveDataEntry Save()
+        {
+            SaveDataEntry dictEntry = new SaveDataEntry();
+
+            dictEntry.Add("ColaCollected", GameController.Instance.metaPlayer.HasItem("Cola"));
+
+            return dictEntry;
+        }
+
+        public void Load(SaveDataEntry dictEntry)
+        {
+            if (dictEntry == null)
+                return;
+
+            if (dictEntry.GetBool("ColaCollected", false))
+            {
+                GameController.Instance.metaPlayer.AddItem(colaCollider.GetComponent<ItemHoldable>(), false, false);
+                colaCollider.gameObject.SetActive(false);
+            }
         }
     }
 }
