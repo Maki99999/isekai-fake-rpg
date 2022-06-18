@@ -76,7 +76,7 @@ namespace Default
 
         public bool isTaskBlockingPc()
         {
-            if (currentTaskId == "")
+            if (!tasks.ContainsKey(currentTaskId))
                 return false;
             return tasks[currentTaskId].BlockingPcMode();
         }
@@ -118,7 +118,7 @@ namespace Default
                     GameController.Instance.horrorEventManager.StartEventDelayed("H4");
                     break;
                 case "T12":
-                    StartCoroutine(StartNextTaskDelayed("T14", "Q4"));
+                    StartCoroutine(StartNextTaskDelayed("T14", "Q9"));
                     break;
                 case "T14":
                     StartCoroutine(StartNextTaskDelayed("Ending"));

@@ -96,6 +96,7 @@ namespace Default
             GameController.Instance.metaHouseController.SetPower(true);
             phone.playerHasPhone = false;
             phone.DeactivateFlashlight();
+            GameController.Instance.controlsHelper.HideControl(ControlsHelper.Control.TOGGLE_LIGHT);
             GameController.Instance.metaPlayer.RemoveItem(phone);
 
             yield return new WaitForSeconds(0.6f);

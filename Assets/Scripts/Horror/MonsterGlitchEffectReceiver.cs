@@ -40,6 +40,11 @@ namespace Default
             m_Material = rendererFeature.settings.blitMaterial;
         }
 
+        private void OnDisable()
+        {
+            Update();
+        }
+
         private void Update()
         {
             ColorAdjustments colorAdjustments;

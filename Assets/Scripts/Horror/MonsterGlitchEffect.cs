@@ -7,11 +7,25 @@ namespace Default
     public class MonsterGlitchEffect : MonoBehaviour
     {
         private const float maxRangeSqrt = 36f;
-        private MonsterGlitchEffectReceiver[] receivers;
+        private MonsterGlitchEffectReceiver[] receivers = new MonsterGlitchEffectReceiver[0];
 
         void Start()
         {
             receivers = FindObjectsOfType<MonsterGlitchEffectReceiver>();
+            foreach (MonsterGlitchEffectReceiver receiver in receivers)
+                receiver.enabled = true;
+        }
+
+        private void OnEnable()
+        {
+            foreach (MonsterGlitchEffectReceiver receiver in receivers)
+                receiver.enabled = true;
+        }
+
+        private void OnDisable()
+        {
+            foreach (MonsterGlitchEffectReceiver receiver in receivers)
+                receiver.enabled = false;
         }
 
         void LateUpdate()

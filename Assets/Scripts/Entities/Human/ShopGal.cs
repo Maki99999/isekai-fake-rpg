@@ -11,8 +11,8 @@ namespace Default
 
         private void OnTriggerEnter(Collider other)
         {
-            if (enabled && other.CompareTag("Player") && (GameController.Instance.questManager.IsQuestDone("Q3")
-                    || GameController.Instance.questManager.IsQuestActiveAndAccepted("Q3")))
+            if (enabled && other.CompareTag("Player") &&
+                    GameController.Instance.questManager.IsQuestActiveAndAccepted("Q3"))
             {
                 shopItems.SetActive(true);
                 GameController.Instance.dialogueBubble.followPosition = uiFollowPos;

@@ -36,11 +36,6 @@ namespace Default
                 MoveBubble();
         }
 
-        public void SetText(string value)
-        {
-            text.text = value;
-        }
-
         public IEnumerator WriteText(string textToWrite, float secondsPerCharacter = 0.05f, float secondsAfterText = 5f)
         {
             SetHidden(false);

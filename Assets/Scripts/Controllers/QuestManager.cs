@@ -57,8 +57,8 @@ namespace Default
             if (questStartEventsDict.ContainsKey(currentQuestId))
                 questStartEventsDict[currentQuestId].Invoke();
 
-            completedAnim.SetTrigger("NewQuest");
             completedAnim.SetBool("Completed", false);
+            completedAnim.SetTrigger("NewQuest");
             (string, string) questTexts = questDescriptions[currentQuestId];
             titleText.text = questTexts.Item1;
             descriptionText.text = questTexts.Item2;

@@ -68,13 +68,13 @@ namespace Default
             delayedEvent = nextHorrorEventId;
             yield return new WaitUntil(() => GameController.Instance.inPcMode);
             yield return new WaitForSeconds(27f);
+            yield return new WaitUntil(() => GameController.Instance.inPcMode);
             GameController.Instance.horrorEventManager.StartEvent(nextHorrorEventId);
             delayedEvent = "";
         }
 
         public void StartEventsAfterT8()
         {
-            StartEvent("H12");
             StartEvent("H3");
         }
 

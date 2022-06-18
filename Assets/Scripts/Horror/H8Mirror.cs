@@ -6,7 +6,7 @@ namespace Default
 {
     public class H8Mirror : MonoBehaviour
     {
-        public ReflectionProbe reflectionProbe;
+        public Camera reflectionCamera;
         public AudioSource audioSource;
         public Animator ghostAnim;
         public Transform ghost;
@@ -19,16 +19,27 @@ namespace Default
 
         void Start()
         {
-            reflectionProbe.RenderProbe();
             origPos = ghost.position;
             origRot = ghost.rotation;
             ghost.position = origPos - Vector3.down * 100;
+
+            RenderTexture.active = reflectionCamera.targetTexture;
+            GL.Clear(true, true, Color.black);
         }
 
         void Update()
         {
             if (playerNearby)
-                reflectionProbe.RenderProbe();
+            {
+                if (!reflectionCamera.enabled)
+                    reflectionCamera.enabled = true;
+
+                Vector3 toPlayer = GameController.Instance.metaPlayer.eyeHeightTransform.position - transform.parent.position;
+                float angle = Vector3.SignedAngle(toPlayer, transform.parent.forward, transform.parent.up);
+                reflectionCamera.transform.eulerAngles = new Vector3(0f, 90f + angle, 0f);
+            }
+            else if (!playerNearby && reflectionCamera.enabled)
+                reflectionCamera.enabled = false;
         }
 
         public void ShowGhost()

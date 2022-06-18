@@ -51,6 +51,12 @@ namespace Default
             UpdateText();
         }
 
+        public void HideControl(Control control)
+        {
+            controlInfos[control].active = false;
+            UpdateText();
+        }
+
         //unsave, use ShowControl if possible!
         public void ShowControlInt(int controlInt)
         {

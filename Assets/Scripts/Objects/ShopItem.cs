@@ -100,6 +100,7 @@ namespace Default
             int itemsToBuy = dictEntry.GetInt("currentItem", currentItem);
             if (itemsToBuy > 0)
             {
+                transform.parent.gameObject.SetActive(true);
                 StartCoroutine(BuyItemsNextFrames(itemsToBuy));
             }
         }

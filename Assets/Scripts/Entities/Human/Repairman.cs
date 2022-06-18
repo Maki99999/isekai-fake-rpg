@@ -23,9 +23,10 @@ namespace Default
             inSpeech = true;
             string currentQuestId = GameController.Instance.questManager.currentQuestId;
             QuestManager.QuestState currentQuestState = GameController.Instance.questManager.currentQuestState;
+            GameController.Instance.dialogueBubble.StopAllCoroutines();
+            GameController.Instance.dialogueBubble.followPosition = uiFollowPos;
             if (currentQuestId == "Q8" && currentQuestState == QuestManager.QuestState.PRE_ACCOMPLISHED)
             {
-                GameController.Instance.dialogueBubble.followPosition = uiFollowPos;
                 yield return GameController.Instance.dialogueBubble.WriteTexts(new string[] {
                     "I need to repair something?\nLeave it to me!"
                 });
@@ -33,7 +34,6 @@ namespace Default
             }
             else
             {
-                GameController.Instance.dialogueBubble.followPosition = uiFollowPos;
                 yield return GameController.Instance.dialogueBubble.WriteTexts(new string[] {
                     "Need something repaired?"
                 });
@@ -43,8 +43,7 @@ namespace Default
 
         public void ShoutToPlayer()
         {
-            if (GameController.Instance.questManager.IsQuestDone("Q8")
-                    || GameController.Instance.questManager.IsQuestActiveAndAccepted("Q8"))
+            if (GameController.Instance.questManager.IsQuestActiveAndAccepted("Q8"))
             {
                 GameController.Instance.dialogueBubble.followPosition = uiFollowPos;
                 StartCoroutine(GameController.Instance.dialogueBubble.WriteTexts(new string[] {

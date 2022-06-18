@@ -273,6 +273,9 @@ namespace Default
                 currentFood++;
                 ovenState = OvenState.TRAY;
                 fridgeTrigger.enabled = true;
+                GameController.Instance.saveManager.SaveGameNextFrame();
+                yield return null;
+                yield return null;
                 GameController.Instance.playerEventManager.FreezePlayer(false, false);
             }
             else

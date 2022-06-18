@@ -23,6 +23,7 @@ namespace Default
             crawlAnimator.SetTrigger("Crawl");
             spiderAnimator.SetFloat("MovingSpeed", 1f);
             StartCoroutine(GameController.Instance.playerEventManager.FocusObject(false, spiderAnimator.transform, 6f));
+            GameController.Instance.horrorEventManager.StartEvent("H12");
 
             audioSource.PlayDelayed(3f);
 

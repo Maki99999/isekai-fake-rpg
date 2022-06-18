@@ -48,6 +48,8 @@ namespace Default
 
         public void SetPower(bool powerOn)
         {
+            if (!isActiveAndEnabled)
+                return;
             this.powerOn = powerOn;
             if (powerOn)
             {

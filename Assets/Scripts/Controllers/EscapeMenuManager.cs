@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Default
@@ -10,8 +9,6 @@ namespace Default
     public class EscapeMenuManager : MonoBehaviour
     {
         public AudioMixer audioMixer;
-        public GameObject MainMenu;
-        public GameObject SettingsMenu;
         public Animator animator;
 
         [Space(10)]
@@ -79,14 +76,7 @@ namespace Default
 
         public void Resume()
         {
-            if (!isMainMenu)
-            {
-                CloseMenu();
-            }
-            else
-            {
-                SceneManager.LoadScene("Scene01");
-            }
+            CloseMenu();
         }
 
         public void OpenMenu()
@@ -123,12 +113,6 @@ namespace Default
         public void CloseGame()
         {
             StartCoroutine(QuitNextFrame());
-        }
-
-        public void NewGame()
-        {
-            SaveManager.DeleteSaveFile();
-            Resume();
         }
 
         private IEnumerator QuitNextFrame()

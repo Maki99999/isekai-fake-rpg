@@ -28,6 +28,7 @@ namespace Default
 
         private IEnumerator Spawn()
         {
+            yield return new WaitForSeconds(3f);
             while (enabled)
             {
                 entities.RemoveAll((e) => e == null);

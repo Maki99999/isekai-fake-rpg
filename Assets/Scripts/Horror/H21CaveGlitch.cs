@@ -30,6 +30,7 @@ namespace Default
             }
             glitchMonster.SetBool("Show", true);
             yield return GameController.Instance.playerEventManager.LookAt(true, glitchMonster.transform.position, 0.2f);
+            glitchEffectReceiver.desiredPercent = 1;
             glitchEffectReceiver.enabled = true;
             yield return new WaitForSeconds(2.5f);
             yield return TransformOperations.MoveTo
@@ -39,6 +40,7 @@ namespace Default
                 glitchMonster.transform.rotation,
                 .2f
             );
+            glitchEffectReceiver.desiredPercent = 0;
             glitchEffectReceiver.enabled = false;
             glitchMonster.SetBool("Show", false);
             yield return new WaitForSeconds(1f);
